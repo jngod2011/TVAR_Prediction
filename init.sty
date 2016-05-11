@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% biblio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{natbib} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% 	French, accents and font coding     	      %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[french]{babel}
+\AtBeginDocument{\renewcommand\labelitemi{$\bullet$}}
+\usepackage{enumitem} 
+\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}			% for theorem definitions
+\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+
+
+\usepackage{graphicx}			% for images and graphics
+\usepackage{stmaryrd}			% for \llbracket symbols [[ ]]
+%\usepackage{subfigure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		 Theorems etc.                        %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{Thm}{Théorème}[section]
+\newtheorem{Cor}{Corolaire}[Thm]
+\newtheorem{Prop}{Proposition}[section]
+\newtheorem{Lem}{Lemme}
+\theoremstyle{definition}
+\newtheorem{Def}{Définition}[section]
+\newtheorem{Ex}{Exemple}[section]
+\newtheorem{Exo}{Exercice}[section]
+\theoremstyle{remark}
+\newtheorem*{Rque}{Remarque}
+\theoremstyle{definition}
+\newtheorem{Algo}{Algorithme}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		Hyperlinks                            %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[pdftex,linkcolor=blue,citecolor=vsomb_col,
+colorlinks=true,pagebackref,bookmarks=true,plainpages=true,
+urlcolor=fb_col]{hyperref}
+
