@@ -1,0 +1,180 @@
+\documentclass[a4paper,french]{article}
+
+\usepackage{defs}
+\usepackage{init}
+\title{Travail pour le 20/05}
+\date{}
+\begin{document}
+\maketitle
+\section{Révisions processus AR}
+\paragraph{Equation AR(p) :} 
+\begin{equation}\label{eq:AR}
+X_t = \sum_{i=1}^p a_i X_{t-i} + \epsilon_t
+\end{equation}
+où $\epsilon$ est un bruit blanc centré de variance unitaire.
+\subsection{Construction d'une solution stationnaire au second ordre}
+\begin{Thm}
+Soit $P(z)=1-\sum_{k=1}^p a_k z^k$, supposons que $\forall |z|=1, P(z)\neq 0$ \\
+Alors il existe une solution stationnaire au second ordre de \eqref{eq:AR} 
+\end{Thm}
+\begin{proof}
+Pour prouver cela on a besoin du lemme suivant :
+\begin{Lem}
+Pour $\alpha \in \ell^1$ et $X$ un processus tel que $\sup_t \EE[|X_t|] < +\infty$ on appelle filtrage de $X$ le processus : 
+\[ F_\alpha(X) = \left( \sum_{k\in \zset} \alpha_k X_{t-k} \right)_{t\in \zset} \]
+Alors si $\alpha,\beta \in \ell^1$ on a $F_\alpha (F_\beta (X)) = X$ si $\alpha \star \beta = \delta$ \\
+De plus $\alpha \star \beta = \delta \iff \forall |z|=1 \, \left( \sum_{z\in \zset} \alpha_k z^k \right) \left( \sum_{z\in \zset} \beta_k z^k \right) =1 $ \\
+Enfin si $X$ est stationnaire au second ordre $F(X)$ l'est aussi.
+\end{Lem}
+\begin{Rque}
+$F_\alpha = \sum_{k\in \zset} \alpha_i B^k$ où $B$ est l'opérateur de shift $ B : (x_t)_{t\in \zset} \mapsto (x_{t-1})_{t\in \zset}$
+\end{Rque}
+
+Le polynôme $P$ peut s'écrire : $P(z)=\prod_{k=1}^p (1-u_k z)$ où les $u_k$ sont les inverses des racines de $P$. L'équation \eqref{eq:AR} s'écrit $P(B)(X)=\epsilon$. Or avec la factorisation obtenue on a : 
+\[
+P(B) = (1-u_1 B) \circ \cdots \circ (1-u_p B) = F_{\alpha^{(1)}} \circ \cdots \circ F_{\alpha^{(p)}}
+\]
+où $\alpha_k^{(l)} = \piecewise{
+1 & k=0 \\
+-u_l & k=1 \\
+0 & \text{sinon} \\}
+$ \\
+Le but désormais est de chercher pour tout $l \in \llbracket 1, p \rrbracket$ un $\beta^{(l)}$ tel que $\alpha^{(l)} \star \beta^{(l)} = \delta$ pour pouvoir inverser la relation. On sait d'après la remarque qu'il suffit de trouver $\beta^{(l)}$ tel que $\frac{1}{1-u_l z} = \sum_{k \in \zset} \beta_k z^k$ pour tout $|z|=1$ \\
+On sait de plus que $\forall l \in \llbracket 1, p \rrbracket$ $|u_l| \neq 1$ par hypothèse sur les racines de $P$.\\
+Prenons $l\in \llbracket 1,p \rrbracket$ alors deux cas sont possibles :
+\begin{itemize}
+\item si $|u_l|< 1$ on a $\forall |z|=1$ $\frac{1}{1-u_l z} = \sum_{k \geq 0} u_l^k z^k$ il suffit donc de prendre $\beta_k^{(l)} = \piecewise{
+u_l^k & k \geq 0 \\
+0 & \text{sinon} \\
+}$
+\item si $|u_l|> 1$ on a $\forall |z|=1$ $\frac{1}{1-u_l z} \frac{-u_l^{-1} z^{-1}}{1-u_l^{-1} z^{-1}} = \sum_{k \leq -1} -u_l^k z^k$ il suffit donc de prendre $\beta_k^{(l)} = \piecewise{
+-u_l^k & k \leq -1 \\
+0 & \text{sinon} \\
+}$
+\end{itemize}
+Finalement prenons $F = F_{\beta^{(p)}} \circ \cdots \circ F_{\beta^{(1)}}$, on prends alors 
+\[
+X = F(\epsilon) 
+\]
+\end{proof}
+
+\section{Prédiction}
+\begin{Prop}
+On se donne $X$ stationnaire au second ordre vérifiant \eqref{eq:AR}. On suppose de plus que $X$ est causal i.e $P(z) \neq 0$ pour tout $|z| \leq 1$
+On note $\mathcal{H}_t^X = \overline{\mathrm{Vect}\ens{X_s, s\leq t}}$. Alors
+\[ \hat{X}_{t+1} = proj(X_{t+1} | \mathcal{H}_t^X ) = \sum_{k=1}^p a_k X_{t+1-k} \]
+\end{Prop}
+\begin{proof}
+$X_{t+1} = \sum_{k=1}^p a_k X_{t+1-k} +\epsilon_{t+1}$ de plus $\forall k \in \llbracket 1,p \rrbracket \, X_{t+1-k} \in \mathcal{H}_t^X$ donc
+\[ \hat{X}_{t+1} = \sum_{k=1}^p a_k X_{t+1-k} + proj(\epsilon_{t+1} | \mathcal{H}_t^X ) \]
+Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $P(z)= \prod_{l=1}^p (1-u_l z)$ où $\forall l |u_l|<1$ ainsi les $\beta^{(l)}$ correspondants sont tous à support dans $\nset$ ce qui entraine que $\psi = \beta^{(p)} \star \cdots \star \beta^{(1)}$ est aussi à support dans $\nset$ et donc 
+\[ X_t = \sum_{k=0}^{+\infty} \psi_k \epsilon_{t-k}\] On en déduit que $\mathcal{H}_t^X = \mathcal{H}_t^\epsilon$ et donc comme $\epsilon$ est un bruit blanc $proj(\epsilon_{t+1} | \mathcal{H}_t^X ) = proj(\epsilon_{t+1} | \mathcal{H}_t^\epsilon ) = 0$ d'où la solution
+\end{proof}
+
+\section{TVAR}
+\paragraph{Equation TVAR :}
+\begin{equation} \label{eq:TVAR}
+X_t = \sum_{i=1}^p a_i(t) X_{t-i} + \sigma(t) \epsilon_t
+\end{equation}
+\subsection{Cas simple}
+On considère ici $\sigma(t)=1 \, \forall t\in \rset$ et $a_i(t) = \piecewise{
+0 & t<0 \\
+a_i & t \geq 0 \\ 
+} $. 
+\begin{Prop}\label{prop:cas_simple_unicite}
+Dans ce cas particulier, l'équation \eqref{eq:TVAR} admet une unique solution
+\end{Prop} 
+\begin{proof}
+Tout d'abord pour $t < 0$ on a $X_t = \epsilon_t$ \\
+Pour $t \geq 0$, notons $\mb{X}_k = [ X_k, \cdots , X_{k-p+1} ]^T$, $\mb{e}_1 = [1,0, \cdots, 0]^T$ et $A = \begin{pmatrix}
+a_1 & a_2 & \cdots & \cdots & a_p \\
+1 & 0 & \cdots & \cdots & 0 \\
+0 & \ddots & \ddots & & \vdots \\
+\vdots & \ddots & \ddots & \ddots & 0 \\
+0 & \cdots & 0 & 1 & 0
+\end{pmatrix}$. Alors l'équation \eqref{eq:TVAR} s'écrit : 
+\[ \mb{X}_t = A\mb{X}_{t-1} + \epsilon_t \mb{e}_1 \]
+En itérant pour $t-1, t-2$ etc, on obtient 
+\[ \forall k\geq 0 \,  \mb{X}_t = A^{k+1} \mb{X}_{t-k-1} + \sum_{j=0}^k \epsilon_{t-j} A^j \mb{e}_1  \]
+Considérons $k \geq t$ alors $\mb{X}_{t-k-1} = [ \epsilon_{t-k-1}, \cdots , \epsilon_{t-k-p} ]^T$. Ainsi 
+\begin{equation}\label{eq:X}
+\forall k\geq t \,  \mb{X}_t = A^{k+1} \begin{pmatrix}
+\epsilon_{t-k-1} \\
+\vdots \\
+\epsilon_{t-k-p}\\
+\end{pmatrix} 
++ \sum_{j=0}^k \epsilon_{t-j} A^j \mb{e}_1  
+\end{equation}
+ce qui fournit une définition $X_t = \mb{e}_1^T \mb{X}_t$ unique
+\end{proof}
+
+On cherche alors une condition sur les $(a_i)_{i=1}^p$ pour cette solution vérifie la condition de stabilité :
+\[
+\sup_{t\in \zset} \EE[|X_t|^2] < +\infty
+\]
+
+\subsubsection{Cas où p=1}
+\begin{Prop}
+Si $p=1$ on note $a(t)= \piecewise{
+0 & t<0 \\
+a & t \geq 0 \\} $ et \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$. La solution de l'équation vérifie la condition de stabilité ssi $|a| < 1$
+\end{Prop}
+\begin{proof}
+Si $t < 0\, X_t = \epsilon_t$ donc $\sup_{t < 0} \EE[|X_t|^2] = 1$. Si $t\geq 0$, la formule de $X_t$ donnée par \eqref{eq:X} se traduit pour $p=1$ par
+$ \forall k \geq t \,  X_t = a^{k+1}\epsilon_{t-k-1} + \sum_{j=0}^k a^j \epsilon_{t-j} $ i.e $\forall k \geq t \, X_t = \sum_{j=0}^{k+1} a^j\epsilon_{t-j}$.
+Ainsi 
+\[ \forall t \in \nset, \, \forall k \geq t \, \EE[|X_t|^2] = \sum_{i=0}^{k+1} \sum_{j=0}^{k+1} a^i \overline{a}^j \EE[\epsilon_{t-i} \epsilon_{t-j}]= \sum_{i=0}^{k+1} |a|^{2i} \]
+Ainsi en faisant tendre $k$ vers $+\infty$ on obtient 
+ \[ \forall t \in \nset, \, \EE[|X_t|^2] = \sum_{i=0}^{+\infty} |a|^{2i} = \piecewise{
++\infty & |a|\geq 1 \\
+\frac{1}{1-|a|^2} & |a| < 1} \]
+Ce qui donne $\sup_{t\in \nset} \EE[|X_t|^2] < +\infty \iff |a| < 1$ et comme sur $\sup_{t < 0} \EE[|X_t|^2] = 1$ la condition est valable pour le sup sur $t\in \zset$
+\end{proof}
+
+\subsubsection{Cas p quelconque}
+\begin{Lem}
+La matrice $A$ définie dans la preuve de la propriété \ref{prop:cas_simple_unicite} a pour polynôme caractéristique : 
+\[
+\chi_A (X)= \det(A-XI_p) = (-1)^p \left( X^p - \sum_{i=1}^p a_i X^{p-i} \right)
+\]
+\end{Lem}
+\paragraph{Conséquence :}
+Les valeurs propres de $A$ sont les inverses des racines de $P = 1- \sum_{i=1}^p a_i X^i$
+car $\chi_A = (-1)^p X^p P\left( \frac{1}{X}\right)$
+\begin{Prop}[Condition suffisante]
+Dans ce cas particulier, en notant $P(z) = 1 - \sum_{i=1}^p a_i z^i$, si $\forall |z| \leq 1\, P(z)\neq 0$ (i.e les racines de $P$ sont hors du disque unité fermé) alors la solution de l'équation \eqref{eq:TVAR} vérifie la condition de stabilité
+\end{Prop}
+On part de la définition de $\mb{X}_t$ pour $t \in \nset $ donnée par \eqref{eq:X}
+
+De plus $X_t = \mb{e}_1^T \mb{X}_t$ donc $\EE[|X_t|^2] = \EE[X_t \overline{X}_t^T] = \mb{e}_1^T\EE[\mb{X}_t \mb{X}_t^T] \mb{e}_1$ avec $\forall k \geq t$, comme $\epsilon$ est un bruit blanc
+\begin{align*}
+\EE[\mb{X}_t \mb{X}_t^T]  
+&= \sum_{j=0}^k \sum_{l=0}^k A^j \mb{e}_1 \EE[\epsilon_{t-j} \epsilon_{t-l}] \mb{e}_1^T {(A^l)}^T  + A^{k+1} \EE[ \begin{pmatrix}
+\epsilon_{t-k-1} \\
+\vdots \\
+\epsilon_{t-k-p}\\
+\end{pmatrix}  {[ \epsilon_{t-k-1}, \cdots , \epsilon_{t-k-p} ]} ] {(A^{k+1})}^T \\
+& = \sum_{j=0}^k A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T + A^{k+1} {(A^{k+1})}^T
+\end{align*}
+Or on a supposé que les racines de $P$ sont de module strictement supérieur à 1 donc les valeurs propres de $A$ sont de module strictement inférieur à 1. Ceci se traduit sur la norme triple de $A$ (norme triple associée à la norme 2) par $\tnorm{A} = \max_{\lambda \in spec(A)} |\lambda| < 1$. \\
+Ceci implique dans un premier temps $\tnorm{A^k} \leq \tnorm{A}^k \xrightarrow[k \rightarrow +\infty]{} 0$ donc $A^k \xrightarrow[k \rightarrow +\infty]{} 0$ et ainsi $A^{k+1} (A^{k+1})^T \xrightarrow[k \rightarrow +\infty]{} 0$ \\
+De plus $\forall j\in \nset$ $\tnorm{A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T}
+\leq \tnorm{A}^{2j} \tnorm{\mb{e}_1 \mb{e}_1^T}$  qui est terme général d'une série convergence dans $\rset$ car $\tnorm{A} < 1$ donc la série des $A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T$ est absolument convergente donc convergente dans $\rset^{p\times p}$. \\
+En faisant donc tendre $k$ vers $+\infty$ dans l'expression de $\EE[\mb{X}_t \mb{X_t}^T]$ on obtient : 
+\[
+\EE[\mb{X}_t \mb{X_t}^T] = \sum_{j=0}^{+\infty} A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T \in \rset^{p\times p}
+\]
+Ainsi $\EE[|X_t|^2]$ étant le premier coefficient de cette matrice, $\EE[|X_t|^2] < +\infty$
+
+\subsection{Cas général avec p=1}
+L'équation \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$
+\begin{Prop}
+Si $\sup_t |a(t)| < 1$ et $\sup_t |\sigma(t)| < +\infty$ alors \eqref{eq:TVAR} admet une solution qui vérifie la condition de stabilité
+\end{Prop}
+\begin{proof}
+En itérant $k$ fois l'équation on obtient 
+\[ 
+\forall k \geq 0 \, X_t = \left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} + \sum_{j=0}^k \left( \prod_{i=1}^j a(t-i) \right) \sigma(t-j)\epsilon_{t-j}
+\]
+\end{proof}
+\end{document} 
