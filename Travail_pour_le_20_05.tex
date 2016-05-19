@@ -173,8 +173,51 @@ Si $\sup_t |a(t)| < 1$ et $\sup_t |\sigma(t)| < +\infty$ alors \eqref{eq:TVAR} a
 \end{Prop}
 \begin{proof}
 En itérant $k$ fois l'équation on obtient 
-\[ 
-\forall k \geq 0 \, X_t = \left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} + \sum_{j=0}^k \left( \prod_{i=1}^j a(t-i) \right) \sigma(t-j)\epsilon_{t-j}
+\begin{equation}\label{eq:p_1_iter} 
+\forall k \geq 0 \, X_t = \left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} + \sum_{j=0}^k \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)\epsilon_{t-j}
+\end{equation}
+\begin{itemize}
+\item Supposons que $X$ vérifie la condition de stabilité et appelons $M = \sup_t \EE[\abs{X_t}^2]$, $a_{\max} = \sup_t |a(t)|$ et $\sigma_{\max} = \sup_t |\sigma(t)|$ alors on a $\forall k \geq 0$ :
+\[
+\norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }_2^2 = \left( \prod_{j=0}^{k} \abs{a(t-j)}^2 \right) \EE[\abs{X_{t-k-1}}^2] \leq a_{\max}^{2k} M
 \]
+Ainsi $\lim_{k \rightarrow +\infty} \norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }^2 = 0$ car on a pris $a_{max} < 1$.\\ 
+De plus $\forall j \geq 0$
+\begin{equation}\label{eq:p_1_sommabilite}
+\norm{\left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)\epsilon_{t-j}}_2^2 =  \left( \prod_{i=0}^{j-1} \abs{a(t-i)}^2 \right) \abs{\sigma(t-j)}^2 \EE[\abs{\epsilon_{t-j}}^2]
+= \left( \prod_{i=0}^{j-1} \abs{a(t-i)}^2 \right) \abs{\sigma(t-j)}^2
+\leq a_{\max}^{2j} \sigma_{\max}
+\end{equation}
+Encore une fois, parce qu'on a pris $a_{max}<1$, on a à droite de l'inégalité le terme général d'une série convergente. Ainsi en notant $c_j = \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)$ la série de terme général $c_j \epsilon_{t-j}$ est absolument convergente donc convergente. \\
+On peut alors faire tendre $k$ vers $+\infty$ dans \eqref{eq:p_1_iter}, on obtient 
+\begin{equation}\label{eq:p_1_solution}
+X_t = \sum_{j=0}^{+\infty} c_j  \epsilon_{t-j} \text{ avec } c_j = \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)
+\end{equation}
+\item Définissons maintenant $X$ comme dans l'équation \eqref{eq:p_1_solution} et montrons qu'elle vérifie l'équation TVAR et la condition de stabilité. \\
+Tout d'abord pour tout $t\in \zset$ on a 
+\begin{align*}
+a(t) X_{t-1} + \sigma(t) \epsilon_t 
+&= a(t) \sum_{j=0}^{+\infty} \left( \prod_{i=0}^{j-1} a(t-1-i) \right)\sigma(t-1-j)\epsilon_{t-1-j} +\sigma(t) \epsilon_t \\
+&= \sum_{j=-1}^{+\infty} \left( \prod_{i=-1}^{j-1} a(t-1-i) \right)\sigma(t-1-j)\epsilon_{t-1-j} \\
+&\underset{(j \leftarrow j+1)}{=}  \sum_{j=0}^{+\infty} \left( \prod_{i=-1}^{j-2} a(t-1-i) \right)\sigma(t-j)\epsilon_{t-j} \\
+&\underset{(i \leftarrow i+1)}{=} \sum_{j=0}^{+\infty} \left( \prod_{i=0}^{j-1} a(t-i) \right)\sigma(t-j)\epsilon_{t-j} \\
+&= X_t
+\end{align*}
+\item Remarquons tout d'abord que \eqref{eq:p_1_sommabilite} prouve que $(c_j)_{j\in \nset} \in \ell^2(\nset)$. On a alors $\forall t\in \zset$ 
+\begin{align*}
+\EE[\abs{X_t}^2] 
+&= \EE[\abs{\lim_{k \rightarrow +\infty} \sum_{j=0}^k c_j \epsilon_{t-j}}^2] \\
+&= \lim_{k \rightarrow +\infty} \EE[\abs{\sum_{j=0}^k c_j \epsilon_{t-j}}^2] \text{ (par continuité de l'espérance)}\\
+&= \lim_{k \rightarrow +\infty} \sum_{j=0}^k \abs{c_j}^2 \EE[\abs{\epsilon_{t-j}}^2] \text{ (car } \epsilon \text{ est un bruit blanc) } \\
+&= \lim_{k \rightarrow +\infty} \sum_{j=0}^k \abs{c_j}^2 \\
+&= \sum_{k=0}^{+\infty}  \abs{c_j}^2
+\end{align*}
+Ce résultat étant indépendant de $t$ on a bien 
+\[
+\sup_t \EE[\abs{X_t}^2] = \sum_{k=0}^{+\infty}  \abs{c_j}^2 < +\infty
+\]
+\end{itemize}
+
 \end{proof}
+\subsection{Contre-exemple avec p=2}
 \end{document} 
