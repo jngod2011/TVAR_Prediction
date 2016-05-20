@@ -76,6 +76,11 @@ Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $P(z
 \begin{equation} \label{eq:TVAR}
 X_t = \sum_{i=1}^p a_i(t) X_{t-i} + \sigma(t) \epsilon_t
 \end{equation}
+\paragraph{Condition de stabilité :}
+Le critère qui nous intéresse est d'avoir une solution de \eqref{eq:TVAR} vérifiant la condition de stabilité suivante :
+\begin{equation} \label{eq:stabilite}
+\sup_{t\in \zset} \EE[|X_t|^2] < +\infty
+\end{equation}
 \subsection{Cas simple}
 On considère ici $\sigma(t)=1 \, \forall t\in \rset$ et $a_i(t) = \piecewise{
 0 & t<0 \\
@@ -108,16 +113,14 @@ Considérons $k \geq t$ alors $\mb{X}_{t-k-1} = [ \epsilon_{t-k-1}, \cdots , \ep
 ce qui fournit une définition $X_t = \mb{e}_1^T \mb{X}_t$ unique
 \end{proof}
 
-On cherche alors une condition sur les $(a_i)_{i=1}^p$ pour cette solution vérifie la condition de stabilité :
-\[
-\sup_{t\in \zset} \EE[|X_t|^2] < +\infty
-\]
+On cherche alors une condition sur les $(a_i)_{i=1}^p$ pour cette solution vérifie la condition de stabilité \eqref{eq:stabilite}
+
 
 \subsubsection{Cas où p=1}
 \begin{Prop}
 Si $p=1$ on note $a(t)= \piecewise{
 0 & t<0 \\
-a & t \geq 0 \\} $ et \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$. La solution de l'équation vérifie la condition de stabilité ssi $|a| < 1$
+a & t \geq 0 \\} $ et \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$. La solution de l'équation vérifie la condition de stabilité \eqref{eq:stabilite} si et seulement si $|a| < 1$
 \end{Prop}
 \begin{proof}
 Si $t < 0\, X_t = \epsilon_t$ donc $\sup_{t < 0} \EE[|X_t|^2] = 1$. Si $t\geq 0$, la formule de $X_t$ donnée par \eqref{eq:X} se traduit pour $p=1$ par
@@ -142,7 +145,7 @@ La matrice $A$ définie dans la preuve de la propriété \ref{prop:cas_simple_un
 Les valeurs propres de $A$ sont les inverses des racines de $P = 1- \sum_{i=1}^p a_i X^i$
 car $\chi_A = (-1)^p X^p P\left( \frac{1}{X}\right)$
 \begin{Prop}[Condition suffisante]
-Dans ce cas particulier, en notant $P(z) = 1 - \sum_{i=1}^p a_i z^i$, si $\forall |z| \leq 1\, P(z)\neq 0$ (i.e les racines de $P$ sont hors du disque unité fermé) alors la solution de l'équation \eqref{eq:TVAR} vérifie la condition de stabilité
+Dans ce cas particulier, en notant $P(z) = 1 - \sum_{i=1}^p a_i z^i$, si $\forall |z| \leq 1\, P(z)\neq 0$ (i.e les racines de $P$ sont hors du disque unité fermé) alors la solution de l'équation \eqref{eq:TVAR} vérifie la condition de stabilité \eqref{eq:stabilite}
 \end{Prop}
 On part de la définition de $\mb{X}_t$ pour $t \in \nset $ donnée par \eqref{eq:X}
 
@@ -169,7 +172,7 @@ Ainsi $\EE[|X_t|^2]$ étant le premier coefficient de cette matrice, $\EE[|X_t|^
 \subsection{Cas général avec p=1}
 L'équation \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$
 \begin{Prop}
-Si $\sup_t |a(t)| < 1$ et $\sup_t |\sigma(t)| < +\infty$ alors \eqref{eq:TVAR} admet une solution qui vérifie la condition de stabilité
+Si $\sup_t |a(t)| < 1$ et $\sup_t |\sigma(t)| < +\infty$ alors il existe un unique processus $(X_t)_{t \in \zset}$ vérifiant à la fois \eqref{eq:TVAR} et la condition de stabilité \eqref{eq:stabilite}
 \end{Prop}
 \begin{proof}
 En itérant $k$ fois l'équation on obtient 
