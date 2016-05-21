@@ -135,6 +135,7 @@ Ce qui donne $\sup_{t\in \nset} \EE[|X_t|^2] < +\infty \iff |a| < 1$ et comme su
 \end{proof}
 
 \subsubsection{Cas p quelconque}
+Pour prouver ce cas, quelques lemmes d'algèbre linéaire sont nécessaires
 \begin{Lem}
 La matrice $A$ définie dans la preuve de la propriété \ref{prop:cas_simple_unicite} a pour polynôme caractéristique : 
 \[
@@ -144,9 +145,20 @@ La matrice $A$ définie dans la preuve de la propriété \ref{prop:cas_simple_un
 \paragraph{Conséquence :}
 Les valeurs propres de $A$ sont les inverses des racines de $P = 1- \sum_{i=1}^p a_i X^i$
 car $\chi_A = (-1)^p X^p P\left( \frac{1}{X}\right)$
+\begin{Lem}\label{lem:approx_rayon_spec}
+Soit $A \in \cset^{p\times p}$ alors, on rappelle la définition de la norme subordonnée associée à une norme $\norm{.}$ sur $\cset^p$ : \[
+\tnorm{A} = \sup_{\norm{x} = 1} \norm{Ax}
+\]
+On rappelle aussi la définition du rayon spectral $ \rho(A) = \max_{\lambda \in spec(A)} \abs{\lambda}$. On a la propriété suivante : \\
+Pour tout $A \in \cset^{p\times p}$, pour tout  $\epsilon >0$ il existe une norme sur $\cset^p$ dépendant de $\epsilon$ et de $A$ telle que la norme subordonnée correspondante $\tnorm{.}_{\epsilon,A}$ vérifie
+\[
+\tnorm{A}_{\epsilon,A} \leq \rho(A) + \epsilon
+\]
+\end{Lem}
 \begin{Prop}[Condition suffisante]
 Dans ce cas particulier, en notant $P(z) = 1 - \sum_{i=1}^p a_i z^i$, si $\forall |z| \leq 1\, P(z)\neq 0$ (i.e les racines de $P$ sont hors du disque unité fermé) alors la solution de l'équation \eqref{eq:TVAR} vérifie la condition de stabilité \eqref{eq:stabilite}
 \end{Prop}
+\begin{proof}
 On part de la définition de $\mb{X}_t$ pour $t \in \nset $ donnée par \eqref{eq:X}
 
 De plus $X_t = \mb{e}_1^T \mb{X}_t$ donc $\EE[|X_t|^2] = \EE[X_t \overline{X}_t^T] = \mb{e}_1^T\EE[\mb{X}_t \mb{X}_t^T] \mb{e}_1$ avec $\forall k \geq t$, comme $\epsilon$ est un bruit blanc
@@ -159,7 +171,7 @@ De plus $X_t = \mb{e}_1^T \mb{X}_t$ donc $\EE[|X_t|^2] = \EE[X_t \overline{X}_t^
 \end{pmatrix}  {[ \epsilon_{t-k-1}, \cdots , \epsilon_{t-k-p} ]} ] {(A^{k+1})}^T \\
 & = \sum_{j=0}^k A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T + A^{k+1} {(A^{k+1})}^T
 \end{align*}
-Or on a supposé que les racines de $P$ sont de module strictement supérieur à 1 donc les valeurs propres de $A$ sont de module strictement inférieur à 1. Ceci se traduit sur la norme triple de $A$ (norme triple associée à la norme 2) par $\tnorm{A} = \max_{\lambda \in spec(A)} |\lambda| < 1$. \\
+Or on a supposé que les racines de $P$ sont de module strictement supérieur à 1 donc les valeurs propres de $A$ sont de module strictement inférieur à 1. Ainsi $\rho(A) < 1$, il existe donc $\epsilon > 0$ tel que $\rho(A) + \epsilon < 1$. En appliquant le lemme \ref{lem:approx_rayon_spec} à $\epsilon$ et $A$ on obtient (en notant juste $\tnorm{A}$ au lieu de $\tnorm{A}_{A,\epsilon}$ pour alléger les notations) $\tnorm{A} < 1$. \\
 Ceci implique dans un premier temps $\tnorm{A^k} \leq \tnorm{A}^k \xrightarrow[k \rightarrow +\infty]{} 0$ donc $A^k \xrightarrow[k \rightarrow +\infty]{} 0$ et ainsi $A^{k+1} (A^{k+1})^T \xrightarrow[k \rightarrow +\infty]{} 0$ \\
 De plus $\forall j\in \nset$ $\tnorm{A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T}
 \leq \tnorm{A}^{2j} \tnorm{\mb{e}_1 \mb{e}_1^T}$  qui est terme général d'une série convergence dans $\rset$ car $\tnorm{A} < 1$ donc la série des $A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T$ est absolument convergente donc convergente dans $\rset^{p\times p}$. \\
@@ -168,7 +180,7 @@ En faisant donc tendre $k$ vers $+\infty$ dans l'expression de $\EE[\mb{X}_t \mb
 \EE[\mb{X}_t \mb{X_t}^T] = \sum_{j=0}^{+\infty} A^j \mb{e}_1\mb{e}_1^T{(A^j)}^T \in \rset^{p\times p}
 \]
 Ainsi $\EE[|X_t|^2]$ étant le premier coefficient de cette matrice, $\EE[|X_t|^2] < +\infty$
-
+\end{proof}
 \subsection{Cas général avec p=1}
 L'équation \eqref{eq:TVAR} devient $X_t = a(t)X_{t-1} + \sigma(t) \epsilon_t$
 \begin{Prop}
@@ -182,16 +194,20 @@ En itérant $k$ fois l'équation on obtient
 \begin{itemize}
 \item Supposons que $X$ vérifie la condition de stabilité et appelons $M = \sup_t \EE[\abs{X_t}^2]$, $a_{\max} = \sup_t |a(t)|$ et $\sigma_{\max} = \sup_t |\sigma(t)|$ alors on a $\forall k \geq 0$ :
 \[
-\norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }_2^2 = \left( \prod_{j=0}^{k} \abs{a(t-j)}^2 \right) \EE[\abs{X_{t-k-1}}^2] \leq a_{\max}^{2k} M
+\norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }_2^2 = \left( \prod_{j=0}^{k} \abs{a(t-j)}^2 \right) \EE[\abs{X_{t-k-1}}^2] \leq a_{\max}^{2(k+1)} M
 \]
-Ainsi $\lim_{k \rightarrow +\infty} \norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }^2 = 0$ car on a pris $a_{max} < 1$.\\ 
+Ainsi $\lim_{k \rightarrow +\infty} \norm{\left( \prod_{j=0}^{k} a(t-j)  \right) X_{t-k-1} }^2 = 0$ car on a pris $a_{\max} < 1$.\\ 
 De plus $\forall j \geq 0$
 \begin{equation}\label{eq:p_1_sommabilite}
 \norm{\left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)\epsilon_{t-j}}_2^2 =  \left( \prod_{i=0}^{j-1} \abs{a(t-i)}^2 \right) \abs{\sigma(t-j)}^2 \EE[\abs{\epsilon_{t-j}}^2]
 = \left( \prod_{i=0}^{j-1} \abs{a(t-i)}^2 \right) \abs{\sigma(t-j)}^2
-\leq a_{\max}^{2j} \sigma_{\max}
+\leq a_{\max}^{2j} \sigma_{\max}^2
 \end{equation}
-Encore une fois, parce qu'on a pris $a_{max}<1$, on a à droite de l'inégalité le terme général d'une série convergente. Ainsi en notant $c_j = \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)$ la série de terme général $c_j \epsilon_{t-j}$ est absolument convergente donc convergente. \\
+Ce qui donne 
+\[
+\norm{\left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)\epsilon_{t-j}}_2 \leq a_{\max}^{j} \sigma_{\max}
+\]
+Encore une fois, parce qu'on a pris $a_{\max}<1$, on a à droite de l'inégalité le terme général d'une série convergente. Ainsi en notant $c_j = \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)$ la série de terme général $c_j \epsilon_{t-j}$ est absolument convergente donc convergente. \\
 On peut alors faire tendre $k$ vers $+\infty$ dans \eqref{eq:p_1_iter}, on obtient 
 \begin{equation}\label{eq:p_1_solution}
 X_t = \sum_{j=0}^{+\infty} c_j  \epsilon_{t-j} \text{ avec } c_j = \left( \prod_{i=0}^{j-1} a(t-i) \right) \sigma(t-j)
@@ -223,4 +239,5 @@ Ce résultat étant indépendant de $t$ on a bien
 
 \end{proof}
 \subsection{Contre-exemple avec p=2}
+
 \end{document} 
