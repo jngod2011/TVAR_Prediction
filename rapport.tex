@@ -240,4 +240,37 @@ Ce résultat étant indépendant de $t$ on a bien
 \end{proof}
 \subsection{Contre-exemple avec p=2}
 
+On va montrer que la condition obtenue pour le cas $p=1$ n'est plus suffisante pour $p=2$.
+
+Pour ce contre-exemple, on va considérer le TVAR(2) définit comme ceci :
+\begin{align*}
+X_{2t} = a X_{2t-1} + \epsilon_{2t} \\
+X_{2t+1} = b_1 X{2t} + b_2 X_{2t-1} + \epsilon_{2t+1}
+\end{align*}
+
+pour $t>0$ sinon $X_t = \epsilon_t$.
+
+On a alors :
+\begin{equation}
+\forall t>0, X_{2t+1} = (ab_1 + b_2) X_{2t-1} + b_1 \epsilon_{2t} + \epsilon_{2t+1}
+\end{equation}
+On a alors que le processus $Y_t = X_{2t+1}$ suit l'équation d'un AR(1) dont la condition de stabilité implique :
+\begin{equation}
+|ab_1 + b_2| < 1 (*)
+\end{equation}
+
+D'autre part, le polynôme caractéristique associé est $P(z) = 1 - b_1 z - b_2 z^2$. Posons $P(z) = (1-bz)^2$. On a alors $b_1 = 2b$ et $b_2 = -b^2$.
+La condition $(*)$ donne:
+\begin{equation}
+|2ba-b^2| <1 (*)
+\end{equation}
+Avec $a = -b$, celle-ci devient :
+\begin{equation}
+3b^2 < 1
+\end{equation}
+Or ceci peut être faux. Il suffit de prendre $b=\frac{1}{\sqrt(2)}$ par exemple.
+
+On a donc trouvé une sous-suite $Y_t$ du processus $X_t$ qui diverge. Donc la condition initiale, à savoir $sup_t|a_i(t)|<1$, n'est plus suffisante pour assurer la stabilité d'un TVAR(2).
+
+
 \end{document} 
