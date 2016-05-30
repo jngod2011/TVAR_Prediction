@@ -2,7 +2,7 @@
 
 \usepackage{defs}
 \usepackage{init}
-\title{Travail pour le 20/05}
+\title{SIGMA205 : processus TVAR}
 \date{}
 \begin{document}
 \maketitle
@@ -10,6 +10,7 @@
 \paragraph{Equation AR(p) :} 
 \begin{equation}\label{eq:AR}
 X_t = \sum_{i=1}^p a_i X_{t-i} + \epsilon_t
+\tag{AR}
 \end{equation}
 où $\epsilon$ est un bruit blanc centré de variance unitaire.
 \subsection{Construction d'une solution stationnaire au second ordre}
@@ -75,11 +76,13 @@ Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $P(z
 \paragraph{Equation TVAR :}
 \begin{equation} \label{eq:TVAR}
 X_t = \sum_{i=1}^p a_i(t) X_{t-i} + \sigma(t) \epsilon_t
+\tag{TVAR}
 \end{equation}
 \paragraph{Condition de stabilité :}
 Le critère qui nous intéresse est d'avoir une solution de \eqref{eq:TVAR} vérifiant la condition de stabilité suivante :
 \begin{equation} \label{eq:stabilite}
 \sup_{t\in \zset} \EE[|X_t|^2] < +\infty
+\tag{S}
 \end{equation}
 \subsection{Cas simple}
 On considère ici $\sigma(t)=1 \, \forall t\in \rset$ et $a_i(t) = \piecewise{
@@ -272,5 +275,28 @@ Or ceci peut être faux. Il suffit de prendre $b=\frac{1}{\sqrt(2)}$ par exemple
 
 On a donc trouvé une sous-suite $Y_t$ du processus $X_t$ qui diverge. Donc la condition initiale, à savoir $sup_t|a_i(t)|<1$, n'est plus suffisante pour assurer la stabilité d'un TVAR(2).
 
-
+\subsection{Cas général}
+On introduit une nouvelle définition du modèle TVAR :
+\begin{Def} 
+Soient $p\geq 1$, $a_1,\cdots, a_p$ et $\sigma$ des fonctions définies sur $]-\infty,1]$ et $(\epsilon_t)_{t\in \zset}$ une suite i.i.d de variables aléatoires avec moyenne nulle et variance unitaire. Pour tout $T \geq 1$ on dit que $(X_{t,T})_{t\leq T}$ est un processus TVAR s'il vérifie les deux conditions suivantes 
+\begin{description}
+\item[(i)] $\forall -\infty < t \leq T $
+\begin{equation}\label{eq:TVAR'}
+X_{t,T} = \sum_{i=1}^p a_i\left( \frac{t}{T}\right) X_{t-i,T} + \sigma\left( \frac{t}{T} \right) \epsilon_t
+\tag{TVAR'}
+\end{equation}
+\item[(ii)]
+\begin{equation}\label{eq:S'}
+\sup_{-\infty < t\leq T} \EE[\abs{X_{t,T}}^2] < +\infty
+\tag{S'}
+\end{equation}
+\end{description}
+\end{Def}
+\begin{Prop}
+Supposons que les coefficients $a_i$ de l'équation \eqref{eq:TVAR} sont uniformément continus sur $]-\infty,1]$ et que $\sigma$ est bornée sur $]-\infty,1]$. Supposons de plus qu'il existe $\delta \in ]0,1[$ tel que $A(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$ où 
+\[
+A(z;u) = 1 - \sum_{i=1}^p a_i(u) z^i
+\]
+Alors il existe $T_0 \geq 1$ tel que $\forall T \geq T_0$ il existe un unique processus $(X_{t,T})_{t\leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}
+\end{Prop}
 \end{document} 
