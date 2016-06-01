@@ -254,30 +254,31 @@ X_{2t+1} = b_1 X{2t} + b_2 X_{2t-1} + \epsilon_{2t+1}
 pour $t>0$ sinon $X_t = \epsilon_t$.
 
 On a alors :
-\begin{equation}
+$$
 \forall t>0, X_{2t+1} = (ab_1 + b_2) X_{2t-1} + b_1 \epsilon_{2t} + \epsilon_{2t+1}
-\end{equation}
+$$
 On a alors que le processus $Y_t = X_{2t+1}$ suit l'équation d'un AR(1) dont la condition de stabilité implique :
-\begin{equation}
-|ab_1 + b_2| < 1 (*)
+\begin{equation} \label{eq:racines}
+|ab_1 + b_2| < 1
+\tag{*}
 \end{equation}
 
 D'autre part, le polynôme caractéristique associé est $P(z) = 1 - b_1 z - b_2 z^2$. Posons $P(z) = (1-bz)^2$. On a alors $b_1 = 2b$ et $b_2 = -b^2$.
-La condition $(*)$ donne:
-\begin{equation}
-|2ba-b^2| <1 (*)
-\end{equation}
+La condition \eqref{eq:racines} donne:
+$$
+|2ba-b^2| <1
+$$
 Avec $a = -b$, celle-ci devient :
-\begin{equation}
+$$
 3b^2 < 1
-\end{equation}
-Or ceci peut être faux. Il suffit de prendre $b=\frac{1}{\sqrt(2)}$ par exemple.
+$$
+Or ceci peut être faux. Il suffit de prendre $b=\frac{1}{\sqrt{2}}$ par exemple.
 
-On a donc trouvé une sous-suite $Y_t$ du processus $X_t$ qui diverge. Donc la condition initiale, à savoir $sup_t|a_i(t)|<1$, n'est plus suffisante pour assurer la stabilité d'un TVAR(2).
+On a donc trouvé une sous-suite $Y_t$ du processus $X_t$ qui diverge. Donc la condition initiale, à savoir $\sup_t|a_i(t)|<1$, n'est plus suffisante pour assurer la stabilité d'un TVAR(2).
 
 \subsection{Cas général}
 On introduit une nouvelle définition du modèle TVAR :
-\begin{Def} 
+\begin{Def} \label{def:TVAR}
 Soient $p\geq 1$, $a_1,\cdots, a_p$ et $\sigma$ des fonctions définies sur $]-\infty,1]$ et $(\epsilon_t)_{t\in \zset}$ une suite i.i.d de variables aléatoires avec moyenne nulle et variance unitaire. Pour tout $T \geq 1$ on dit que $(X_{t,T})_{t\leq T}$ est un processus TVAR s'il vérifie les deux conditions suivantes 
 \begin{description}
 \item[(i)] $\forall -\infty < t \leq T $
@@ -292,11 +293,111 @@ X_{t,T} = \sum_{i=1}^p a_i\left( \frac{t}{T}\right) X_{t-i,T} + \sigma\left( \fr
 \end{equation}
 \end{description}
 \end{Def}
-\begin{Prop}
+\begin{Prop}\label{prop:TVAR}
 Supposons que les coefficients $a_i$ de l'équation \eqref{eq:TVAR} sont uniformément continus sur $]-\infty,1]$ et que $\sigma$ est bornée sur $]-\infty,1]$. Supposons de plus qu'il existe $\delta \in ]0,1[$ tel que $A(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$ où 
 \[
 A(z;u) = 1 - \sum_{i=1}^p a_i(u) z^i
 \]
-Alors il existe $T_0 \geq 1$ tel que $\forall T \geq T_0$ il existe un unique processus $(X_{t,T})_{t\leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}
+Alors il existe $T_0 \geq 1$ tel que $\forall T \geq T_0$ il existe un unique processus $(X_{t,T})_{t\leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. De plus cette solution s'écrit : 
+\begin{equation}\label{eq:repr_lineaire}
+\forall -\infty < t \leq T
+ \,\, X_{t,T} = \sum_{j=0}^{+\infty} \phi_{t,T} (j) \sigma\left( \frac{t-j}{T} \right) \epsilon_{t-j}
+\end{equation}
+avec $\forall \delta_1 \in ]\delta, 1[$
+$$
+\sup_{T \geq T_0} \sup_{-\infty < t \leq T} \sup_{j\geq 0} \delta_1^{-1} \abs{\phi_{t,T}(j)} < +\infty
+$$
+
 \end{Prop}
+
+\section{Prédiction sur un TVAR}
+\subsection{Implémentation d'un TVAR}
+
+\subsection{Définition de l'estimateur des coefficients TVAR}
+On considère un processus TVAR $X_{t,T}$ définit grâce à la proposition \ref{prop:TVAR}. Notons que l'équation \eqref{eq:TVAR'} se réécrit de manière plus compacte par : $\forall t \in \iseg{1,T}$
+$$
+X_{t,n} = \bftheta_{t-1,T}^T \mb{X}_{t-1,T} + \sigma_{t,T} \epsilon_{t,T}
+$$
+où 
+\begin{align*}
+&\mb{X}_{t,T} = [X_{t,T}, X_{t-1,T}, \cdots , X_{t-p+1,T} ]^T \\
+&\bftheta_{t,T} = \bftheta\left(\frac{t}{T}\right) = \left[ a_1\left(\frac{t}{T}\right), a_2\left(\frac{t}{T}\right), \cdots, a_p\left(\frac{t}{T}\right) \right]^T \\
+&\sigma_{t,T} = \sigma\left(\frac{t}{T}\right)
+\end{align*}
+\paragraph{Estimateur NLMS de $\bftheta$ :}
+On se donne un pas $\mu$, l'estimateur est le suivant :
+\begin{equation}\label{eq:NLSM}
+\begin{array}{l}
+\hat{\bftheta}_{0,T}(\mu) = 0 \\
+\forall t \in \iseg{0,T-1} \, \hat{\bftheta}_{t+1,T}(\mu) = \hat{\bftheta}_{t,T}(\mu) + \mu ( X_{t+1,T} - \hat{\bftheta}_{t+1,T}(\mu)^T \mb{X}_{t,T} ) \frac{\mb{X}_{t,T}}{1+\mu \norm{\mb{X}_{t,T}}^2}
+\end{array}
+\tag{NLMS}
+\end{equation}
+On définit ensuite l'estimateur de $\bftheta : u \rightarrow \bftheta(u) = \left[ a_1(u), a_2(u), \cdots, a_p(u) \right]^T$ pour $u\in [0,1]$ en faisant une interpolation :
+$$
+\hat{\bftheta}_T(u ; \mu) = \hat{\bftheta}_{\floor{uT},T}(\mu)
+$$
+A un instant $u$, l'estimateur est une fonction de $\mb{X}_{0,T}, X_{1,T}, \cdots , X_{\floor{uT},T}$ et $\mu$
+
+\begin{Def}[$\beta$-Lipschitz semi-norme]
+Soit $\beta \in ]0,1]$ et $\mb{f} : [0,1] \to \rset^d$, on définit la semi-norme $\beta$-Lipschitz de $f$ par :
+$$
+\abs{\mb{f}}_{\Lambda,\beta} = \sup_{t\neq s} \frac{\norm{\mb{f}(t)-\mb{f}(s)}}{\abs{t-s}^\beta}
+$$
+On définit la boule $\beta$-Lipschitz de rayon $L > 0$ : 
+$$
+\Lambda_d(\beta,L) = \ens{ \mb{f} : [0,1] \to \rset^d, \abs{\mb{f}}_{\Lambda,\beta} \leq L, \sup_{t\in [0,1]} \norm{\mb{f}(t)} \leq L }
+$$
+\end{Def}
+\paragraph{Notations :}
+On notera pour $Z$ v.a à valeur dans un espace muni d'une norme $\norm{.}$ : $\norm{Z}_q = (\EE[\norm{Z}])^{1/q}$ et  $\norm{Z}_{q,\bftheta,\sigma} = (\EE_{\bftheta,\sigma}[\norm{Z}])^{1/q}$ dans le cas où l'on a une paramétrisation par $(\bftheta,\sigma)$ \\
+On note de plus 
+\begin{itemize}
+\item pour $\rho > 0$ : 
+$$
+S(\rho) = \ens{\bftheta = [a_1, \cdots , a_p]^T : [0,1] \to \rset^p, A(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]}
+$$
+\item pour $\beta \in ]0,1], L >0, \rho \in ]0,1[, 0 < \sigma_- \leq \sigma_+ < +\infty $ : 
+$$
+C(\beta, L, \rho, \sigma_-, \sigma_+) = \ens{(\bftheta,\sigma), \bftheta \in \Lambda_d(\beta,L) \cap S(\rho), \sigma : [0,1] \to [\sigma_-, \sigma_+]}
+$$
+\end{itemize}
+
+\begin{Thm}
+On suppose que $\epsilon$ est un bruit blanc centré de variance unitaire indépendant de $\mb{X}_{0,T}$ et de plus que $\sup_{T \geq 1} \norm{\mb{X}_{0,T}}_q < +\infty$ et $\sup_{1\leq t \leq T} \norm{\epsilon_{t,T}}_q < +\infty$ avec $q \geq 4$. \\
+Soient $p\in [1,q/3[, \beta\in ]0,1], L>0, \rho \in ]0,1[$ et $0 < \sigma_{-} \leq \sigma_{+}$ \\
+Alors $\exists M,\delta > 0$ et $\mu_0 >0$ tels que $\forall \mu \in ]0,\mu_0], T \geq 1, u\in ]0,1]$ et $(\bftheta, \sigma) \in C(\beta, L, \rho, \sigma_-, \sigma_+)$ 
+$$
+\norm{\hat{\bftheta}_T(u ; \mu) - \bftheta(u)}_{p,\bftheta,\sigma} \leq M \left( \norm{\bftheta(0)}(1-\delta \mu)^{uT} + \sqrt{\mu} + (T\mu)^{-\beta} \right)
+$$
+\end{Thm}
+
+\subsection{Analyse en densité spectrale de puissance}
+La formule de récurrence \eqref{eq:NLSM} nous fournit à chaque instant $t\in \iseg{0,T}$ un estimateur des coefficient TVAR du processus. Comme dans le cas du processus AR, on peut estimer densité spectrale de puissance mais ici à chaque instants on a une DSP différente.
+\begin{Def}[DSP]
+La DSP théorique est définie pour $f \in [0,1]$ et $u\in [0,1]$ 
+$$
+S_x(f ; u) = \frac{1}{\abs{A\left( e^{-2i\pi f} ; u \right)}^2}
+$$
+où $A(z;u) = 1 - \sum_{k=1}^p a_k(u) z^k$ \\
+La DSP estimée est : 
+$$
+\hat{S}_x(f ; u) = \frac{1}{\abs{\hat{A}\left( e^{-2i\pi f} ; u \right)}^2}
+$$
+où $\hat{A}(z;u) = 1 - \sum_{k=1}^p \hat{a}_k(u) z^k$
+\end{Def}
+\begin{Prop}
+$\forall u \in [0,1]$, considérons $z_1(u),\cdots, z_p(u)$ les racines de $A(z;u)$ alors en notant $\forall n\in \iseg{1,p}, z_n(u) = \rho_n(u) e^{2i\pi \phi_n(u)}$ avec $\rho_n(u) >0$ et $\phi_n(u) \in \seg{-\frac{1}{2},\frac{1}{2}}$ on a 
+$$
+S_x(f,u) \text{ admet un pic en f } \iff \exists n\in \iseg{1,p} \, f = \phi_n(u)
+$$
+\end{Prop}
+\begin{proof}
+Soit $u\in [0,1]$ alors écrivons $A(z;u) = \prod_{n=1}^p (1 - \frac{z}{z_n(u)}) = $ alors
+$$
+\abs{A\left( e^{-2i\pi f} ; u \right)} = \prod_{n=1}^p \abs{1 - \rho_n^{-1}(u) e^{-2i\pi (f+\phi_n)}}
+$$
+Or en utilisant la deuxième inégalité triangulaire : $\forall n \in \iseg{1,p}$ $\abs{1 - \rho_n^{-1}(u) e^{-2i\pi (f+\phi_n)}} \geq \abs{1 - \rho_n^{-1}(u)}$ avec égalité ssi $f = -\phi_n \mod 1$ \\
+Donc finalement $\abs{A\left( e^{-2i\pi f} ; u \right)}$ admet ses minima locaux aux $-\phi_n \mod 1$
+\end{proof}
 \end{document} 
