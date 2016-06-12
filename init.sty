@@ -1,7 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%% biblio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{natbib} 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% 	French, accents and font coding     	      %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,7 +13,6 @@
 
 \usepackage{graphicx}			% for images and graphics
 \usepackage{stmaryrd}			% for \llbracket symbols [[ ]]
-%\usepackage{subfigure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%  		 Theorems etc.                        %%%%%
@@ -26,7 +21,7 @@
 \newtheorem{Thm}{Théorème}[section]
 \newtheorem{Cor}{Corolaire}[Thm]
 \newtheorem{Prop}{Proposition}[section]
-\newtheorem{Lem}{Lemme}
+\newtheorem{Lem}{Lemme}[section]
 \theoremstyle{definition}
 \newtheorem{Def}{Définition}[section]
 \newtheorem{Ex}{Exemple}[section]
@@ -39,8 +34,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%  		Hyperlinks                            %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\PassOptionsToPackage{hyphens}{url}
-\usepackage[pdftex,linkcolor=blue,citecolor=vsomb_col,
-colorlinks=true,pagebackref,bookmarks=true,plainpages=true,
-urlcolor=fb_col]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		For Algorithms
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[ruled, vlined, french, algosection]{algorithm2e}
+\SetKwBlock{KwInit}{Initialization :}{endInit}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		Code			 %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[section]{minted}
+%\usemintedstyle{borland}
+\usepackage{color}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
