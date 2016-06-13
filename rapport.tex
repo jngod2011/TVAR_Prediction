@@ -431,7 +431,7 @@ $$
 Ce qui contredit le résultat du théorème \ref{thm:kappa} appliqué à $\kappa_1(u),\cdots,\kappa_p(u)$ qui dit que $\Theta(z;u) \neq 0, \forall \abs{z}\leq 1$
 \end{proof}
 
-\subsection{Définition de l'estimateur des coefficients TVAR}
+\subsection{Définition du prédicteur TVAR}
 On considère un processus TVAR $X_{t,T}$ définit grâce à la proposition \ref{prop:TVAR}. Notons que l'équation \eqref{eq:TVAR'} se réécrit de manière plus compacte par : $\forall t \in \iseg{1,T}$
 $$
 X_{t,n} = \bftheta_{t-1,T}^T \mb{X}_{t-1,T} + \sigma_{t,T} \epsilon_{t,T}
@@ -442,7 +442,12 @@ où
 &\bftheta_{t,T} = \bftheta\left(\frac{t}{T}\right) = \left[ \theta_1\left(\frac{t}{T}\right), \theta_2\left(\frac{t}{T}\right), \cdots, \theta_p\left(\frac{t}{T}\right) \right]^T \\
 &\sigma_{t,T} = \sigma\left(\frac{t}{T}\right)
 \end{align*}
-\begin{Def}[Estimateur NLMS de $\bftheta$ :]
+On cherche un estimateur de $\bftheta_{t,T}$ définit par 
+$$
+\hat{\bftheta}_{t,T} = \argmin_{\bftheta \in \cset^p} \EE[ \abs{X_{t+1,T} - \bftheta^T \mb{X}_{t,T}}^2]
+$$
+On définit cet estimateur en ligne par l'algorithme des moindres carrés normalisé (NLMS):
+\begin{Def}[Estimateur NLMS de $\bftheta$]
 On se donne un pas $\mu$, l'estimateur est le suivant :
 \begin{equation}\label{eq:NLSM}
 \begin{array}{l}
@@ -456,6 +461,13 @@ $$
 \hat{\bftheta}_T(u ; \mu) = \hat{\bftheta}_{\floor{uT},T}(\mu)
 $$
 A un instant $u$, l'estimateur est une fonction de $\mb{X}_{0,T}, X_{1,T}, \cdots , X_{\floor{uT},T}$ et $\mu$
+\end{Def}
+\begin{Def}[Prédicteur associé]
+On définit à partir de $(\bftheta_{t,T}(\mu))_{1\leq t \leq T}$ le prédicteur suivant :
+$\forall 1 \leq t \leq T$
+\begin{equation}\label{eq:predictor}
+\hat{X}_{t,T}(\mu) = \hat{\bftheta}_{t-1,T}(\mu)^T \mb{X}_{t-1,T}
+\end{equation}
 \end{Def}
 \begin{Def}[$\beta$-Lipschitz semi-norme]
 Soit $\beta \in ]0,1]$ et $\mb{f} : [0,1] \to \rset^d$, on définit la semi-norme $\beta$-Lipschitz de $f$ par :
@@ -540,6 +552,61 @@ Pour $\lambda = \pm \frac{\pi}{4}$ on obtient : $\frac{5}{16}$ \\
 Or $\frac{(5-2\sqrt{2})^2}{16} - \frac{5}{16} = \frac{28 - 20\sqrt{2}}{16} < 0$ donc le minimum n'est pas atteint en $\frac{\pi}{4}$
 \end{proof}
 
+\section{Agrégation des prédicteurs}
+On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne des observations d'un processus sur une période de temps $\ens{1,\cdots,T}$ :  $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
+\begin{Def}[Agrégation]
+Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $1\leq t \leq T$
+\begin{itemize}
+\item Choisir $\alpha_t=(\alpha_{1,t},\cdots,\alpha_{N,t}) \in \rset_+^N$ tel que $\sum_{i=1}^N \alpha_{i,t} = 1$ 
+\item Calculer le nouvel estimateur $\hat{X}_{t,T} = \hat{X}_{t,T}^{[\alpha_t]} = \sum_{i=1}^N \alpha_{i,t} \hat{X}_{t,T}^{(i)}$
+\end{itemize}
+\end{Def}
+Comme expliqué dans \citep{giraud-roueff-sanchez-aos2015}, on peut approcher les poids d'agrégation optimaux $\alpha_t$ en calculant en ligne et récursivement des poids $\hat{\alpha}_t$ selon deux stratégies à partir d'un paramètre $\eta >0$ nommé "pas d'apprentissage".
+\paragraph{Stratégie 1 : à partir du gradient de l'erreur quadratique}
+$\forall i \in \iseg{1,N}, \forall t\in \iseg{1,T}$
+$$
+\hat{\alpha}_{i,t} = \frac{\exp\left( -2\eta \sum_{s=1}^{t-1} \left( \sum_{j=1}^N \hat{\alpha}_{j,s} \hat{X}_{s,T}^{(j)}-X_{s,T} \right)\hat{X}_{s,T}^{(i)}\right)}{\sum_{k=1}^N \exp\left( -2\eta \sum_{s=1}^{t-1} \left( \sum_{j=1}^N \hat{\alpha}_{j,s} \hat{X}_{s,T}^{(j)}-X_{s,T} \right)\hat{X}_{s,T}^{(k)}\right)}
+$$
+\paragraph{Stratégie 2 : à partir de l'erreur quadratique}
+$\forall i \in \iseg{1,N}, \forall t\in \iseg{1,T}$
+$$
+\hat{\alpha}_{i,t} = \frac{\exp\left( -\eta \sum_{s=1}^{t-1} \left( \hat{X}_{s,T}^{(i)} - X_{s,T}\right)^2\right)}{\sum_{k=1}^N \exp\left( -\eta \sum_{s=1}^{t-1} \left( \hat{X}_{s,T}^{(k)} - X_{s,T}\right)^2\right)}
+$$
+
+Dans les deux cas on prend la convention qu'une somme sur aucun élément est nulle donc $\forall i \in \iseg{1,N}, \hat{\alpha}_{i,1} = 1/N$. 
+\begin{Rque}
+Les deux stratégies sont bien en ligne et récursives ce qui signifie 
+\begin{itemize}
+\item Pour calculer $\alpha_t$ on n'a besoin que des valeurs des $\ens{ \hat{X}_{s,T}^{(i)}, i\in \iseg{1,N}}$ pour $s\leq t-1$
+\item A chaque étape peut calculer $\hat{\alpha}_t$ à partir de $\hat{\alpha}_{t-1}$
+\end{itemize}
+\end{Rque}
+La construction du prédicteur à partir de ces stratégies est fournit par l'algorithme suivant : \\
+\begin{algorithm}[H]
+ \KwData{$\eta > 0$, strategy (1 ou 2), les prédicteurs $\hat{X}_{t,T}^{(i)}$, les observations $X_{t,T}$}
+ \KwResult{$\hat{X}_{t,T}=\hat{X}_{t,T}^{[\hat{\alpha}_t]}$ pour $t=1,\cdots,T$ }
+ \KwInit{
+ 	$\hat{\alpha}_1 = [1/N,\cdots,1/N]$\;
+	$\hat{X}_{1,T} = \sum_{i=1}^N \hat{\alpha}_{i,1} \hat{X}_{1,T}^{(i)}$\;  
+ }
+ \For{$t=2,\cdots,T$}{
+ 	\For{$i=1, \cdots, N$}{
+ 		\Switch{strategy}{
+ 			\Case{1}{
+				$v_{i,t} = \hat{\alpha}_{i,t-1} \exp\left( -2\eta (\hat{X}_{t-1,T} - X_{t-1,T}) \hat{X}_{t-1,T}^{(i)}\right)	$		
+ 			}
+ 			\Case{2}{
+				$v_{i,t} = \hat{\alpha}_{i,t-1} \exp\left( -\eta (\hat{X}_{t-1,T}^{(i)} - X_{t-1,T})^2 \right)	$		
+ 			}
+ 		}
+ 		$\hat{\alpha}_t = \left( \frac{v_{i,t}}{\sum_{k=1}^N v_{k,t}} \right)_{i=1,\cdots,N}$
+ 	}
+ 	$\hat{X}_{t,T} = \sum_{i=1}^N \hat{\alpha}_{i,t} \hat{X}_{t,T}^{(i)}$
+ 
+ }
+ \caption{Agrégation des prédicteurs}
+ \label{algo:agregation}
+\end{algorithm}
 \chapter{Implémentations}
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
 \subsection{Cas d'un TVAR(1)}
