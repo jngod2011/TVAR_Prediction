@@ -609,43 +609,7 @@ La construction du prédicteur à partir de ces stratégies est fournit par l'al
 \chapter{Implémentations}
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
 \subsection{Cas d'un TVAR(1)}
-\renewcommand\listingscaption{Code}
-\begin{listing}
-\caption{TVAR(1) à $\phi$ fixé}
-\begin{minted}[
-frame=lines,
-framesep=2mm,
-baselinestretch=1.2,
-bgcolor=bg,
-fontsize=\footnotesize,
-%linenos
-]{python}
-T = 1000
-X = np.zeros(2*T, dtype='complex')
-a = np.zeros(2*T, dtype='complex')
 
-u = np.arange(T, dtype='double')/T
-
-rho = 1-np.exp(-u)
-phase = 0.5
-phi = 2.*np.pi*phase
-
-a[T:2*T] = rho*np.exp(1j*phi)
-
-X[0] = epsilon[0]
-    
-for n in np.arange(2*T-1):
-    X[n+1] = a[n+1]*X[n-1] + epsilon[n+2]
-    
-t = np.arange(2*T) - T #horizon des temps
-
-plt.plot(t[T:2*T], np.real(X[T:2*T]))
-plt.title("Processus pour T = 1000")
-\end{minted}
-\end{listing}
-
-\renewcommand\listoflistingscaption{Table des codes sources}
-\listoflistings
 \bibliographystyle{plain}
 \bibliography{biblio}
 
