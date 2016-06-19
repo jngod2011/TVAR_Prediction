@@ -552,6 +552,7 @@ Pour $\lambda = \pm \frac{\pi}{4}$ on obtient : $\frac{5}{16}$ \\
 Or $\frac{(5-2\sqrt{2})^2}{16} - \frac{5}{16} = \frac{28 - 20\sqrt{2}}{16} < 0$ donc le minimum n'est pas atteint en $\frac{\pi}{4}$
 \end{proof}
 \section{Agrégation des prédicteurs}
+\subsection{Algorithme et stratégies}
 On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne des observations NLMS d'un processus sur une période de temps $\ens{1,\cdots,T}$ pour différentes valeur de $\mu$, le pas de descente de gradient :  $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
 \begin{Def}[Agrégation]
 Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $1\leq t \leq T$
@@ -627,11 +628,39 @@ Cette stratégie permet d'obtenir elle aussi un prédicteur par agrégation mais
 Où $X_t^{(i)}$ est le i-ème prédicteur à l'instant $t$.
 Cette fois pour $T{\longrightarrow}\infty$, on ne va donc ne trouver que le meilleur des prédicteurs dont on dispose.
 
-\paragraph{Remarque 2.3.1}
+\begin{Rque}
 Le choix de $\eta$ aussi appelé "taux d'apprentissage" ou encore "learning rate" a à voir avec le bruit dont sont entachées les observations. D'après  \citep{giraud-roueff-sanchez-aos2015}, on peut intuitivement se dire que le bruit dégrade le risque empirique et $\eta$ permet de quantifier l'importance du risque empirique dans la décision de mise à jour des coefficients $\alpha^{i}$. Donc plus le bruit est important et dégrade la qualité des observation et moins on doit se fier au risque empirique (ie : $\eta {\rightarrow} 0$).
+\end{Rque}
 
-\paragraph{Remarque 2.3.2}
+\begin{Rque}
 La stratégie 1 donne un meilleur résultat théorique que la stratégie 2 mais les conditions d'application de la première stratégie sont plus contraignante alors que la seconde est applicable à n'importe quel ensemble d'échantillons.
+\end{Rque}
+
+\subsection{Comparaison des risques d'estimation et d'agrégation}
+On se propose de montrer dans cette sous-section que le risque empirique d'un prédicteur par agrégation (quelque soit la stratégie) est moindre que celui d'un estimateur obtenu classiquement par NLMS.
+\begin{Prop}
+Soit $(X_t)_{t \in \mathbb{Z}}$ un processus TVAR(d) avec d dans $\mathbb{N}^*$. Soit $(\theta_t)_{t \in \mathbb{Z}}$ la famille de filtres associé tels que $\forall t \in [0,T]$, $X_t = \sum_{k=1}^d \theta_k X_{t-k}$.\\
+On pose $(\hat X_t)_{t \in \mathbb{Z}}$ et $(\hat\theta_t)_{t \in \mathbb{Z}}$ les estimateurs associés. Alors $\forall t$: \\
+\begin{equation}
+\mathbb{E}[(\hat X_t - X_t)^2] \leq \mathbb{E}[||\hat \theta_t - \theta_t||^2] \mathbb{E}[||X_{t-1}||^4]^{1/2}
+\end{equation}
+\end{Prop}
+\begin{proof}
+Partons du risque empirique pour une observation et son estimation au temps $t$:
+\begin{equation}
+\mathbb{E}[(\hat X_t - X_t)^2] = \mathbb{E}[((\hat\theta_t - \theta) X_{t-1} - \sigma(t-1))^2]
+\end{equation}
+\begin{equation}
+\mathbb{E}[(\hat X_t - X_t)^2] = \mathbb{E}[((\hat\theta_t - \theta) X_{t-1})^2] + \sigma(t-1))^2
+\end{equation}
+On peut alors appliquer l'inégalité de Cauchy-Schwarz à cette expression :
+\begin{equation}
+\mathbb{E}[(\hat X_t - X_t)^2 \leq \mathbb{E}[||\hat\theta_t - \theta||^4]^{\frac{1}{2}} \mathbb{E}[||X_{t-1}||^4]^{\frac{1}{2}}
+\end{equation}
+Or par l'inégalité de Holder, on peut montrer facilement que si $f$ est mesurable et $f \in L^4$, alors $f \in L^2$. D'où l'expression voulue.
+\end{proof}
+
+
 
 \chapter{Implémentations}
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
