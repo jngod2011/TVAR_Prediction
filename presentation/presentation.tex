@@ -1,0 +1,201 @@
+\documentclass[11pt]{beamer}
+\usetheme{Copenhagen}
+\input{defs.sty}
+\input{init_beamer.sty}
+\author{Thomas EBOLI et Amaury DURAND}
+\title[SIGMA205]{SIGMA205 : Prédiction d'une série temporelle localement stationnaire}
+\setbeamercovered{transparent} 
+\setbeamertemplate{navigation symbols}{} 
+\logo{\includegraphics[scale=0.5]{TelecomParisTech_logo}} 
+\institute{Télécom ParisTech} 
+%\date{} 
+%\subject{} 
+
+\AtBeginSubsection[]
+{
+  \begin{frame}
+    \frametitle{Plan}
+    \tableofcontents[
+    currentsection, 
+    currentsubsection, 
+    ]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Plan}
+\tableofcontents
+\end{frame}
+
+\section{Rappels sur les processus AR}
+\subsection{Construction d'une solution stationnaire au second ordre}
+\begin{frame}
+\begin{block}{Equation AR}
+\begin{equation}\label{eq:AR}
+X_t = \sum_{i=1}^p \theta_i X_{t-i} + \epsilon_t
+\tag{AR}
+\end{equation}
+$p\geq 1$, $(X_t)_{t\in \zset}$ un processus aléatoire à valeurs dans $\cset$, $\theta_1,\cdots,\theta_p \in \cset$ et $\epsilon \sim BB(0,\sigma^2)$
+\end{block}
+
+\begin{alertblock}{Théorème}
+Soit $\Theta(z)=1-\sum_{k=1}^p \theta_k z^k$. Si $\forall |z|=1, \Theta(z)\neq 0$ \\
+Alors il existe une solution stationnaire au second ordre
+\end{alertblock}
+\end{frame}
+
+\subsection{Génération à partir de Levinson-Durbin}
+\begin{frame}
+\begin{algorithm}[H]
+ \KwData{$(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$}
+ \KwResult{$(\theta_{i,p})_{p\in \iseg{1,d},i\in \iseg{1,p}}$ }
+ \KwInit{ 
+ 	\For{$p = 1, \cdots, d$}{
+ 	$\theta_{p,p} = \kappa_p$\;
+ 	}
+ }
+\For{$p = 2, \cdots , d$}{
+	\For{$m = 1, \cdots , p-1$}{
+		$\theta_{m,p} = \theta_{m,p-1} - \kappa_p \theta_{p-m,p-1}$\;
+	}
+}
+ \caption{Construction des $\theta$ à partir  des $\kappa$}
+ \label{algo:construction}
+\end{algorithm}
+\end{frame}
+
+\begin{frame}
+\begin{alertblock}{Théorème}
+\label{thm:kappa}
+Soit $d \geq 1$. Alors quels que soient $(\kappa_1,\cdots, \kappa_d)\in \osego{-1,1}^d$, $\forall p \in \iseg{1,d}$, les coefficients $(\theta_{1,p}, \cdots, \theta_{p,p})$ construits par l'algorithme \ref{algo:construction} sont les coefficients d'un processus $AR(p)$ causal i.e 
+$$
+1-\sum_{k=1}^p \theta_{k,p} z^k \neq 0 \,\, \forall \abs{z} \leq 1
+$$
+\end{alertblock}
+\end{frame}
+\subsection{Densité spectrale de puissance}
+\begin{frame}
+\begin{Def}[DSP d'un AR(p)]
+La DSP est définie pour $\lambda \in [-\pi, \pi[$ 
+$
+S_x(\lambda) = \frac{\sigma^2}{2\pi\abs{\Theta\left( e^{-i\lambda} \right)}^2}
+$
+où $\Theta(z) = 1 - \sum_{k=1}^p \theta_k z^k$ \\
+\end{Def}
+\begin{Prop}\label{prop:racines_phase}
+Considérons $z_1,\cdots, z_p$ les inverses des racines de $\Theta(z)$ alors en notant $\forall n\in \iseg{1,p}, z_n = \rho_n e^{i \phi_n}$ avec $0 < \rho_n <1$ et $\phi_n \in [-\pi, \pi[$ on a, si $\forall n\in \iseg{1,p}, \rho_n$ est assez proche de $1$
+$$
+S_x(\lambda) \mbox{ admet un pic en $\lambda$ } \iff \exists n\in \iseg{1,p} \, \lambda = \phi_n
+$$
+\end{Prop}
+\end{frame}
+
+\section{Processus TVAR}
+\subsection{Construction d'une solution stable}
+\begin{frame}
+\begin{block}{Equation TVAR et stabilité}
+\textbf{Equation TVAR :}
+\begin{equation} \label{eq:TVAR}
+X_t = \sum_{i=1}^p \theta_i(t) X_{t-i} + \sigma(t) \epsilon_t
+\tag{TVAR}
+\end{equation}
+où $\epsilon \overset{\rm{iid}}{\sim} BB(0,1)$. \\
+\textbf{critère de stabilité :}
+\begin{equation} \label{eq:stabilite}
+\sup_{t\in \zset} \EE[|X_t|^2] < +\infty
+\tag{S}
+\end{equation}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\textbf{Cas où p=1 : } $X_t = \theta(t)X_{t-1} + \sigma(t) \epsilon_t$
+\begin{Prop}
+Si $\sup_t |\theta(t)| < 1$ et $\sup_t |\sigma(t)| < +\infty$ alors il existe un unique processus $(X_t)_{t \in \zset}$ vérifiant à la fois \eqref{eq:TVAR} et la condition de stabilité \eqref{eq:stabilite}
+\end{Prop}
+Démonstration : On suppose \eqref{eq:TVAR} et \eqref{eq:stabilite}.
+En itérant $k$ fois l'équation $\forall k \geq 0$
+$$ 
+X_t = \left( \prod_{j=0}^{k} \theta(t-j)  \right) X_{t-k-1} + \sum_{j=0}^k \left( \prod_{i=0}^{j-1} \theta(t-i) \right) \sigma(t-j)\epsilon_{t-j}
+$$
+But : $k \to +\infty$
+\end{frame}
+\begin{frame}
+$M = \sup_t \EE[\abs{X_t}^2]$, $\theta_{\max} = \sup_t |\theta(t)|$ et $\sigma_{\max} = \sup_t |\sigma(t)|$
+\[
+\norm{\left( \prod_{j=0}^{k} \theta(t-j)  \right) X_{t-k-1} }_2^2 \leq \theta_{\max}^{2(k+1)} M \xrightarrow[k\to+\infty]{} 0
+\]
+De plus $\forall j \geq 0$
+\[
+\norm{\left( \prod_{i=0}^{j-1} \theta(t-i) \right) \sigma(t-j)\epsilon_{t-j}}_2 \leq \theta_{\max}^{j} \sigma_{\max} \Rightarrow \mbox{ série convergente }
+\]
+On fait tendre $k$ vers $+\infty$ :
+$$
+X_t = \sum_{j=0}^{+\infty} c_j  \epsilon_{t-j} \text{ avec } c_j = \left( \prod_{i=0}^{j-1} \theta(t-i) \right) \sigma(t-j)
+$$
+Réciproque : ok
+\end{frame}
+\begin{frame}
+\textbf{Contre exemple pour p=2 :}
+GRAPHIQUE A METTRE
+\end{frame}
+\begin{frame}
+\textbf{Cas général :}
+\begin{Def}[Nouvelle définition TVAR] \label{def:TVAR}
+$\theta_1,\cdots, \theta_p$ et $\sigma$ définies sur $]-\infty,1]$ et $(\epsilon_t)_{t\in \zset} \overset{\rm{iid}}{\sim} BB(0,1)$. $T \geq 1$
+\begin{equation}\label{eq:TVAR'}
+\forall -\infty < t \leq T, X_{t,T} = \sum_{i=1}^p \theta_i\left( \frac{t}{T}\right) X_{t-i,T} + \sigma\left( \frac{t}{T} \right) \epsilon_t
+\tag{TVAR'}
+\end{equation}
+\begin{equation}\label{eq:S'}
+\sup_{-\infty < t\leq T} \EE[\abs{X_{t,T}}^2] < +\infty
+\tag{S'}
+\end{equation}
+\end{Def}
+\end{frame}
+\begin{frame}
+\begin{alertblock}{Théorème}
+Hypothèses : 
+\begin{itemize}
+\item[$\bullet$] $\forall i\in \iseg{1,p}, \theta_i$ uniformément continue sur $]-\infty,1]$
+\item[$\bullet$] $\sigma$ bornée sur $]-\infty,1]$. 
+\item[$\bullet$] $\exists \delta \in ]0,1[, \Theta(z;u) \deq  1 - \sum_{i=1}^p \theta_i(u) z^i \neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$
+\end{itemize}
+Alors il existe $T_0 \geq 1$ tel que $\forall T \geq T_0$ il existe un unique processus $(X_{t,T})_{t\leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}.
+\end{alertblock}
+\end{frame}
+
+\subsection{Génération}
+\begin{frame}
+\textbf{horizon de temps fini : } $t\in \iseg{0,T}$ \\
+\textbf{Processus AR abstraits associés}
+A $t\in \iseg{0,T}$ fixé $(\theta_1(t/T), \cdots , \theta_p(t/T))$ sont les coefficients d'un AR(p) causal 
+\begin{alertblock}{Théorème}
+$\forall \kappa_1, \cdots, \kappa_p$ continues de $[0,1]\to \osego{-1,1}$, les fonctions $\theta_{1,p},\cdots, \theta_{p,p}$ obtenues par l'algorithme \ref{algo:construction} à chaque instant $u$ sont les coefficients d'un processus TVAR(p) stable
+\end{alertblock}
+\end{frame}
+\subsection{Prédiction}
+\begin{frame}
+$\mb{X}_{t,T} = [X_{t,T}, X_{t-1,T}, \cdots , X_{t-p+1,T} ]^T$ \\
+$\bftheta_{t,T} = \left[ \theta_1\left(\frac{t}{T}\right), \theta_2\left(\frac{t}{T}\right), \cdots, \theta_p\left(\frac{t}{T}\right) \right]^T$, 
+$\sigma_{t,T} = \sigma\left(\frac{t}{T}\right)$ \\
+\textbf{Critère : }$
+\hat{\bftheta}_{t,T} = \argmin_{\bftheta \in \cset^p} \EE[ \abs{X_{t+1,T} - \bftheta^T \mb{X}_{t,T}}^2]
+$
+\begin{Def}[Estimateur NLMS de $\bftheta$]
+On se donne un pas $\mu$, l'estimateur est le suivant : \\
+$\hat{\bftheta}_{0,T}(\mu) = 0$ \\
+$\hat{\bftheta}_{t+1,T}(\mu) = \hat{\bftheta}_{t,T}(\mu) + \mu ( X_{t+1,T} - \hat{\bftheta}_{t+1,T}(\mu)^T \mb{X}_{t,T} ) \frac{\mb{X}_{t,T}}{1+\mu \norm{\mb{X}_{t,T}}^2}
+$
+\end{Def}
+\textbf{Prédicteur associé : }
+$
+\hat{X}_{t,T}(\mu) = \hat{\bftheta}_{t-1,T}(\mu)^T \mb{X}_{t-1,T}
+$
+\end{frame}
+\end{document}

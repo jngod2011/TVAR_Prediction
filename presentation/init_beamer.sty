@@ -1,0 +1,47 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% 	French, accents and font coding     	      %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[french]{babel}
+\usepackage{enumitem} 
+\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm, amsfonts}			% for theorem definitions
+
+
+\usepackage{graphicx}			% for images and graphics
+\usepackage{stmaryrd}			% for \llbracket symbols [[ ]]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		 Theorems etc.                        %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{Thm}{Théorème}[section]
+\newtheorem{Cor}{Corolaire}[Thm]
+\newtheorem{Prop}{Proposition}[section]
+\newtheorem{Lem}{Lemme}[section]
+\theoremstyle{definition}
+\newtheorem{Def}{Définition}[section]
+\newtheorem{Ex}{Exemple}[section]
+\newtheorem{Exo}{Exercice}[section]
+\theoremstyle{remark}
+\newtheorem*{Rque}{Remarque}
+\theoremstyle{definition}
+\newtheorem{Algo}{Algorithme}[section]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%		For Algorithms
+%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[ruled, vlined, french, algosection]{algorithm2e}
+\SetKwBlock{KwInit}{Initialization :}{endInit}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		Code			 %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[section]{minted}
+%\usemintedstyle{borland}
+%\usepackage{color}
+%\definecolor{bg}{rgb}{0.95,0.95,0.95}
