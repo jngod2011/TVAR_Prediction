@@ -6,7 +6,6 @@
 \title{SIGMA205 : Prédiction d'une série temporelle localement
 stationnaire}
 \author{Thomas EBOLI et Amaury DURAND}
-
 \begin{document}
 \maketitle
 \tableofcontents
@@ -23,7 +22,7 @@ X_t = \sum_{i=1}^p \theta_i X_{t-i} + \epsilon_t
 où $\theta_1,\cdots,\theta_p \in \cset$ et $\epsilon \sim BB(0,\sigma^2)$ (i.e $\epsilon$ est un processus stationnaire au second ordre, centré de fonction d'autocovariance $\gamma$ vérifiant $\gamma(0)=\sigma^2 > 0$ et $\forall s\neq 0, \gamma(s)=0$)
 \section{Construction d'une solution stationnaire au second ordre}
 \begin{Thm}
-Soit $P(z)=1-\sum_{k=1}^p \theta_k z^k$, supposons que $\forall |z|=1, P(z)\neq 0$ \\
+Soit $\Theta(z)=1-\sum_{k=1}^p \theta_k z^k$, supposons que $\forall |z|=1, \Theta(z)\neq 0$ \\
 Alors il existe une solution stationnaire au second ordre de \eqref{eq:AR} 
 \end{Thm}
 \begin{proof}
@@ -39,9 +38,9 @@ Enfin si $X$ est stationnaire au second ordre $F(X)$ l'est aussi.
 $F_\alpha = \sum_{k\in \zset} \alpha_i B^k$ où $B$ est l'opérateur de shift $ B : (x_t)_{t\in \zset} \mapsto (x_{t-1})_{t\in \zset}$
 \end{Rque}
 
-Le polynôme $P$ peut s'écrire : $P(z)=\prod_{k=1}^p (1-u_k z)$ où les $u_k$ sont les inverses des racines de $P$. L'équation \eqref{eq:AR} s'écrit $P(B)(X)=\epsilon$. Or avec la factorisation obtenue on a : 
+Le polynôme $\Theta$ peut s'écrire : $\Theta(z)=\prod_{k=1}^p (1-u_k z)$ où les $u_k$ sont les inverses des racines de $\Theta$. L'équation \eqref{eq:AR} s'écrit $\Theta(B)(X)=\epsilon$. Or avec la factorisation obtenue on a : 
 \[
-P(B) = (1-u_1 B) \circ \cdots \circ (1-u_p B) = F_{\alpha^{(1)}} \circ \cdots \circ F_{\alpha^{(p)}}
+\Theta(B) = (1-u_1 B) \circ \cdots \circ (1-u_p B) = F_{\alpha^{(1)}} \circ \cdots \circ F_{\alpha^{(p)}}
 \]
 où $\alpha_k^{(l)} = \piecewise{
 1 & k=0 \\
@@ -49,7 +48,7 @@ où $\alpha_k^{(l)} = \piecewise{
 0 & \text{sinon} \\}
 $ \\
 Le but désormais est de chercher pour tout $l \in \llbracket 1, p \rrbracket$ un $\beta^{(l)}$ tel que $\alpha^{(l)} \star \beta^{(l)} = \delta$ pour pouvoir inverser la relation. On sait d'après la remarque qu'il suffit de trouver $\beta^{(l)}$ tel que $\frac{1}{1-u_l z} = \sum_{k \in \zset} \beta_k z^k$ pour tout $|z|=1$ \\
-On sait de plus que $\forall l \in \llbracket 1, p \rrbracket$ $|u_l| \neq 1$ par hypothèse sur les racines de $P$.\\
+On sait de plus que $\forall l \in \llbracket 1, p \rrbracket$ $|u_l| \neq 1$ par hypothèse sur les racines de $\Theta$.\\
 Prenons $l\in \llbracket 1,p \rrbracket$ alors deux cas sont possibles :
 \begin{itemize}
 \item si $|u_l|< 1$ on a $\forall |z|=1$ $\frac{1}{1-u_l z} = \sum_{k \geq 0} u_l^k z^k$ il suffit donc de prendre $\beta_k^{(l)} = \piecewise{
@@ -69,28 +68,44 @@ X = F(\epsilon)
 
 \section{Prédiction}
 \begin{Prop}
-On se donne $X$ stationnaire au second ordre vérifiant \eqref{eq:AR}. On suppose de plus que $X$ est causal i.e $P(z) \neq 0$ pour tout $|z| \leq 1$
+On se donne $X$ stationnaire au second ordre vérifiant \eqref{eq:AR}. On suppose de plus que $X$ est causal i.e $\Theta(z) \neq 0$ pour tout $|z| \leq 1$
 On note $\mathcal{H}_t^X = \overline{\mathrm{Vect}\ens{X_s, s\leq t}}$. Alors
 \[ \hat{X}_{t+1} = proj(X_{t+1} | \mathcal{H}_t^X ) = \sum_{k=1}^p \theta_k X_{t+1-k} \]
 \end{Prop}
 \begin{proof}
 $X_{t+1} = \sum_{k=1}^p \theta_k X_{t+1-k} +\epsilon_{t+1}$ de plus $\forall k \in \llbracket 1,p \rrbracket \, X_{t+1-k} \in \mathcal{H}_t^X$ donc
 \[ \hat{X}_{t+1} = \sum_{k=1}^p \theta_k X_{t+1-k} + proj(\epsilon_{t+1} | \mathcal{H}_t^X ) \]
-Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $P(z)= \prod_{l=1}^p (1-u_l z)$ où $\forall l |u_l|<1$ ainsi les $\beta^{(l)}$ correspondants sont tous à support dans $\nset$ ce qui entraine que $\psi = \beta^{(p)} \star \cdots \star \beta^{(1)}$ est aussi à support dans $\nset$ et donc 
+Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $\Theta(z)= \prod_{l=1}^p (1-u_l z)$ où $\forall l |u_l|<1$ ainsi les $\beta^{(l)}$ correspondants sont tous à support dans $\nset$ ce qui entraine que $\psi = \beta^{(p)} \star \cdots \star \beta^{(1)}$ est aussi à support dans $\nset$ et donc 
 \[ X_t = \sum_{k=0}^{+\infty} \psi_k \epsilon_{t-k}\] On en déduit que $\mathcal{H}_t^X = \mathcal{H}_t^\epsilon$ et donc comme $\epsilon$ est un bruit blanc $proj(\epsilon_{t+1} | \mathcal{H}_t^X ) = proj(\epsilon_{t+1} | \mathcal{H}_t^\epsilon ) = 0$ d'où la solution
 \end{proof}
 
 \section{Algorithme de Levinson-Durbin}
 On rappelle ici l'algorithme de Levinson Durbin et quelques conséquences. Le cadre d'étude est le suivant : \\
-On se donne un processus stationnaire au second ordre $X$ de fonction d'autocovariance $\gamma$. On suppose que pour tout $p\geq 1$ la matrice de covariance de $(X_{t-1}, \cdots , X_{t-p})$ $\Gamma_p$ est inversible. Cette matrice est la matrice de Toeplitz associées à $(\gamma(0),\cdots, \gamma(p-1))$.  \\
+On se donne un processus stationnaire au second ordre, centré $X$ de fonction d'autocovariance $\gamma$. On suppose que pour tout $p\geq 1$ la matrice de covariance de $\mb{X}_{t,p} = [X_t, \cdots , X_{t-p+1}]^T$ $\Gamma_p = \EE[\mb{X}_{t,p} \mb{X}_{t,p}^T]$ est \textbf{inversible}. On rappelle que cette matrice est la matrice de Toeplitz suivante :
+$$
+\Gamma_p = \begin{bmatrix}
+\gamma(0) & \gamma(-1) & \cdots & \gamma(2-p) &\gamma(1-p) \\
+\gamma(1) & \gamma(0) & \ddots  &  &\gamma(2-p) \\
+\vdots & \ddots & \ddots & \ddots &\vdots \\
+\gamma(p-2) &  & \ddots & \ddots & \gamma(-1) \\
+\gamma(p-1)& \gamma(p-2)&  \cdots &  \gamma(1)& \gamma(0) \\
+\end{bmatrix}
+$$
+Remarquons le lemme suivant :
+\begin{Lem}
+Il existe $t \in \zset$ tel que $X_t \in \Vect(X_{t-1},\cdots,X_{t-p+1})$ si et seulement si $\Gamma_p$ est non inversible
+\end{Lem}
+\begin{proof}
+En effet $\Gamma_p$ est la matrice de Gram de $(X_t,\cdots,X_{t-p+1})$ associée au produit scalaire $\inner{X,Y} = \EE[X\overline{Y}]$ qui est inversible si et seulement si $(X_t,\cdots,X_{t-p+1})$ est libre. 
+\end{proof}
 On note pour tout $p\geq 1$, pour tout $k\in \iseg{1,p}$, $\theta_{k,p}$ les coefficients de prédiction direct d'ordre $p$ de $X_t$ à partir de son passé et $\sigma_p^2$ l'erreur de prédiction i.e 
 $$
-proj(X_t | \calH_{t-1,p}^X)= \sum_{k=1}^p \theta_{k,p} X_{t-k} 
+\proj(X_t |\calH_{t-1,p}^X)= \sum_{k=1}^p \theta_{k,p} X_{t-k} 
 \mbox{ et } 
-\sigma_p^2 = \norm{X_t - proj(X_t | \calH_{t-1,p}^X)}^2
+\sigma_p^2 = \norm{X_t - \proj(X_t | \calH_{t-1,p}^X)}_2^2
 $$
 où $\calH_{t-1,p}^X = \vect(X_{t-1}, \cdots, X_{t-p})$ \\
-L'algorithme de Levinson permet de trouver $(\theta_{1,p+1}, \cdots, \theta_{p,p})$ connaissant $(\theta_{1,p-1}, \cdots, \theta_{p-1,p-1})$\\
+L'algorithme de Levinson permet de trouver tous les $\left( \theta_{k,p} \right)_{p \in \iseg{1,d}, k\in \iseg{1,p}}$ où $d$ est un ordre auquel on s'arrête, à partir des $\gamma(1),\cdots, \gamma(d)$. Il est basé sur un calcul de $(\theta_{1,p+1}, \cdots, \theta_{p,p})$ connaissant $(\theta_{1,p-1}, \cdots, \theta_{p-1,p-1})$\\
 \begin{algorithm}[H]
  \KwData{$\gamma(1),\cdots,\gamma(d)$}
  \KwResult{$(\theta_{i,p})_{p\in \iseg{1,d},i\in \iseg{1,p}}$ }
@@ -112,9 +127,12 @@ $$
 \forall p\geq 1, \abs{\kappa_p} \leq 1
 $$
 \end{Prop}
-On peut alors en générant une famille $(\kappa_1, \cdots , \kappa_d) \in \seg{-1,1}^d$ calculer des coefficients $\theta$ en inversant les équations de Levinson-Durbin grâce à l'algorithme suivant \\
+\begin{Prop}\label{prop:Gamma_inv}
+Soit $p\geq 1$. Si pour tout $k \geq p, \kappa_k \in \osego{-1,1}$ alors $\forall k\leq p, \Gamma_p$ est inversible.
+\end{Prop}
+On peut alors en générant une famille $(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$ calculer des coefficients $\theta$ en inversant les équations de Levinson-Durbin grâce à l'algorithme suivant \\
 \begin{algorithm}[H]
- \KwData{$(\kappa_1, \cdots , \kappa_d) \in \seg{-1,1}^d$}
+ \KwData{$(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$}
  \KwResult{$(\theta_{i,p})_{p\in \iseg{1,d},i\in \iseg{1,p}}$ }
  \KwInit{ 
  	\For{$p = 1, \cdots, d$}{
@@ -139,14 +157,168 @@ Dans cet algorithme, à chaque étape on calcule les $(\theta_{1,p}, \cdots, \th
 \end{Rque}
 \begin{Thm}
 \label{thm:kappa}
-Quels que soient $(\kappa_1,\cdots, \kappa_d)\in \seg{-1,1}^d$, $\forall p \in \iseg{1,d}$, les coefficients $(\theta_{1,p}, \cdots, \theta_{p,p})$ construits par l'algorithme \ref{algo:construction} sont les coefficients d'un processus $AR(p)$ causal i.e 
+Soit $d \geq 1$. Alors quels que soient $(\kappa_1,\cdots, \kappa_d)\in \osego{-1,1}^d$, $\forall p \in \iseg{1,d}$, les coefficients $(\theta_{1,p}, \cdots, \theta_{p,p})$ construits par l'algorithme \ref{algo:construction} sont les coefficients d'un processus $AR(p)$ causal i.e 
 $$
 1-\sum_{k=1}^p \theta_{k,p} z^k \neq 0 \,\, \forall \abs{z} \leq 1
 $$
 \end{Thm}
-\begin{proof}
-J'arrive pas...
+\begin{proof}~\\
+\textbf{Voyons tout d'abord le cas où $p=1$ :} \\
+On a $\theta_{1,1} = \kappa_1 = \frac{\gamma(1)}{\gamma(0)} \in \osego{-1,1} \setminus \ens{0}$. Donc l'unique racine de $1-\theta_{1,1}z$ est $\frac{1}{\theta_{1,1}}$ de module strictement supérieur à $1$ \\
+\textbf{Cas p quelconque :} Soit maintenant $p \in \iseg{1,d}$ quelconque alors écrivons 
+$$
+1- \sum_{k=1}^p \theta_{k,p} z^k = \prod_{k=1}^p (1-\nu_{k,p} z)
+$$
+où les $\nu_{k,p}$ sont les inverses des racines du polynôme. Le résultat cherché équivaut à $\forall k\in {1,\cdots p}, \abs{\nu_{k,p}} < 1$. \\
+Construisons une bijection liant les $(\nu_{k,p})_{k\in \iseg{1,p}}$ aux $(\theta_{k,p})_{k\in \iseg{1,p}}$ : \\
+La première idée serait de considérer $\bftheta_p=[\theta_{1,p},\cdots,\theta_{p,p}]^T \mapsto [\nu_{1,p},\cdots,\nu_{p,p}]^T$ mais cela ne définit pas une application car une permutation des éléments dans le vecteur de droite donne le même polynôme et donc on aurait deux images pour le même $\bftheta_p$. \\
+La deuxième idée serait de considérer alors $\bftheta \mapsto \ens{ \nu_{k,p}, k\in \iseg{1,p}}$ mais le problème dans cette définition est que si il existe $i \neq j$ tels que $\nu_{i,p}=\nu_{j,p}$, cela a une importance dans le polynôme (racine multiple) mais cette redondance n'est pas visible dans $\ens{ \nu_{k,p}, k\in \iseg{1,p}}$. \\
+Finalement une vision qui fonctionne est de considérer $\Phi : \bftheta_p = (\theta_{1,p}, \cdots, \theta_{p,p}) \mapsto \overline{\nu}_p = \sum_{k=1}^p \delta_{\nu_{k,p}}$. Le fait de considérer la mesure $\sum_{k=1}^p \delta_{\nu_{k,p}}$ tient compte du fait qu'une interversion des $\nu_{k,p}$ ne change pas la valeur du polynôme et n'annule pas les redondances. \\
+Soit $X$ le processus stationnaire au second ordre associé aux $\kappa_1,\cdots,\kappa_p$.
+Montrons que $\displaystyle \overline{\nu}_p \mapsto \EE[\abs{\left( \prod_{k=1}^p (1-\nu_{k,p} B) X\right)_t}^2]$ admet un unique minimiseur : \\
+Il suffit de considérer $\bftheta_p = \Phi^{-1} (\overline{\nu}_p)$ et alors 
+$$
+\EE[\abs{\left( \prod_{k=1}^p (1-\nu_{k,p} B) X\right)_t}^2]
+=
+\EE[\abs{X_t-\sum_{k=1}^p \theta_{k,p} X_{t-k}}^2]
+$$
+Ce problème a bien une unique solution $\bftheta_p^\ast$ car $\Gamma_p$ est inversible (puisque pour tout $k \in \iseg{1,p}, \kappa_k \in \osego{-1,1}$). Ainsi on a bien par bijection une unique solution 
+$$
+\overline{\nu}_p^\ast = \Phi(\bftheta_p^\ast) = \argmin_{\overline{\nu_p}} \EE[\abs{\left( \prod_{k=1}^p (1-\nu_{k,p} B) X\right)_t}^2]
+$$
+Ecrivons maintenant
+\begin{equation}\label{eq:nu_p}
+\overline{\nu}_p^\ast = \sum_{k=2}^p \delta_{\nu_{k,p}^\ast} + \delta_{\nu_{1,p}^\ast}
+\end{equation}
+Alors 
+$$
+\nu_{1,p}^\ast = \argmin_{\nu \in \cset} \EE[\abs{\left( (1-\nu B) \circ \prod_{k=2}^p (1-\nu_{k,p}^\ast B) X\right)_t}^2]
+$$
+En effet si cela n'était pas le cas i.e si $\tilde{\nu} = \argmin_{\nu \in \cset} \EE[\abs{\left( (1-\nu B) \circ \prod_{k=2}^p (1-\nu_{k,p}^\ast B) X\right)_t}^2]$ était différent de $\nu_{1,p}$ on aurait 
+$$
+\EE[\abs{\left( (1-\tilde{\nu} B) \circ \prod_{k=2}^p (1-\nu_{k,p}^\ast B) X\right)_t}^2]
+< 
+\EE[\abs{\left( (1-\nu_{k,p}^\ast B) \circ \prod_{k=2}^p (1-\nu_{k,p}^\ast B) X\right)_t}^2]
+$$
+donc $\sum_{k=2}^p \delta_{\nu_{k,p}^\ast} + \delta_{\tilde{\nu}}$ fournirait une valeur plus petite que celle fournie par $\overline{\nu}_p^\ast$. Ceci est impossible par définition de ce dernier. \\
+Considérons maintenant $Y = \prod_{k=2}^p (1- \nu_{k,p}^\ast B) X$. Par filtrage d'un processus stationnaire au second ordre centré, $Y$ est stationnaire au second ordre centré. De plus on a
+\begin{eqnarray*}
+\nu_{1,p}^\ast 
+&=& \argmin_{\nu \in \cset} \EE[\abs{\left((1-\nu B)Y\right)_t}^2] \\
+&=& \argmin_{\nu \in \cset} \EE[\abs{Y_t - \nu Y_{t-1}}^2]
+\end{eqnarray*} 
+On est ramené à un cas d'ordre 1 dont la solution est le coefficient de prédiction d'ordre 1 associé à $Y$ qui vaut (cf algorithme de Levinson \ref{algo:levinson}) $\frac{\gamma_Y(1)}{\gamma_Y(0)}$. Donc 
+$$
+\abs{\nu_{1,p}^\ast} = \abs{\frac{\gamma_Y(1)}{\gamma_Y(0)}} \leq 1
+$$ 
+Il reste à montrer que cette inégalité est stricte. \\
+$\abs{\nu_{1,p}^\ast} = 1 \iff \gamma_Y(1)= \gamma_Y(0) \iff \EE[Y_1 \overline{Y}_0] = \EE[\abs{Y_0}^2] \iff Y_1 \in \Vect(Y_0)$ (cas d'égalité dans Cauchy-Schwarz). \\
+On a $Y_0 \in \Vect(X_0,\cdots X_{1-p})$ donc 
+$$
+\Vect(Y_0) \subset \Vect(X_0, \cdots X_{1-p})
+$$
+De plus en développent le produit dans l'expression de $Y$, on peut écrire $Y_1 = X_1 + Z$ où $Z \in \Vect(X_0,\cdots,X_{2-p}) \subset \Vect(X_0, \cdots X_{1-p})$. Ainsi 
+$$
+Y_1 \in \Vect(Y_0)  \Rightarrow X_1 = Y_1 - Z \in \Vect(X_0, \cdots X_{1-p}) \Rightarrow \Gamma_p \mbox{ non inversible }
+$$
+Ce qui est contradictoire. \\
+On a donc montré que $\abs{\nu_{1,p}^\ast} < 1$ mais de plus dans l'équation \eqref{eq:nu_p}, l'ordre des coefficients $\nu_{k,p}^\ast$ n'a pas d'importance, ainsi avoir montré l'inégalité pour $\nu_{1,p}^\ast$ la prouve aussi pour les autres (il suffit d'alterner $\nu_{1,p}^\ast$ avec un autre coefficient). \\
+Finalement on a bien $\forall k\in \iseg{1,p}, \abs{\nu_{1,p}^\ast} < 1$
+
 \end{proof}
+\section{Densité spectrale de puissance}
+On rappelle la formule de la DSP dans le cas d'un modèle AR(p) :
+\begin{Def}[DSP]
+La DSP est définie pour $\lambda \in [-\pi, \pi[$ 
+$$
+S_x(\lambda) = \frac{\sigma^2}{2\pi\abs{\Theta\left( e^{-i\lambda} \right)}^2}
+$$
+où $\Theta(z) = 1 - \sum_{k=1}^p \theta_k z^k$ \\
+\end{Def}
+\begin{Prop}\label{prop:racines_phase}
+Considérons $z_1,\cdots, z_p$ les inverses des racines de $\Theta(z)$ alors en notant $\forall n\in \iseg{1,p}, z_n = \rho_n e^{i \phi_n}$ avec $0 < \rho_n <1$ et $\phi_n \in [-\pi, \pi[$ on a, si $\forall n\in \iseg{1,p}, \rho_n$ est assez proche de $1$
+$$
+S_x(\lambda) \mbox{ admet un pic en $\lambda$ } \iff \exists n\in \iseg{1,p} \, \lambda = \phi_n
+$$
+\end{Prop}
+\begin{proof}
+$$
+\abs{\Theta\left( e^{-i\lambda} \right)}^2 = \prod_{n=1}^p \abs{1 - \rho_n e^{i(\phi_n-\lambda)}}^2
+$$
+Or $\forall n \in \iseg{1,p}$
+$$
+\abs{1 - \rho_n e^{i(\phi_n-\lambda)}}^2 = 1 - 2\rho_n \cos(\phi_n-\lambda) + \rho_n^2
+$$
+est minimal pour $\lambda = \phi_n \mod 2\pi$ \\
+Ceci ne veut pas  dire que le produit est minimal ssi $\exists n\in \iseg{1,p}, \lambda = \phi_n(u) \mod 2\pi$. Mais si $\forall n\in \iseg{1,p}, \rho_n$ est assez proche de $1$, pour chaque racine, les contributions des autres racines sont négligeables.
+\end{proof}
+
+\paragraph{Cas particulier où p=1 :}
+Dans le cas $p=1$ quelle que soit la valeur de $\rho$, $\abs{1-\rho e^{i(\phi-\lambda)}}^2$ est minimal ssi $\lambda = \rho$
+
+\paragraph{Cas particulier où p=2 à racines complexes conjuguées :}
+On écrit les deux inverses des racines : $z_1=\overline{z}_2 = \rho e^{i\phi}$, avec $0<\rho<1, \phi \in \sego{-\pi,\pi}$ alors en développant le produit, $\forall \lambda \in \sego{-\pi,\pi}$
+$$
+f(\lambda) \deq \abs{\Theta\left( e^{-i\lambda}\right)}^2 = 1 + \rho^4 + 4\rho^2 \cos^2{\phi} - 4\rho(1+\rho^2)\cos{\phi} \cos{\lambda} + 2\rho^2\cos{2\lambda}
+$$
+On dérive :
+$$
+f'(\lambda) = 4\rho \sin(\lambda) \left[ (1+\rho^2) \cos{\phi} - 2\rho \cos{\lambda} \right]
+$$
+ainsi 
+$$
+f'(\lambda)=0 \iff \lambda = 0 \mbox{ ou } \cos{\lambda} = \frac{1+\rho^2}{2\rho} \cos{\phi}
+$$
+La seconde condition n'est possible que si $ -1\leq \frac{1+\rho^2}{2\rho} \cos{\phi} \leq 1$ ce qui se traduit par 
+\begin{equation}\label{eq:phaseAR2}
+\piecewise{
+\phi \in \seg{\arccos\left( \frac{2\rho}{1+\rho2} \right), \arccos\left( \frac{-2\rho}{1+\rho2} \right)} & \mbox{ (cas où $\phi \in \sego{0,\pi}$)} \\
+\mbox{ ou } & \\
+\phi \in \seg{-\arccos\left( \frac{-2\rho}{1+\rho2} \right), -\arccos\left( \frac{2\rho}{1+\rho2} \right)} & \mbox{ (cas où $\phi \in \seg{-\pi,0}$)} \\
+}
+\end{equation}
+On a alors deux cas possibles :
+\begin{enumerate}
+\item Si $\phi$ vérifie \eqref{eq:phaseAR2} : alors 
+$$
+f'(\lambda)=0 \iff \lambda = 0 \mbox{ ou } \lambda = \pm \arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right)
+$$
+et on a le tableau de variations suivant : \\
+\begin{center}
+\begin{tabular}{c|cccccccccc}
+$\lambda$ & $-\pi$ & & $-\arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right)$ & & $0$ & & $\arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right)$ & & $\pi$  \\
+\hline
+$f'(\lambda)$ & & $-$ & $0$ & $+$ & $0$ & $-$ & $0$ & $+$ & \\
+\hline
+$f$ & & $\searrow$ & & $\nearrow$ & & $\searrow$ & & $\nearrow$ \\
+\end{tabular}
+\end{center}
+\item Si $\phi$ ne vérifie pas \eqref{eq:phaseAR2} alors là encore deux cas possibles
+\begin{enumerate}
+\item Si $\frac{1+\rho^2}{2\rho} \cos{\phi} > 1$ i.e $\phi < \arccos\left( \frac{2\rho}{1+\rho^2} \right)$ ou $\phi > -\arccos\left( \frac{2\rho}{1+\rho^2} \right)$ alors $(1+\rho^2)\cos{\phi} - 2\rho \cos{\lambda} >0$ et on a le tableau suivant :
+\begin{center}
+\begin{tabular}{c|ccccc}
+$\lambda$ & $-\pi$ & & $0$ & & $\pi$  \\
+\hline
+$f'(\lambda)$ & & $-$ & $0$ & $+$ & \\
+\hline
+$f$ & & $\searrow$ & & $\nearrow$ & \\
+\end{tabular}
+\end{center}
+\item Si $\frac{1+\rho^2}{2\rho} \cos{\phi} < -1$ i.e $\phi < -\arccos\left( \frac{-2\rho}{1+\rho^2} \right)$ ou $\phi > \arccos\left( \frac{-2\rho}{1+\rho^2} \right)$ alors $(1+\rho^2)\cos{\phi} - 2\rho \cos{\lambda} <0$ et on a le tableau suivant :
+\begin{center}
+\begin{tabular}{c|ccccc}
+$\lambda$ & $-\pi$ & & $0$ & & $\pi$  \\
+\hline
+$f'(\lambda)$ & & $+$ & $0$ & $-$ & \\
+\hline
+$f$ & & $\nearrow$ & & $\searrow$ & \\
+\end{tabular}
+\end{center}
+\end{enumerate}
+\end{enumerate}
+Voyons ce qu'il se passe quand $\rho \to 1$ : \\
+$\frac{1+\rho^2}{2\rho} \cos{\phi}  \xrightarrow[\rho \to 1]{} \cos{\phi}$ donc on se retrouve dans le cas 1 et $\arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right) \xrightarrow[\rho \to 1]{} \phi$. On aura donc bien nos pics à $\lambda = \phi$ et $\lambda = -\phi$
 \chapter{Processus TVAR}
 \section{Construction d'une solution stable}
 \paragraph{Equation TVAR :}
@@ -154,7 +326,7 @@ J'arrive pas...
 X_t = \sum_{i=1}^p \theta_i(t) X_{t-i} + \sigma(t) \epsilon_t
 \tag{TVAR}
 \end{equation}
-où $\epsilon$ est un bruit blanc centré de variance unitaire.
+où $\epsilon \overset{\rm{iid}}{\sim} BB(0,1)$.
 \paragraph{Condition de stabilité :}
 Le critère qui nous intéresse est d'avoir une solution de \eqref{eq:TVAR} vérifiant la condition de stabilité suivante :
 \begin{equation} \label{eq:stabilite}
@@ -401,10 +573,10 @@ Il va être intéressant pour la suite d'adopter la vision suivante : \\
 On se donne $p$ fonctions $\theta_1, \cdots, \theta_p$ vérifiant les hypothèses de la proposition \ref{prop:TVAR}. Alors à $T$ donné et $-\infty < t \leq T$ fixé si on note $u = \frac{t}{T}$ les coefficients $(\theta_1(u), \cdots , \theta_p(u))$ sont ceux d'un AR(p) causal car $\Theta(z;u) \neq 0 \,\, \forall |z| \leq 1$.\\
 On peut donc à $t$ fixé se ramener à ce que l'on connaît sur les processus AR en considérant un processus AR(p) abstrait associé à ces coefficients (notamment utiliser l'algorithme de Levinson-Durbin on considérer la densité spectrale de puissance). Il y un processus AR(p) abstrait local à chaque temps $t$ et notamment une densité spectrale de puissance locale à chaque instant $t$. \\
 
-Maintenant que nous considérons à chaque instant $u$ un processus AR(p) local nous pouvons appliquer l'algorithme \ref{algo:construction} et le théorème \ref{thm:kappa} pour chaque instant $u$ à partir de $p$ fonctions continues $\kappa_i :[0,1] \to [-1,1]$ pour $i=1,\cdots,p$
+Maintenant que nous considérons à chaque instant $u$ un processus AR(p) local nous pouvons appliquer l'algorithme \ref{algo:construction} et le théorème \ref{thm:kappa} pour chaque instant $u$ à partir de $p$ fonctions continues $\kappa_i :[0,1] \to \osego{-1,1}$ pour $i=1,\cdots,p$
 \begin{Thm}
 \label{thm:kappa_u}
-Quelles que soient les fonctions $\kappa_1, \cdots, \kappa_p$ continues sur $[0,1]$ et à valeurs dans $[-1,1]$, les fonctions $\theta_{1,p},\cdots, \theta_{p,p}$ obtenues en appliquant l'algorithme \ref{algo:construction} à chaque instant $u$ sont les coefficients d'un processus TVAR(p) stable i.e elles sont uniformément continues sur $[0,1]$ et il existe $\delta \in ]0,1[$ tel que $\Theta(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$ où 
+Quelles que soient les fonctions $\kappa_1, \cdots, \kappa_p$ continues sur $[0,1]$ et à valeurs dans $\osego{-1,1}$, les fonctions $\theta_{1,p},\cdots, \theta_{p,p}$ obtenues en appliquant l'algorithme \ref{algo:construction} à chaque instant $u$ sont les coefficients d'un processus TVAR(p) stable i.e elles sont uniformément continues sur $[0,1]$ et il existe $\delta \in ]0,1[$ tel que $\Theta(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$ où 
 \[
 \Theta(z;u) = 1 - \sum_{i=1}^p \theta_{i,p}(u) z^i
 \]
@@ -526,31 +698,8 @@ $$
 $$
 où $\hat{\Theta}(z;u) = 1 - \sum_{k=1}^p \hat{\theta}_k(u) z^k$
 \end{Def}
-\begin{Prop}
-$\forall u \in [0,1]$, considérons $z_1(u),\cdots, z_p(u)$ les inverses des racines de $\Theta(z;u)$ alors en notant $\forall n\in \iseg{1,p}, z_n(u) = \rho_n(u) e^{i \phi_n(u)}$ avec $0 < \rho_n(u) <1$ et $\phi_n(u) \in [-\pi, \pi[$ on a 
-$$
-S_x(\lambda;u) \mbox{ admet un pic en $\lambda$ } \iff \exists n\in \iseg{1,p} \, \lambda = \phi_n(u)
-$$
-\end{Prop}
-\begin{proof}
-Soit $u\in [0,1]$ alors écrivons $\Theta(z;u) = \prod_{n=1}^p (1 - z_n(u)z) = $ alors
-$$
-\abs{\Theta\left( e^{-i\lambda} ; u \right)}^2 = \prod_{n=1}^p \abs{1 - \rho_n(u) e^{i(\phi_n(u)-\lambda)}}^2
-$$
-Or $\forall n \in \iseg{1,p}$
-$$
-\abs{1 - \rho_n(u) e^{i(\phi_n(u)-\lambda)}}^2 = 1 - 2\rho_n(u) \cos(\phi_n(u)-\lambda) + \rho_n^2(u)
-$$
-est minimal pour $\lambda = \phi_n(u) \mod 2\pi$ \\
-MAIS ceci ne veut pas forcément dire que le produit est minimal ssi $\exists n\in \iseg{1,p}, \lambda = \phi_n(u) \mod 2\pi$. Prenons par exemple $2$ inverses de racines conjuguées avec $\rho_1 = \rho_2 = 1/2$ et $\phi_1 = -\phi_2  = \frac{\pi}{4}$. Alors
-$$
-\abs{\Theta\left( e^{-i\lambda} ; u \right)}^2
-= \left( \frac{5}{4} - \cos\left(\lambda - \frac{\pi}{4} \right) \right) \left( \frac{5}{4} - \cos\left(\lambda + \frac{\pi}{4} \right) \right)
-$$
-Pour $\lambda = 0$ on obtient : $\frac{(5-2\sqrt{2})^2}{16}$ \\
-Pour $\lambda = \pm \frac{\pi}{4}$ on obtient : $\frac{5}{16}$ \\
-Or $\frac{(5-2\sqrt{2})^2}{16} - \frac{5}{16} = \frac{28 - 20\sqrt{2}}{16} < 0$ donc le minimum n'est pas atteint en $\frac{\pi}{4}$
-\end{proof}
+
+En appliquant la proposition \ref{prop:racines_phase}, à chaque instant les modules des inverses racines sont assez proches de $1$, les pics seront proches des phases des inverses des racines.
 \section{Agrégation des prédicteurs}
 \subsection{Algorithme et stratégies}
 On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne des observations NLMS d'un processus sur une période de temps $\ens{1,\cdots,T}$ pour différentes valeur de $\mu$, le pas de descente de gradient :  $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
@@ -659,9 +808,6 @@ On peut alors appliquer l'inégalité de Cauchy-Schwarz à cette expression :
 \end{equation}
 Or par l'inégalité de Holder, on peut montrer facilement que si $f$ est mesurable et $f \in L^4$, alors $f \in L^2$. D'où l'expression voulue.
 \end{proof}
-
-
-
 \chapter{Implémentations}
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
 \subsection{Cas d'un TVAR(1)}
