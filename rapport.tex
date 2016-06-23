@@ -1,6 +1,9 @@
 \documentclass{report}
 \usepackage[utf8]{inputenc}
 \RequirePackage[numbers]{natbib}
+\usepackage[intoc,french]{nomencl}
+\makenomenclature
+\renewcommand{\nomname}{Notations}
 \input{defs.sty}
 \input{init.sty}
 \title{SIGMA205 : Prédiction d'une série temporelle localement
@@ -8,11 +11,16 @@ stationnaire}
 \author{Thomas EBOLI et Amaury DURAND}
 \begin{document}
 \maketitle
+\begin{abstract}
+Ce compte rendu vise à présentes certains résultats théoriques concernant processus TVAR et leur prédiction. Les résultats énoncés sont en grande partie basés sur \cite{giraud-roueff-sanchez-aos2015} et \citep{moulines-priouret-roueff-2005}. Le chapitre \ref{chap:AR} fournit de brefs rappels sur les processus AR du cours SIGMA202a ainsi que certaines propriétés supplémentaires. Dans le chapitre \ref{chap:TVAR}, on présente comment construire des processus TVAR vérifiant une certaine condition de stabilité dans un cas simple puis dans le cas général. Ensuite on définit un estimateur des coefficients TVAR et un prédicteur associé, on présente les résultats sur les erreurs d'estimation. Enfin on applique la méthode d'agrégation à ces prédicteurs. Le chapitre \ref{chap:implemantations} présente les résultats expérimentaux obtenus le long de ce projet.
+\end{abstract}
 \tableofcontents
-\pagebreak
-%\chapter*{Notations}
-%\pagebreak
-\chapter{Rappels sur les processus AR}
+%%%%%%%%%%%%%%%%%%%%% NOTATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nomenclature{$c$}{Speed of light in a vacuum inertial frame}
+\nomenclature{$h$}{Planck constant}
+\printnomenclature
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Rappels sur les processus AR}\label{chap:AR}
 \paragraph{Equation AR(p) :} 
 On s'intéresse à l'équation AR(p) définie pour $p\geq 1$ et $(X_t)_{t\in \zset}$ un processus aléatoire à valeurs dans $\cset$ par 
 \begin{equation}\label{eq:AR}
@@ -92,20 +100,46 @@ $$
 \end{bmatrix}
 $$
 Remarquons le lemme suivant :
-\begin{Lem}
+\begin{Lem}\label{lem:Gamma_non_inv}
 Il existe $t \in \zset$ tel que $X_t \in \Vect(X_{t-1},\cdots,X_{t-p+1})$ si et seulement si $\Gamma_p$ est non inversible
 \end{Lem}
 \begin{proof}
 En effet $\Gamma_p$ est la matrice de Gram de $(X_t,\cdots,X_{t-p+1})$ associée au produit scalaire $\inner{X,Y} = \EE[X\overline{Y}]$ qui est inversible si et seulement si $(X_t,\cdots,X_{t-p+1})$ est libre. 
 \end{proof}
+\begin{Def}[coefficients de prédiction]
 On note pour tout $p\geq 1$, pour tout $k\in \iseg{1,p}$, $\theta_{k,p}$ les coefficients de prédiction direct d'ordre $p$ de $X_t$ à partir de son passé et $\sigma_p^2$ l'erreur de prédiction i.e 
 $$
 \proj(X_t |\calH_{t-1,p}^X)= \sum_{k=1}^p \theta_{k,p} X_{t-k} 
 \mbox{ et } 
 \sigma_p^2 = \norm{X_t - \proj(X_t | \calH_{t-1,p}^X)}_2^2
 $$
-où $\calH_{t-1,p}^X = \vect(X_{t-1}, \cdots, X_{t-p})$ \\
-L'algorithme de Levinson permet de trouver tous les $\left( \theta_{k,p} \right)_{p \in \iseg{1,d}, k\in \iseg{1,p}}$ où $d$ est un ordre auquel on s'arrête, à partir des $\gamma(1),\cdots, \gamma(d)$. Il est basé sur un calcul de $(\theta_{1,p+1}, \cdots, \theta_{p,p})$ connaissant $(\theta_{1,p-1}, \cdots, \theta_{p-1,p-1})$\\
+où $\calH_{t-1,p}^X = \vect(X_{t-1}, \cdots, X_{t-p})$
+\end{Def}
+\begin{Rque}\label{rem:Yule_Walker}
+Remarquons que $\bftheta_p = \left( \theta_{k,p} \right)_{k\in \iseg{1,p}}$ vérifie :
+$$
+\bftheta_p = \argmin_{\bftheta \in \cset^p} \EE[\abs{X_t-\sum_{k=1}^p \theta_k X_{t-k}}^2]
+$$
+Et que cet $\argmin$ existe et est unique car cette relation entraine la seconde forme de l'équation de Yule et Walker : 
+$$
+\Gamma_{p+1} \begin{bmatrix}
+1 \\
+-\theta_{1,1} \\
+\vdots \\
+- \theta_{1,p}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sigma_p^2 \\
+0 \\
+\vdots \\
+0
+\end{bmatrix}
+$$
+Et $\Gamma_{p+1}$ étant inversible cela définit de façon unique $\bftheta_p$
+\end{Rque}
+
+L'algorithme suivant (Levinson-Durbin) permet de trouver tous les $\left( \theta_{k,p} \right)_{p \in \iseg{1,d}, k\in \iseg{1,p}}$ où $d$ est un ordre auquel on s'arrête, à partir des $\gamma(1),\cdots, \gamma(d)$. Il est basé sur un calcul de $(\theta_{1,p+1}, \cdots, \theta_{p,p})$ connaissant $(\theta_{1,p-1}, \cdots, \theta_{p-1,p-1})$\\
 \begin{algorithm}[H]
  \KwData{$\gamma(1),\cdots,\gamma(d)$}
  \KwResult{$(\theta_{i,p})_{p\in \iseg{1,d},i\in \iseg{1,p}}$ }
@@ -122,15 +156,38 @@ L'algorithme de Levinson permet de trouver tous les $\left( \theta_{k,p} \right)
  \label{algo:levinson}
 \end{algorithm}
 \begin{Prop}
-Les coefficient $\kappa_p$ s'appellent coefficients d'autocorrélation partielle et vérifient :
-$$
-\forall p\geq 1, \abs{\kappa_p} \leq 1
-$$
+Les coefficient $(\kappa_p)_{p\geq 1}$ s'appellent coefficients d'autocorrélation partielle et vérifient :
+\begin{align*}
+&\kappa_1 = \gamma(1) / \gamma(0) \\
+&\begin{aligned}
+\forall p \geq 2, \kappa_p &= \mathrm{corr} \left( X_t - \proj(X_t | \calH^X_{t-1,p-1}), X_{t-p} - \proj(X_{t-p} | \calH^X_{t-1,p-1}) \right) \\
+&= \frac{\inner{X_t - \proj(X_t | \calH^X_{t-1,p-1}), X_{t-p} - \proj(X_{t-p} | \calH^X_{t-1,p-1})}}{\norm{X_t - \proj(X_t | \calH^X_{t-1,p-1})} . \norm{X_{t-p} - \proj(X_{t-p} | \calH^X_{t-1,p-1})}}
+\end{aligned} \\
+&\forall p\geq 1, \abs{\kappa_p} \leq 1 \\
+&\forall p\geq 1, \kappa_p = \theta_{p,p}
+\end{align*}
 \end{Prop}
 \begin{Prop}\label{prop:Gamma_inv}
-Soit $p\geq 1$. Si pour tout $k \geq p, \kappa_k \in \osego{-1,1}$ alors $\forall k\leq p, \Gamma_p$ est inversible.
+Soit $k\geq 1$. Si pour tout $k\in \iseg{1,p}, \kappa_k \in \osego{-1,1}$ alors $\Gamma_{p+1}$ est inversible.
 \end{Prop}
-On peut alors en générant une famille $(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$ calculer des coefficients $\theta$ en inversant les équations de Levinson-Durbin grâce à l'algorithme suivant \\
+\begin{proof}
+On raisonne par contraposée, supposons que $\Gamma_{p+1}$ n'est pas inversible et montrons qu'il existe $p_0\in \iseg{1,p}$ tel que $\abs{\kappa_{p_0}} = 1$. \\
+Par le lemme \ref{lem:Gamma_non_inv}, le fait que $\Gamma_{p+1}$ soit non inversible implique qu'il existe $t\in \zset$ tel que $X_t \in \calH^X_{t-1,p}$. \\
+On sait que $\forall k \in \iseg{1,p}, \calH^X_{t-1,k} \subset \calH^X_{t-1,k+1} \subset \cdots \subset \calH^X_{t-1,p}$. Il existe donc $p_0\in \iseg{1,p}$ tel que 
+$$
+X_t \in \calH^X_{t-1,p_0} \mbox{ et } X_t \notin \calH^X_{t-1,p_0-1}
+$$
+(avec la convention $\calH^X_{t-1,0} = \emptyset$). On a alors
+$$
+X_t = \proj(X_t|\calH^X_{t-1,p_0}) = \sum_{k=1}^{p_0} \theta_{k,p_0} X_{t-k} = \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{t-k} + \kappa_{p_0} X_{t-p_0}
+$$
+avec $\kappa_{p_0} \neq 0$ car sinon on aurait $X_t \in \calH^X_{t-1,p_0-1}$. Donc 
+$$
+X_t - \proj(X_t|\calH^X_{t-1,p_0-1}) = X_t - \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{t-k} - \kappa_{p_0} \proj(X_{t-p_0}|\calH^X_{t-1,p_0-1}) = \kappa_{p_0} \left[ X_{t-p_0} - \proj(X_{t-p_0}|\calH^X_{t-1,p_0-1}) \right]
+$$
+On se trouve donc dans le cas d'égalité de Cauchy-Schwartz pour le produit scalaire de la définition de $\kappa_{p_0}$ ce qui implique $\abs{\kappa_{p_0}} = 1$
+\end{proof}
+On peut alors, en générant une famille $(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$, calculer des coefficients $\theta$ en inversant les équations de Levinson-Durbin grâce à l'algorithme suivant \\
 \begin{algorithm}[H]
  \KwData{$(\kappa_1, \cdots , \kappa_d) \in \osego{-1,1}^d$}
  \KwResult{$(\theta_{i,p})_{p\in \iseg{1,d},i\in \iseg{1,p}}$ }
@@ -172,8 +229,8 @@ $$
 où les $\nu_{k,p}$ sont les inverses des racines du polynôme. Le résultat cherché équivaut à $\forall k\in {1,\cdots p}, \abs{\nu_{k,p}} < 1$. \\
 Construisons une bijection liant les $(\nu_{k,p})_{k\in \iseg{1,p}}$ aux $(\theta_{k,p})_{k\in \iseg{1,p}}$ : \\
 La première idée serait de considérer $\bftheta_p=[\theta_{1,p},\cdots,\theta_{p,p}]^T \mapsto [\nu_{1,p},\cdots,\nu_{p,p}]^T$ mais cela ne définit pas une application car une permutation des éléments dans le vecteur de droite donne le même polynôme et donc on aurait deux images pour le même $\bftheta_p$. \\
-La deuxième idée serait de considérer alors $\bftheta \mapsto \ens{ \nu_{k,p}, k\in \iseg{1,p}}$ mais le problème dans cette définition est que si il existe $i \neq j$ tels que $\nu_{i,p}=\nu_{j,p}$, cela a une importance dans le polynôme (racine multiple) mais cette redondance n'est pas visible dans $\ens{ \nu_{k,p}, k\in \iseg{1,p}}$. \\
-Finalement une vision qui fonctionne est de considérer $\Phi : \bftheta_p = (\theta_{1,p}, \cdots, \theta_{p,p}) \mapsto \overline{\nu}_p = \sum_{k=1}^p \delta_{\nu_{k,p}}$. Le fait de considérer la mesure $\sum_{k=1}^p \delta_{\nu_{k,p}}$ tient compte du fait qu'une interversion des $\nu_{k,p}$ ne change pas la valeur du polynôme et n'annule pas les redondances. \\
+La deuxième idée serait de considérer alors $\bftheta \mapsto \ens{ \nu_{k,p}, k\in \iseg{1,p}}$ mais le problème dans cette définition est que si il existe $i \neq j$ tels que $\nu_{i,p}=\nu_{j,p}$, cela a une importance dans le polynôme (racine multiple) alors que cette redondance n'est pas visible dans $\ens{ \nu_{k,p}, k\in \iseg{1,p}}$. \\
+Finalement une vision qui fonctionne est de considérer la bijection $\Phi : \bftheta_p = (\theta_{1,p}, \cdots, \theta_{p,p}) \mapsto \overline{\nu}_p = \sum_{k=1}^p \delta_{\nu_{k,p}}$. Le fait de considérer la mesure $\sum_{k=1}^p \delta_{\nu_{k,p}}$ tient compte du fait qu'une interversion des $\nu_{k,p}$ ne change pas la valeur du polynôme et n'annule pas les redondances. \\
 Soit $X$ le processus stationnaire au second ordre associé aux $\kappa_1,\cdots,\kappa_p$.
 Montrons que $\displaystyle \overline{\nu}_p \mapsto \EE[\abs{\left( \prod_{k=1}^p (1-\nu_{k,p} B) X\right)_t}^2]$ admet un unique minimiseur : \\
 Il suffit de considérer $\bftheta_p = \Phi^{-1} (\overline{\nu}_p)$ et alors 
@@ -182,7 +239,7 @@ $$
 =
 \EE[\abs{X_t-\sum_{k=1}^p \theta_{k,p} X_{t-k}}^2]
 $$
-Ce problème a bien une unique solution $\bftheta_p^\ast$ car $\Gamma_p$ est inversible (puisque pour tout $k \in \iseg{1,p}, \kappa_k \in \osego{-1,1}$). Ainsi on a bien par bijection une unique solution 
+Ce problème a bien une unique solution $\bftheta_p^\ast$ car $\Gamma_{p+1}$ est inversible puisque pour tout $k \in \iseg{1,p}, \kappa_k \in \osego{-1,1}$ (cf proposition \ref{prop:Gamma_inv} et remarque \ref{rem:Yule_Walker}).  Ainsi on a bien par bijection une unique solution 
 $$
 \overline{\nu}_p^\ast = \Phi(\bftheta_p^\ast) = \argmin_{\overline{\nu_p}} \EE[\abs{\left( \prod_{k=1}^p (1-\nu_{k,p} B) X\right)_t}^2]
 $$
@@ -219,7 +276,7 @@ $$
 $$
 De plus en développent le produit dans l'expression de $Y$, on peut écrire $Y_1 = X_1 + Z$ où $Z \in \Vect(X_0,\cdots,X_{2-p}) \subset \Vect(X_0, \cdots X_{1-p})$. Ainsi 
 $$
-Y_1 \in \Vect(Y_0)  \Rightarrow X_1 = Y_1 - Z \in \Vect(X_0, \cdots X_{1-p}) \Rightarrow \Gamma_p \mbox{ non inversible }
+Y_1 \in \Vect(Y_0)  \Rightarrow X_1 = Y_1 - Z \in \Vect(X_0, \cdots X_{1-p}) \overset{\mbox{lem \ref{lem:Gamma_non_inv}}}{\Rightarrow} \Gamma_{p+1} \mbox{ non inversible }
 $$
 Ce qui est contradictoire. \\
 On a donc montré que $\abs{\nu_{1,p}^\ast} < 1$ mais de plus dans l'équation \eqref{eq:nu_p}, l'ordre des coefficients $\nu_{k,p}^\ast$ n'a pas d'importance, ainsi avoir montré l'inégalité pour $\nu_{1,p}^\ast$ la prouve aussi pour les autres (il suffit d'alterner $\nu_{1,p}^\ast$ avec un autre coefficient). \\
@@ -253,10 +310,10 @@ est minimal pour $\lambda = \phi_n \mod 2\pi$ \\
 Ceci ne veut pas  dire que le produit est minimal ssi $\exists n\in \iseg{1,p}, \lambda = \phi_n(u) \mod 2\pi$. Mais si $\forall n\in \iseg{1,p}, \rho_n$ est assez proche de $1$, pour chaque racine, les contributions des autres racines sont négligeables.
 \end{proof}
 
-\paragraph{Cas particulier où p=1 :}
+\begin{Ex}[Cas où p=1 :]
 Dans le cas $p=1$ quelle que soit la valeur de $\rho$, $\abs{1-\rho e^{i(\phi-\lambda)}}^2$ est minimal ssi $\lambda = \rho$
-
-\paragraph{Cas particulier où p=2 à racines complexes conjuguées :}
+\end{Ex}
+\begin{Ex}[Cas où p=2 à racines complexes conjuguées]
 On écrit les deux inverses des racines : $z_1=\overline{z}_2 = \rho e^{i\phi}$, avec $0<\rho<1, \phi \in \sego{-\pi,\pi}$ alors en développant le produit, $\forall \lambda \in \sego{-\pi,\pi}$
 $$
 f(\lambda) \deq \abs{\Theta\left( e^{-i\lambda}\right)}^2 = 1 + \rho^4 + 4\rho^2 \cos^2{\phi} - 4\rho(1+\rho^2)\cos{\phi} \cos{\lambda} + 2\rho^2\cos{2\lambda}
@@ -319,7 +376,8 @@ $f$ & & $\nearrow$ & & $\searrow$ & \\
 \end{enumerate}
 Voyons ce qu'il se passe quand $\rho \to 1$ : \\
 $\frac{1+\rho^2}{2\rho} \cos{\phi}  \xrightarrow[\rho \to 1]{} \cos{\phi}$ donc on se retrouve dans le cas 1 et $\arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right) \xrightarrow[\rho \to 1]{} \phi$. On aura donc bien nos pics à $\lambda = \phi$ et $\lambda = -\phi$
-\chapter{Processus TVAR}
+\end{Ex}
+\chapter{Processus TVAR}\label{chap:TVAR}
 \section{Construction d'une solution stable}
 \paragraph{Equation TVAR :}
 \begin{equation} \label{eq:TVAR}
@@ -526,7 +584,7 @@ Or ceci peut être faux. Il suffit de prendre $b=\frac{1}{\sqrt{2}}$ par exemple
 On a donc trouvé une sous-suite $Y_t$ du processus $X_t$ qui diverge. Donc la condition initiale, à savoir $\sup_t|\theta_i(t)|<1$, n'est plus suffisante pour assurer la stabilité d'un TVAR(2).
 
 \subsection{Cas général}
-On introduit une nouvelle définition du modèle TVAR introduite dans \citep{Dahlhaus:1996} :
+On introduit une nouvelle définition du modèle TVAR introduite dans \cite{Dahlhaus:1996} et utilisée dans \cite{giraud-roueff-sanchez-aos2015} :
 \begin{Def} \label{def:TVAR}
 Soient $p\geq 1$, $\theta_1,\cdots, \theta_p$ et $\sigma$ des fonctions définies sur $]-\infty,1]$ et $(\epsilon_t)_{t\in \zset}$ une suite i.i.d de variables aléatoires avec moyenne nulle et variance unitaire. Pour tout $T \geq 1$ on dit que $(X_{t,T})_{t\leq T}$ est un processus TVAR stable s'il vérifie les deux conditions suivantes 
 \begin{description}
@@ -542,9 +600,20 @@ X_{t,T} = \sum_{i=1}^p \theta_i\left( \frac{t}{T}\right) X_{t-i,T} + \sigma\left
 \end{equation}
 \end{description}
 \end{Def}
-\begin{Rque}
+\begin{Rque}~\\
+\begin{enumerate}
+\item 
 Revenons sur cette nouvelle définition du modèle TVAR. Supposons $u \in ]-\infty , 1]$ fixé et $T \gg 1$. Si on veut étudier ce qu'il se passe pour $t$ dans un intervalle du type $[(u-b)T,(u+b)T ]$, alors on peut prendre b petit sans avoir un intervalle trop petit pour $t$. Alors $\frac{t}{T}\in [u-b,u+b]$ reste proche de u et si $\theta_i$ et $\sigma$ sont suffisamment régulières, on peut approcher les approcher par des constantes. Ainsi l'équation s'approche par une équation AR.
-
+\item
+La condition de stabilité est différente dans \cite{giraud-roueff-sanchez-aos2015}, il s'agit d'avoir $(X_{t,T})_{t \leq T}$ bornée en probabilité :
+$$
+\lim_{M \to +\infty} \sup_{-\infty < t \leq T} \PP(\abs{X_{t,T}} > M) = 0
+$$
+Notre condition entraîne celle-ci par l'inégalité de Markov : 
+$$
+\forall M > 0, \PP(\abs{X_{t,T}} > M) \leq \frac{\EE[\abs{X_{t,T}}^2]}{M^2}
+$$
+\end{enumerate}
 \end{Rque}
 \begin{Prop}\label{prop:TVAR}
 Supposons que les coefficients $\theta_i$ de l'équation \eqref{eq:TVAR} sont uniformément continus sur $]-\infty,1]$ et que $\sigma$ est bornée sur $]-\infty,1]$. Supposons de plus qu'il existe $\delta \in ]0,1[$ tel que $\Theta(z;u)\neq 0 \, \forall \abs{z} < \delta^{-1}, u\in [0,1]$ où 
@@ -566,7 +635,7 @@ $$
 La preuve de cette proposition peut être trouvée dans \citep{giraud-roueff-sanchez-aos2015}
 \end{proof}
 \section{Prédiction sur un TVAR}
-\paragraph{Détail pratique pour l'implémentation :} Dans cette partie, nous considèrerons que les coefficients sont constantes pour $u \leq 0$ : $\theta_i(u) = \theta_i(0)$ si $u \leq 0$. Dans la pratique nous prendrons $0$. Nous allons donc nous restreindre à $[0,1]$
+\paragraph{Détail pratique pour l'implémentation :} Dans cette partie, nous considèrerons que les coefficients sont constants pour $u \leq 0$ : $\theta_i(u) = \theta_i(0)$ si $u \leq 0$. Dans la pratique nous prendrons $0$. Nous allons donc nous restreindre à $[0,1]$
 \subsection{Implémentation d'un TVAR}
 \paragraph{Coefficients AR abstraits associés}
 Il va être intéressant pour la suite d'adopter la vision suivante : \\
@@ -605,9 +674,9 @@ Ce qui contredit le résultat du théorème \ref{thm:kappa} appliqué à $\kappa
 
 \subsection{Définition du prédicteur TVAR}
 On considère un processus TVAR $X_{t,T}$ définit grâce à la proposition \ref{prop:TVAR}. Notons que l'équation \eqref{eq:TVAR'} se réécrit de manière plus compacte par : $\forall t \in \iseg{1,T}$
-$$
-X_{t,n} = \bftheta_{t-1,T}^T \mb{X}_{t-1,T} + \sigma_{t,T} \epsilon_{t,T}
-$$
+\begin{equation}\label{eq:TVAR_compact}
+X_{t,T} = \bftheta_{t-1,T}^T \mb{X}_{t-1,T} + \sigma_{t,T} \epsilon_t
+\end{equation}
 où 
 \begin{align*}
 &\mb{X}_{t,T} = [X_{t,T}, X_{t-1,T}, \cdots , X_{t-p+1,T} ]^T \\
@@ -652,8 +721,7 @@ $$
 $$
 \end{Def}
 \paragraph{Notations :}
-On notera pour $Z$ v.a à valeur dans un espace muni d'une norme $\norm{.}$ : $\norm{Z}_q = (\EE[\norm{Z}])^{1/q}$ et  $\norm{Z}_{q,\bftheta,\sigma} = (\EE_{\bftheta,\sigma}[\norm{Z}])^{1/q}$ dans le cas où l'on a une paramétrisation par $(\bftheta,\sigma)$ \\
-On note de plus 
+On notera 
 \begin{itemize}
 \item pour $\rho > 0$ : 
 $$
@@ -666,11 +734,11 @@ $$
 \end{itemize}
 
 \begin{Thm}
-On suppose que $\epsilon$ est un bruit blanc centré de variance unitaire indépendant de $\mb{X}_{0,T}$ et de plus que $\sup_{T \geq 1} \norm{\mb{X}_{0,T}}_q < +\infty$ et $\sup_{1\leq t \leq T} \norm{\epsilon_{t,T}}_q < +\infty$ avec $q \geq 4$. \\
+On suppose que $\epsilon$ est un bruit blanc centré de variance unitaire indépendant de $\mb{X}_{0,T}$ et de plus que $\sup_{T \geq 1} \EE[\norm{\mb{X}_{0,T}}^q] < +\infty$ et $\sup_{1\leq t \leq T} \EE[\abs{\epsilon_{t,T}}^q] < +\infty$ avec $q \geq 4$. \\
 Soient $p\in [1,q/3[, \beta\in ]0,1], L>0, \rho \in ]0,1[$ et $0 < \sigma_{-} \leq \sigma_{+}$ \\
 Alors $\exists M,\delta > 0$ et $\mu_0 >0$ tels que $\forall \mu \in ]0,\mu_0], T \geq 1, u\in ]0,1]$ et $(\bftheta, \sigma) \in C(\beta, L, \rho, \sigma_-, \sigma_+)$ 
 $$
-\norm{\hat{\bftheta}_T(u ; \mu) - \bftheta(u)}_{p,\bftheta,\sigma} \leq M \left( \norm{\bftheta(0)}(1-\delta \mu)^{uT} + \sqrt{\mu} + (T\mu)^{-\beta} \right)
+\left(\EE_{\bftheta,\sigma}\left[\norm{\hat{\bftheta}_T(u ; \mu) - \bftheta(u)}^p\right]\right)^{1/p} \leq M \left( \norm{\bftheta(0)}(1-\delta \mu)^{uT} + \sqrt{\mu} + (T\mu)^{-\beta} \right)
 $$
 \end{Thm}
 \begin{proof}
@@ -702,15 +770,15 @@ où $\hat{\Theta}(z;u) = 1 - \sum_{k=1}^p \hat{\theta}_k(u) z^k$
 En appliquant la proposition \ref{prop:racines_phase}, à chaque instant les modules des inverses racines sont assez proches de $1$, les pics seront proches des phases des inverses des racines.
 \section{Agrégation des prédicteurs}
 \subsection{Algorithme et stratégies}
-On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne des observations NLMS d'un processus sur une période de temps $\ens{1,\cdots,T}$ pour différentes valeur de $\mu$, le pas de descente de gradient :  $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
+On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne $T$ observations du processus $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
 \begin{Def}[Agrégation]
 Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $1\leq t \leq T$
 \begin{itemize}
-\item Choisir $\alpha_t=(\alpha_{1,t},\cdots,\alpha_{N,t}) \in \rset_+^N$ tel que $\sum_{i=1}^N \alpha_{i,t} = 1$ 
+\item Choisir $\alpha_t=(\alpha_{1,t},\cdots,\alpha_{N,t})\in S_N = \ens{\alpha \in \rset_+^N, \sum_{i=1}^N \alpha_{i} = 1}$ 
 \item Calculer le nouvel estimateur $\hat{X}_{t,T} = \hat{X}_{t,T}^{[\alpha_t]} = \sum_{i=1}^N \alpha_{i,t} \hat{X}_{t,T}^{(i)}$
 \end{itemize}
 \end{Def}
-Comme expliqué dans \citep{giraud-roueff-sanchez-aos2015}, on peut approcher les poids d'agrégation optimaux $\alpha_t$ en calculant en ligne et récursivement des poids $\hat{\alpha}_t$ selon deux stratégies à partir d'un paramètre $\eta >0$ nommé "pas d'apprentissage". \\
+Comme expliqué dans \citep{giraud-roueff-sanchez-aos2015}, on peut approcher les poids d'agrégation optimaux $\alpha_t$ en calculant en ligne et récursivement des poids $\hat{\alpha}_t$ selon deux stratégies à partir d'un paramètre $\eta >0$ nommé "taux d'apprentissage". \\
 \paragraph{Stratégie 1 : à partir du gradient de l'erreur quadratique}
 $\forall i \in \iseg{1,N}, \forall t\in \iseg{1,T}$
 $$
@@ -756,63 +824,78 @@ La construction du prédicteur à partir de ces stratégies est fournit par l'al
  \label{algo:agregation}
 \end{algorithm}
 
-Le choix de la stratégie pour mettre à jour les coefficients $\alpha^{i}$ a une importance sur le prédicteur que l'on souhaite atteindre. En effet la borne de l'erreur n'est pas la même dans les deux cas. Les preuves de ces bornes se trouvent dans \citep{giraud-roueff-sanchez-aos2015}.\\
-\paragraph{Stratégie 1 : Gradient de l'erreur quadratique}
-La stratégie fait intervenir le gradient de l'erreur quadratique et permet d'approcher la meilleure combinaison convexe dans le simplexe $S_N$. \citep{giraud-roueff-sanchez-aos2015} donne la relation suivante :
-\begin{equation}
-\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_t-X_t)^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_t^{[\alpha]}-X_t)^2] + \frac{\log(N)}{T \eta} + \beta_{\eta}
+Le choix de la stratégie pour mettre à jour les coefficients $\alpha^{i}$ a une importance sur le prédicteur que l'on souhaite atteindre. En effet la borne de l'erreur n'est pas la même dans les deux cas. Les preuves de ces bornes sont prouvées dans \citep{giraud-roueff-sanchez-aos2015} et résumées dans le théorème suivant \\
+\begin{Thm}[Performances du prédicteur pas agrégation]\label{thm:pred_majo} Soit $(X_{t,T})_{1\leq t \leq T}$ un processus TVAR vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}, soit $\ens{(\hat{X}_{t,T}^{(i)})_{1\leq t \leq T}, 1\leq i \leq N}$ une famille de prédicteurs de $X_{t,T}$ à partir de son passé vérifiant $\forall t\in \iseg{1,T}, \abs{\hat{X}_{t,T}^{(i)}} \leq \sum_{s\geq 1} L_s^{(i)} \abs{X_{t-s,T}}$ avec $L_s^{(i)} \geq 0$ et $\sum_{s\geq 1} L_s^{(i)} < +\infty$. \\
+On note $(\hat{X}_{t,T})_{1\leq t \leq T}$ l'estimateur par agrégation obtenu selon le cas avec les poids de la stratégie 1 ou de la stratégie 2. Alors 
+\begin{description}
+\item{\underline{Stratégie 1 :}} Si $\epsilon$ vérifie $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^4] < +\infty$ on a 
+\begin{equation}\label{eq:strat1}
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + \frac{\log(N)}{T \eta} + 2\eta C_4
 \end{equation}
 
-Où $\beta_{\eta}$ contrôle les variations du modèle des prédicteurs choisis et $\hat X_t^{[\alpha]}$ est le prédicteur par agrégation obtenu lorsque l'on choisit la combinaison convexe $\alpha$ à l'instant $t$. \\
-
-Donc pour $T{\longrightarrow}\infty$, on a bien que le prédicteur obtenu par la stratégie 1 converge bien en moyenne vers le meilleur des prédicteurs par agrégation (on a en fait $\hat\alpha\underset{T\longrightarrow\infty}{\longrightarrow}\alpha$).
-
-
-\paragraph{Stratégie 2 : Erreur quadratique}
-Cette stratégie permet d'obtenir elle aussi un prédicteur par agrégation mais cette fois on ne peut espérer faire mieux que le meilleur des estimateurs donnés en entré de l'algorithme. \citep{giraud-roueff-sanchez-aos2015} donne cette fois la borne :
-\begin{equation}
-\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_t-X_t)^2] \leq \min_{1 \leq i \leq N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_t^{(i)}-X_t)^2] + \frac{\log(N)}{T \eta} + \beta_{\eta}
+où $C_4$ est lié à la régularité du processus de départ et des prédicteurs choisis et $\hat X_{t,T}^{[\alpha]}$ est le prédicteur par agrégation obtenu lorsque l'on choisit la combinaison convexe $\alpha$ à l'instant $t$. \\
+\item{\underline{Stratégie 2 :}} Si il existe $p\geq 2$ tel que $\epsilon$ vérifie $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^p] < +\infty$ on a 
+\begin{equation}\label{eq:strat2}
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \min_{1 \leq i \leq N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}^{(i)}-X_{t,T})^2] + \frac{\log(N)}{T \eta} + (2\eta)^{p/2-1}C_p
 \end{equation}
-
-Où $X_t^{(i)}$ est le i-ème prédicteur à l'instant $t$.
-Cette fois pour $T{\longrightarrow}\infty$, on ne va donc ne trouver que le meilleur des prédicteurs dont on dispose.
-
-\begin{Rque}
+\end{description}
+\end{Thm}
+\begin{proof}
+Voir \citep{giraud-roueff-sanchez-aos2015}. Remarquons tout de même que nous avons omis l'hypothèse notée (M-1) dans cet article qui est que $\forall t\in \iseg{1,T}, \abs{X_t} \leq \sum_{j\in \zset} A_t(j) \epsilon_{t-j}$ où $(A_t(j))_{t,j\in \zset}$ sont $\geq 0$ et vérifient $\sup_{t\in \zset} \sum_{j\in \zset} A_t(j) < +\infty$. Cette hypothèse est en fait vérifié dans le cas d'un TVAR grâce à \eqref{eq:repr_lineaire}.
+\end{proof}
+\begin{Cor} On se place sous les hypothèses du théorème \ref{thm:pred_majo}. 
+\begin{description}
+\item{\underline{Stratégie 1 :}} Si on prend $\eta = \left(\frac{\log N}{2TC_4} \right)^{1/2}$ alors quand $T\to +\infty$, la stratégie donne au mieux le meilleur estimateur par agrégation possible par combinaison convexe dans le simplexe $S_N$.
+\item{\underline{Stratégie 2 :}} Si on prend $\eta = \frac{1}{2}\left(\frac{\log N}{TC_p} \right)^{2/p}$ alors quand $T\to +\infty$, la stratégie permet d'obtenir elle aussi un prédicteur par agrégation mais cette fois on ne peut espérer faire mieux que le meilleur des estimateurs donnés en entrée de l'algorithme. 
+\end{description}
+\end{Cor}
+\begin{proof}
+Il suffit de remplacer dans \eqref{eq:strat1} et \eqref{eq:strat1} on trouve
+\begin{description}
+\item{\underline{Stratégie 1 :}}
+$$
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + (8C_4)^{1/2} \left( \frac{\log(N)}{T \eta} \right)^{1/2}
+$$
+\item{\underline{Stratégie 2 :}}
+$$
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + 3C_p^{2/p} \left( \frac{\log(N)}{T \eta} \right)^{1-2/p}
+$$
+\end{description}
+\end{proof}
+\begin{Rque}~\\
+\begin{enumerate}
+\item 
 Le choix de $\eta$ aussi appelé "taux d'apprentissage" ou encore "learning rate" a à voir avec le bruit dont sont entachées les observations. D'après  \citep{giraud-roueff-sanchez-aos2015}, on peut intuitivement se dire que le bruit dégrade le risque empirique et $\eta$ permet de quantifier l'importance du risque empirique dans la décision de mise à jour des coefficients $\alpha^{i}$. Donc plus le bruit est important et dégrade la qualité des observation et moins on doit se fier au risque empirique (ie : $\eta {\rightarrow} 0$).
-\end{Rque}
-
-\begin{Rque}
+\item 
 La stratégie 1 donne un meilleur résultat théorique que la stratégie 2 mais les conditions d'application de la première stratégie sont plus contraignante alors que la seconde est applicable à n'importe quel ensemble d'échantillons.
+\item 
+L'hypothèse demandée sur les prédicteurs est automatiquement vérifiée dans le cas où ce sont des prédicteurs linéaires obtenus à partir d'un nombre fini d'observations (ce qui sera la cas dans les implémentations). En effet, chaque prédicteur s'écrit de la forme $\hat{X}_{t,T}^{(i)} = \sum_{s=1}^d \phi_s^{(i)} X_{t-s,T}$ donc $\abs{\hat{X}_{t,T}^{(i)}} \leq  \sum_{s=1}^d L_s^{(i)} \abs{X_{t-s,T}}$ avec $ L_s^{(i)} = \abs{ \phi_s^{(i)}}$ donc la somme est finie car on a un nombre fini de termes. 
+\end{enumerate}
 \end{Rque}
 
 \subsection{Comparaison des risques d'estimation et d'agrégation}
-On se propose de montrer dans cette sous-section que le risque empirique d'un prédicteur par agrégation (quelque soit la stratégie) est moindre que celui d'un estimateur obtenu classiquement par NLMS.
+On se propose de montrer dans cette sous-section que le lien qui existe entre l'erreur de prédiction et l'erreur d'estimation.
 \begin{Prop}
-Soit $(X_t)_{t \in \mathbb{Z}}$ un processus TVAR(d) avec d dans $\mathbb{N}^*$. Soit $(\theta_t)_{t \in \mathbb{Z}}$ la famille de filtres associé tels que $\forall t \in [0,T]$, $X_t = \sum_{k=1}^d \theta_k X_{t-k}$.\\
-On pose $(\hat X_t)_{t \in \mathbb{Z}}$ et $(\hat\theta_t)_{t \in \mathbb{Z}}$ les estimateurs associés. Alors $\forall t$: \\
+Soit $(X_{t,T})_{1 \leq t \leq T}$ un processus TVAR(p) avec p dans $\mathbb{N}^*$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. Alors on pose $(\hat\bftheta_{t,T})_{1\leq t \leq T}$ l'estimateur NLMS défini en \eqref{eq:NLSM} et $(\hat{X}_{t,T})_{1\leq t \leq T}$ le prédicteur associé défini en \eqref{eq:predictor}. \\
+Alors $\forall 1\leq t \leq T$
 \begin{equation}
-\mathbb{E}[(\hat X_t - X_t)^2] \leq \mathbb{E}[||\hat \theta_t - \theta_t||^2] \mathbb{E}[||X_{t-1}||^4]^{1/2}
+\EE[(\hat X_{t,T} - X_{t,T})^2] \leq \EE[\norm{\hat\bftheta_{t-1,T} - \bftheta_{t-1,T}}^4]^{1/2} \EE[\norm{\mb{X}_{t-1,T}}^4 ]^{1/2} + \sigma^2_{t,T}
 \end{equation}
 \end{Prop}
 \begin{proof}
-Partons du risque empirique pour une observation et son estimation au temps $t$:
-\begin{equation}
-\mathbb{E}[(\hat X_t - X_t)^2] = \mathbb{E}[((\hat\theta_t - \theta) X_{t-1} - \sigma(t-1))^2]
-\end{equation}
-\begin{equation}
-\mathbb{E}[(\hat X_t - X_t)^2] = \mathbb{E}[((\hat\theta_t - \theta) X_{t-1})^2] + \sigma(t-1))^2
-\end{equation}
-On peut alors appliquer l'inégalité de Cauchy-Schwarz à cette expression :
-\begin{equation}
-\mathbb{E}[(\hat X_t - X_t)^2 \leq \mathbb{E}[||\hat\theta_t - \theta||^4]^{\frac{1}{2}} \mathbb{E}[||X_{t-1}||^4]^{\frac{1}{2}}
-\end{equation}
-Or par l'inégalité de Holder, on peut montrer facilement que si $f$ est mesurable et $f \in L^4$, alors $f \in L^2$. D'où l'expression voulue.
+Soit $t\in \iseg{1,T}$, alors d'après \eqref{eq:TVAR_compact} et \eqref{eq:predictor}
+\begin{align*}
+\EE[(\hat X_{t,T} - X_{t,T})^2] 
+&= \EE[\left((\hat\bftheta_{t-1,T} - \bftheta_{t-1,T})^T \mb{X}_{t-1,T} - \sigma_{t,T}\epsilon_t \right)^2] &\\
+&= \EE[\left((\hat\bftheta_{t-1,T} - \bftheta_{t-1,T})^T \mb{X}_{t-1,T} \right)^2 ] + \sigma^2_{t,T} & \mbox{(car $\epsilon_t \indep \ens{X_{s,T}, s \leq t-1}$)} \\
+&\leq \EE[\norm{\hat\bftheta_{t-1,T} - \bftheta_{t-1,T}}^2 \norm{\mb{X}_{t-1,T}}^2 ] + \sigma^2_{t,T} & \mbox{(Cauchy-Schwarz pour les vecteur)} \\
+&\leq \EE[\norm{\hat\bftheta_{t-1,T} - \bftheta_{t-1,T}}^4]^{1/2} \EE[\norm{\mb{X}_{t-1,T}}^4 ]^{1/2} + \sigma^2_{t,T} & \mbox{(Cauchy-Schwarz pour les variables aléatoires)} \\
+\end{align*}
 \end{proof}
-\chapter{Implémentations}
+\chapter{Implémentations}\label{chap:implemantations}
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
 \subsection{Cas d'un TVAR(1)}
 
 \bibliographystyle{plain}
 \bibliography{biblio}
-
 \end{document} 
