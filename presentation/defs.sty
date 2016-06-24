@@ -1,0 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		 latin abbreviations                  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ie}{{\em i.e.,~}}
+\newcommand{\eg}{{\em e.g.,~}}
+\newcommand{\lcf}{{\em cf.~}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  		 Style math                         %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\nset}{\mathbb{N}}
+\newcommand{\zset}{\mathbb{Z}}
+\newcommand{\rset}{\mathbb{R}}
+\newcommand{\cset}{\mathbb{C}}
+\newcommand{\qset}{\mathbb{Q}}
+\usepackage{xifthen}
+\newcommand{\EE}[1][]{%
+  \ifthenelse{\isempty{#1}}%
+    {\mathbb{E}}% if #1 is empty
+    {\mathbb{E}\left[#1\right]}% if #1 is not empty
+}
+
+\newcommand{\PP}[1][]{%
+  \ifthenelse{\isempty{#1}}%
+    {\mathbb{P}}% if #1 is empty
+    {\mathbb{P}\left(#1\right)}% if #1 is not empty
+}
+
+
+\def\1{\mathbf 1}
+\newcommand{\mb}{\mathbf}
+\newcommand{\ud}{\,\mathrm{d}} 
+\newcommand{\given}[1][{}]{\;\middle\vert\;{#1} }
+\def\indep{\perp\!\!\!\perp}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%        defintion symbols                        %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\deq}{\stackrel{\rm def}{=}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%        maths symbols                    	     %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsopn}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\Card}{Card}
+\DeclareMathOperator{\rg}{rg}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\vect}{vect}
+
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\pred}{pred}
+\DeclareMathOperator{\Id}{Id}
+
+\newcommand{\argmin}{\mathop{\mathrm{arg\,min}}}
+\newcommand{\argmax}{\mathop{\mathrm{arg\,max}}}
+\def\rang{\mathop{\rm rang}\nolimits}
+\def\Ker{\mathop{\rm Ker}\nolimits}
+\def\Im{\mathop{\rm Im}\nolimits}
+\def\Vect{\mathop{\rm Vect}\nolimits}
+\def\proj{\mathop{\rm proj}\nolimits}
+
+
+
+\def\dim{\mathop{\rm dim}\nolimits}
+\def\Var{\mathop{\rm Var}\nolimits}
+\def\Cov{\mathop{\rm Cov}\nolimits}
+
+\def\dom{\mathop{\rm dom}\nolimits}
+\def\supp{\mathop{\rm supp}\nolimits}
+\def\relint{\mathop{\rm relint}\nolimits}
+
+
+\def\bfr{\mathbf{r}}
+\def\bfx{\mathbf{x}}
+\def\bfy{\mathbf{y}}
+\def\bftheta{\boldsymbol{\theta}}
+
+
+\def \cN{\mathcal{N}}
+\def\calN{\cN}
+\def\calL{\mathcal{L}}
+\def\calM{\mathcal{M}}
+\def\calH{\mathcal{H}}
+\def \SSE{\text{SSE}}
+
+\newcommand{\tnorm}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}} % triple norm
+
+\newcommand{\inner}[1]{{
+\left\langle #1 \right\rangle}} % inner product
+
+\newcommand{\norm}[1]{{
+\left\| #1 \right\|}} % norm
+
+\newcommand{\abs}[1]{{
+\left| #1 \right|}} % abs
+
+\newcommand{\piecewise}[1]{{
+\left\lbrace \begin{array}{ll} #1 \end{array} \right. }} % for piecewise functions
+
+\newcommand{\seg}[1]{{\left[ #1 \right]}} % closed segment [ ]
+\newcommand{\osego}[1]{{\left] #1 \right[}} % open segment ] [
+\newcommand{\oseg}[1]{{\left] #1 \right]}} % semi-open segment ] ]
+\newcommand{\sego}[1]{{\left[ #1 \right[}} % semi-open segment [ [
+\newcommand{\iseg}[1]{{\left\llbracket #1 \right\rrbracket}} % integer segment
+
+\newcommand{\ens}[1]{{
+\left\lbrace #1 \right\rbrace }} % ensemble
+
+\newcommand{\floor}[1]{{
+\left\lfloor #1 \right\rfloor }} % floor
