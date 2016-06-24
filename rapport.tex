@@ -100,11 +100,19 @@ $$
 \end{bmatrix}
 $$
 Remarquons le lemme suivant :
-\begin{Lem}\label{lem:Gamma_non_inv}
-Il existe $t \in \zset$ tel que $X_t \in \Vect(X_{t-1},\cdots,X_{t-p+1})$ si et seulement si $\Gamma_p$ est non inversible
+\begin{Lem}\label{lem:Gamma_non_inv}~\\
+\begin{enumerate}
+\item $\forall t \in \zset$ on a $\Gamma_p$ est inversible si et seulement si $(X_t,\cdots,X_{t-p+1})$ est libre
+\item $p_0 = \min\ens{k \geq 1, \Gamma_{k+1} \mbox{ non inversible}}  \iff X_{p_0} \in \Vect(X_0,\cdots,X_{p_0-1}) \mbox{ et } (X_0,\cdots,X_{p_0-1})$ est libre.
+\end{enumerate}
 \end{Lem}
-\begin{proof}
+\begin{proof}~\\
+\begin{enumerate}
+\item
 En effet $\Gamma_p$ est la matrice de Gram de $(X_t,\cdots,X_{t-p+1})$ associée au produit scalaire $\inner{X,Y} = \EE[X\overline{Y}]$ qui est inversible si et seulement si $(X_t,\cdots,X_{t-p+1})$ est libre. 
+\item 
+$\Gamma_{p_0+1}$ n'est pas inversible donc $(X_0,\cdots,X_{p_0})$ est liée i.e il existe $(\alpha_0,\cdots,\alpha_{p_0})\neq (0,\cdots,0)$ tel que $\sum_{k=0}^{p_0} \alpha_k X_k = 0$. Mais $\Gamma_{p_0}$ est inversible donc $(X_0,\cdots,X_{p_0-1})$ est libre. Ainsi $\alpha_{p_0} \neq 0$ et donc $X_{p_0} = -\sum_{k=0}^{p_0-1} \frac{\alpha_k}{\alpha_0} X_k  \in \Vect(X_0,\cdots,X_{p_0-1})$
+\end{enumerate}
 \end{proof}
 \begin{Def}[coefficients de prédiction]
 On note pour tout $p\geq 1$, pour tout $k\in \iseg{1,p}$, $\theta_{k,p}$ les coefficients de prédiction direct d'ordre $p$ de $X_t$ à partir de son passé et $\sigma_p^2$ l'erreur de prédiction i.e 
@@ -172,18 +180,14 @@ Soit $k\geq 1$. Si pour tout $k\in \iseg{1,p}, \kappa_k \in \osego{-1,1}$ alors 
 \end{Prop}
 \begin{proof}
 On raisonne par contraposée, supposons que $\Gamma_{p+1}$ n'est pas inversible et montrons qu'il existe $p_0\in \iseg{1,p}$ tel que $\abs{\kappa_{p_0}} = 1$. \\
-Par le lemme \ref{lem:Gamma_non_inv}, le fait que $\Gamma_{p+1}$ soit non inversible implique qu'il existe $t\in \zset$ tel que $X_t \in \calH^X_{t-1,p}$. \\
-On sait que $\forall k \in \iseg{1,p}, \calH^X_{t-1,k} \subset \calH^X_{t-1,k+1} \subset \cdots \subset \calH^X_{t-1,p}$. Il existe donc $p_0\in \iseg{1,p}$ tel que 
+On utilise le lemme \ref{lem:Gamma_non_inv}, soit $p_0 = \min\ens{k \in \iseg{1,p}, \Gamma_{k+1} \mbox{ non inversible}}$ alors $X_{p_0} \in \Vect(X_0,\cdots,X_{p_0-1}) = \calH^X_{p_0-1,p_0}$.
+On a alors
 $$
-X_t \in \calH^X_{t-1,p_0} \mbox{ et } X_t \notin \calH^X_{t-1,p_0-1}
+X_{p_0} = \proj(X_{p_0}|\calH^X_{p_0-1,p_0}) = \sum_{k=1}^{p_0} \theta_{k,p_0} X_{p_0-k} = \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{p_0-k} + \kappa_{p_0} X_0
 $$
-(avec la convention $\calH^X_{t-1,0} = \emptyset$). On a alors
+avec $\kappa_{p_0} \neq 0$ car sinon on aurait $X_{p_0} \in \calH^X_{p_0-1,p_0-1}$ donc $\Gamma_{p_0}$ non inversible. Ainsi
 $$
-X_t = \proj(X_t|\calH^X_{t-1,p_0}) = \sum_{k=1}^{p_0} \theta_{k,p_0} X_{t-k} = \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{t-k} + \kappa_{p_0} X_{t-p_0}
-$$
-avec $\kappa_{p_0} \neq 0$ car sinon on aurait $X_t \in \calH^X_{t-1,p_0-1}$. Donc 
-$$
-X_t - \proj(X_t|\calH^X_{t-1,p_0-1}) = X_t - \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{t-k} - \kappa_{p_0} \proj(X_{t-p_0}|\calH^X_{t-1,p_0-1}) = \kappa_{p_0} \left[ X_{t-p_0} - \proj(X_{t-p_0}|\calH^X_{t-1,p_0-1}) \right]
+X_{p_0} - \proj(X_{p_0}|\calH^X_{p_0-1,p_0-1}) = X_{p_0} - \sum_{k=1}^{p_0-1} \theta_{k,p_0} X_{p_0-k} - \kappa_{p_0} \proj(X_0|\calH^X_{p_0-1,p_0-1}) = \kappa_{p_0} \left[ X_0 - \proj(X_0|\calH^X_{p_0-1,p_0-1}) \right]
 $$
 On se trouve donc dans le cas d'égalité de Cauchy-Schwartz pour le produit scalaire de la définition de $\kappa_{p_0}$ ce qui implique $\abs{\kappa_{p_0}} = 1$
 \end{proof}

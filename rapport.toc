@@ -4,34 +4,30 @@
 \contentsline {section}{\numberline {1.1}Construction d'une solution stationnaire au second ordre}{2}{section.1.1}
 \contentsline {section}{\numberline {1.2}Pr\IeC {\'e}diction}{3}{section.1.2}
 \contentsline {section}{\numberline {1.3}Algorithme de Levinson-Durbin}{3}{section.1.3}
-\contentsline {section}{\numberline {1.4}Densit\IeC {\'e} spectrale de puissance}{6}{section.1.4}
-\contentsline {paragraph}{Cas particulier o\IeC {\`u} p=1 :}{6}{section*.4}
-\contentsline {paragraph}{Cas particulier o\IeC {\`u} p=2 \IeC {\`a} racines complexes conjugu\IeC {\'e}es :}{6}{section*.5}
-\contentsline {chapter}{\numberline {2}Processus TVAR}{8}{chapter.2}
-\contentsline {section}{\numberline {2.1}Construction d'une solution stable}{8}{section.2.1}
-\contentsline {paragraph}{Equation TVAR :}{8}{section*.6}
-\contentsline {paragraph}{Condition de stabilit\IeC {\'e} :}{8}{section*.8}
-\contentsline {subsection}{\numberline {2.1.1}Cas simple}{8}{subsection.2.1.1}
-\contentsline {subsubsection}{Cas o\IeC {\`u} p=1}{9}{section*.10}
-\contentsline {subsubsection}{Cas p quelconque}{9}{section*.11}
-\contentsline {paragraph}{Cons\IeC {\'e}quence :}{9}{section*.12}
-\contentsline {subsection}{\numberline {2.1.2}Cas g\IeC {\'e}n\IeC {\'e}ral avec p=1}{10}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Contre-exemple avec p=2}{11}{subsection.2.1.3}
-\contentsline {subsection}{\numberline {2.1.4}Cas g\IeC {\'e}n\IeC {\'e}ral}{12}{subsection.2.1.4}
-\contentsline {section}{\numberline {2.2}Pr\IeC {\'e}diction sur un TVAR}{12}{section.2.2}
-\contentsline {paragraph}{D\IeC {\'e}tail pratique pour l'impl\IeC {\'e}mentation :}{12}{section*.16}
-\contentsline {subsection}{\numberline {2.2.1}Impl\IeC {\'e}mentation d'un TVAR}{13}{subsection.2.2.1}
-\contentsline {paragraph}{Coefficients AR abstraits associ\IeC {\'e}s}{13}{section*.17}
-\contentsline {subsection}{\numberline {2.2.2}D\IeC {\'e}finition du pr\IeC {\'e}dicteur TVAR}{13}{subsection.2.2.2}
-\contentsline {paragraph}{Notations :}{14}{section*.19}
-\contentsline {subsection}{\numberline {2.2.3}Analyse en densit\IeC {\'e} spectrale de puissance}{14}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Agr\IeC {\'e}gation des pr\IeC {\'e}dicteurs}{15}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}Algorithme et strat\IeC {\'e}gies}{15}{subsection.2.3.1}
-\contentsline {paragraph}{Strat\IeC {\'e}gie 1 : \IeC {\`a} partir du gradient de l'erreur quadratique}{15}{section*.20}
-\contentsline {paragraph}{Strat\IeC {\'e}gie 2 : \IeC {\`a} partir de l'erreur quadratique}{15}{section*.21}
-\contentsline {paragraph}{Strat\IeC {\'e}gie 1 : Gradient de l'erreur quadratique}{16}{section*.22}
-\contentsline {paragraph}{Strat\IeC {\'e}gie 2 : Erreur quadratique}{16}{section*.23}
-\contentsline {subsection}{\numberline {2.3.2}Comparaison des risques d'estimation et d'agr\IeC {\'e}gation}{16}{subsection.2.3.2}
-\contentsline {chapter}{\numberline {3}Impl\IeC {\'e}mentations}{17}{chapter.3}
-\contentsline {section}{\numberline {3.1}Etude spectrale sur un TVAR(1) et un TVAR(2) \IeC {\`a} partir des racines}{17}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Cas d'un TVAR(1)}{17}{subsection.3.1.1}
+\contentsline {section}{\numberline {1.4}Densit\IeC {\'e} spectrale de puissance}{7}{section.1.4}
+\contentsline {chapter}{\numberline {2}Processus TVAR}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Construction d'une solution stable}{9}{section.2.1}
+\contentsline {paragraph}{Equation TVAR :}{9}{section*.4}
+\contentsline {paragraph}{Condition de stabilit\IeC {\'e} :}{9}{section*.6}
+\contentsline {subsection}{\numberline {2.1.1}Cas simple}{9}{subsection.2.1.1}
+\contentsline {subsubsection}{Cas o\IeC {\`u} p=1}{10}{section*.8}
+\contentsline {subsubsection}{Cas p quelconque}{10}{section*.9}
+\contentsline {paragraph}{Cons\IeC {\'e}quence :}{10}{section*.10}
+\contentsline {subsection}{\numberline {2.1.2}Cas g\IeC {\'e}n\IeC {\'e}ral avec p=1}{11}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Contre-exemple avec p=2}{12}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Cas g\IeC {\'e}n\IeC {\'e}ral}{13}{subsection.2.1.4}
+\contentsline {section}{\numberline {2.2}Pr\IeC {\'e}diction sur un TVAR}{14}{section.2.2}
+\contentsline {paragraph}{D\IeC {\'e}tail pratique pour l'impl\IeC {\'e}mentation :}{14}{section*.14}
+\contentsline {subsection}{\numberline {2.2.1}Impl\IeC {\'e}mentation d'un TVAR}{14}{subsection.2.2.1}
+\contentsline {paragraph}{Coefficients AR abstraits associ\IeC {\'e}s}{14}{section*.15}
+\contentsline {subsection}{\numberline {2.2.2}D\IeC {\'e}finition du pr\IeC {\'e}dicteur TVAR}{14}{subsection.2.2.2}
+\contentsline {paragraph}{Notations :}{15}{section*.17}
+\contentsline {subsection}{\numberline {2.2.3}Analyse en densit\IeC {\'e} spectrale de puissance}{15}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Agr\IeC {\'e}gation des pr\IeC {\'e}dicteurs}{16}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Algorithme et strat\IeC {\'e}gies}{16}{subsection.2.3.1}
+\contentsline {paragraph}{Strat\IeC {\'e}gie 1 : \IeC {\`a} partir du gradient de l'erreur quadratique}{16}{section*.18}
+\contentsline {paragraph}{Strat\IeC {\'e}gie 2 : \IeC {\`a} partir de l'erreur quadratique}{16}{section*.19}
+\contentsline {subsection}{\numberline {2.3.2}Comparaison des risques d'estimation et d'agr\IeC {\'e}gation}{18}{subsection.2.3.2}
+\contentsline {chapter}{\numberline {3}Impl\IeC {\'e}mentations}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}Etude spectrale sur un TVAR(1) et un TVAR(2) \IeC {\`a} partir des racines}{19}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Cas d'un TVAR(1)}{19}{subsection.3.1.1}
