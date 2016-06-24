@@ -40,7 +40,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%        defintion symbols                        %%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\deq}{\stackrel{def}{=}}
+\newcommand{\deq}{\stackrel{\rm def}{=}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,6 +65,7 @@
 \def\Ker{\mathop{\rm Ker}\nolimits}
 \def\Im{\mathop{\rm Im}\nolimits}
 \def\Vect{\mathop{\rm Vect}\nolimits}
+\def\proj{\mathop{\rm proj}\nolimits}
 
 
 
@@ -75,8 +76,6 @@
 \def\dom{\mathop{\rm dom}\nolimits}
 \def\supp{\mathop{\rm supp}\nolimits}
 \def\relint{\mathop{\rm relint}\nolimits}
-
-
 
 
 \def\bfr{\mathbf{r}}
@@ -102,16 +101,16 @@
 \left\| #1 \right\|}} % norm
 
 \newcommand{\abs}[1]{{
-\left| #1 \right|}} % norm
+\left| #1 \right|}} % abs
 
 \newcommand{\piecewise}[1]{{
 \left\lbrace \begin{array}{ll} #1 \end{array} \right. }} % for piecewise functions
 
-\newcommand{\seg}[1]{{
-\left[ #1 \right]}} % segment
-
-\newcommand{\iseg}[1]{{
-\left\llbracket #1 \right\rrbracket}} % integer segment
+\newcommand{\seg}[1]{{\left[ #1 \right]}} % closed segment [ ]
+\newcommand{\osego}[1]{{\left] #1 \right[}} % open segment ] [
+\newcommand{\oseg}[1]{{\left] #1 \right]}} % semi-open segment ] ]
+\newcommand{\sego}[1]{{\left[ #1 \right[}} % semi-open segment [ [
+\newcommand{\iseg}[1]{{\left\llbracket #1 \right\rrbracket}} % integer segment
 
 \newcommand{\ens}[1]{{
 \left\lbrace #1 \right\rbrace }} % ensemble
