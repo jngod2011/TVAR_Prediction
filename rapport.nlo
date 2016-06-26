@@ -1,2 +1,23 @@
-\nomenclatureentry{a$c$@[{$c$}]\begingroup Speed of light in a vacuum inertial frame\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{a$h$@[{$h$}]\begingroup Planck constant\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,01$\rset$@[{$\rset$}]\begingroup Nombres réels\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,02$\cset$@[{$\cset$}]\begingroup Nombres complexes\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,03$\nset$@[{$\nset$}]\begingroup Entiers positifs ou nuls\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,04$\zset$@[{$\zset$}]\begingroup Entiers relatifs\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,05$\ell^1(J)$@[{$\ell^1(J)$}]\begingroup Ensemble des suites sommables indexées sur $J$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,06$\iseg{p,q}$@[{$\iseg{p,q}$}]\begingroup  $\ens{p,p+1,\cdots, q}$ \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,07$\overline{A}$@[{$\overline{A}$}]\begingroup Adhérence de $A$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{E,08$\Vect(A)$@[{$\Vect(A)$}]\begingroup Espace vectoriel engendré par $A$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,01$\EE$@[{$\EE$}]\begingroup Espérance\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,02$\EE_\lambda$@[{$\EE_\lambda$}]\begingroup Espérance sous le paramètre $\lambda$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,03$\PP$@[{$\PP$}]\begingroup Probabilité\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,04$\delta$@[{$\delta$}]\begingroup Opérateur de Kronecker (sauf mention du contraire)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,05$\star$@[{$\star$}]\begingroup Convolution\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,06$BB(0,\sigma^2)$@[{$BB(0,\sigma^2)$}]\begingroup Bruit blanc de variance $\sigma^2$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,07$\proj(x|E)$@[{$\proj(x|E)$}]\begingroup Projection linéaire du vecteur $x$ sur l'espace vectoriel fermé, convexe $E$ i.e l'unique élément de $E$ qui atteint $\inf_{z\in E} \norm{x-z}$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,08i.i.d@[{i.i.d}]\begingroup Indépendants et identiquement distribués\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,09$\stackrel{\rm{iid}}{\sim}$@[{$\stackrel{\rm{iid}}{\sim}$}]\begingroup Suit de manière i.i.d\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{P,10$\norm{X}_p$@[{$\norm{X}_p$}]\begingroup Norme $p$ pour les variables aléatoires : $\EE[\norm{X}^p]^{1/p}$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{A$\mb{x}^T$@[{$\mb{x}^T$}]\begingroup Transposée du vecteur $\mb{x}$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{A$\overline{z}$@[{$\overline{z}$}]\begingroup Conjugué du complexe $z$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{A$\inner{.,.}$@[{$\inner{.,.}$}]\begingroup Produit scalaire\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{A$\tnorm{A}$@[{$\tnorm{A}$}]\begingroup Norme subordonnée\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{A$\rho(A)$@[{$\rho(A)$}]\begingroup Rayon spectral\nomeqref {0}|nompageref}{1}

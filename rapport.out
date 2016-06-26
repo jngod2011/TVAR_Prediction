@@ -1,21 +1,23 @@
-\BOOKMARK [0][-]{chapter.1}{Rappels sur les processus AR}{}% 1
-\BOOKMARK [1][-]{section.1.1}{Construction d'une solution stationnaire au second ordre}{chapter.1}% 2
-\BOOKMARK [1][-]{section.1.2}{Pr\351diction}{chapter.1}% 3
-\BOOKMARK [1][-]{section.1.3}{Algorithme de Levinson-Durbin}{chapter.1}% 4
-\BOOKMARK [1][-]{section.1.4}{Densit\351 spectrale de puissance}{chapter.1}% 5
-\BOOKMARK [0][-]{chapter.2}{Processus TVAR}{}% 6
-\BOOKMARK [1][-]{section.2.1}{Construction d'une solution stable}{chapter.2}% 7
-\BOOKMARK [2][-]{subsection.2.1.1}{Cas simple}{section.2.1}% 8
-\BOOKMARK [2][-]{subsection.2.1.2}{Cas g\351n\351ral avec p=1}{section.2.1}% 9
-\BOOKMARK [2][-]{subsection.2.1.3}{Contre-exemple avec p=2}{section.2.1}% 10
-\BOOKMARK [2][-]{subsection.2.1.4}{Cas g\351n\351ral}{section.2.1}% 11
-\BOOKMARK [1][-]{section.2.2}{Pr\351diction sur un TVAR}{chapter.2}% 12
-\BOOKMARK [2][-]{subsection.2.2.1}{Impl\351mentation d'un TVAR}{section.2.2}% 13
-\BOOKMARK [2][-]{subsection.2.2.2}{D\351finition du pr\351dicteur TVAR}{section.2.2}% 14
-\BOOKMARK [2][-]{subsection.2.2.3}{Analyse en densit\351 spectrale de puissance}{section.2.2}% 15
-\BOOKMARK [1][-]{section.2.3}{Agr\351gation des pr\351dicteurs}{chapter.2}% 16
-\BOOKMARK [2][-]{subsection.2.3.1}{Algorithme et strat\351gies}{section.2.3}% 17
-\BOOKMARK [2][-]{subsection.2.3.2}{Comparaison des risques d'estimation et d'agr\351gation}{section.2.3}% 18
-\BOOKMARK [0][-]{chapter.3}{Impl\351mentations}{}% 19
-\BOOKMARK [1][-]{section.3.1}{Etude spectrale sur un TVAR\(1\) et un TVAR\(2\) \340 partir des racines}{chapter.3}% 20
-\BOOKMARK [2][-]{subsection.3.1.1}{Cas d'un TVAR\(1\)}{section.3.1}% 21
+\BOOKMARK [0][-]{chapter*.2}{Notations}{}% 1
+\BOOKMARK [0][-]{chapter.1}{Rappels sur les processus AR}{}% 2
+\BOOKMARK [1][-]{section.1.1}{Construction d'une solution stationnaire au second ordre}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.2}{Pr\351diction}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.3}{Algorithme de Levinson-Durbin}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.4}{Densit\351 spectrale de puissance}{chapter.1}% 6
+\BOOKMARK [0][-]{chapter.2}{Processus TVAR}{}% 7
+\BOOKMARK [1][-]{section.2.1}{Construction d'une solution stable}{chapter.2}% 8
+\BOOKMARK [2][-]{subsection.2.1.1}{Cas simple}{section.2.1}% 9
+\BOOKMARK [2][-]{subsection.2.1.2}{Cas g\351n\351ral avec p=1}{section.2.1}% 10
+\BOOKMARK [2][-]{subsection.2.1.3}{Contre-exemple avec p=2}{section.2.1}% 11
+\BOOKMARK [2][-]{subsection.2.1.4}{Cas g\351n\351ral}{section.2.1}% 12
+\BOOKMARK [1][-]{section.2.2}{Pr\351diction sur un TVAR}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.2.1}{Impl\351mentation d'un TVAR}{section.2.2}% 14
+\BOOKMARK [2][-]{subsection.2.2.2}{D\351finition du pr\351dicteur TVAR}{section.2.2}% 15
+\BOOKMARK [2][-]{subsection.2.2.3}{Analyse en densit\351 spectrale de puissance}{section.2.2}% 16
+\BOOKMARK [1][-]{section.2.3}{Agr\351gation des pr\351dicteurs}{chapter.2}% 17
+\BOOKMARK [2][-]{subsection.2.3.1}{Algorithme et strat\351gies}{section.2.3}% 18
+\BOOKMARK [2][-]{subsection.2.3.2}{Comparaison des risques d'estimation et d'agr\351gation}{section.2.3}% 19
+\BOOKMARK [0][-]{chapter.3}{Impl\351mentations}{}% 20
+\BOOKMARK [1][-]{section.3.1}{Etude spectrale sur un TVAR\(1\) et un TVAR\(2\) \340 partir des racines}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.1.1}{Cas d'un TVAR\(1\)}{section.3.1}% 22
+\BOOKMARK [0][-]{section*.20}{Bibliographie}{}% 23

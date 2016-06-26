@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{Dahlhaus:1996}
+R.~Dahlhaus.
+\newblock On the {K}ullback-{L}eibler information divergence of locally
+  stationary processes.
+\newblock {\em Stochastic Process. Appl.}, 62(1):139--168, 1996.
+
+\bibitem{giraud-roueff-sanchez-aos2015}
+Christophe Giraud, Fran{\c c}ois Roueff, and Andres Sanchez-Perez.
+\newblock Aggregation of predictors for non stationary sub-linear processes and
+  online adaptive forecasting of time varying autoregressive processes.
+\newblock {\em Ann. Statist.}, 43(6):2412–2450, 2015.
+\newblock Available at \href{http://arxiv.org/abs/1404.6769}{[arXiv]}.
+
+\bibitem{moulines-priouret-roueff-2005}
+E.~Moulines, P.~Priouret, and F.~Roueff.
+\newblock On recursive estimation for time varying autoregressive processes.
+\newblock {\em Ann. Statist.}, 33(6):2610--2654, 2005.
+\newblock available at \href{http://arxiv.org/abs/math/0603047}{[arXiv]}.
+
+\end{thebibliography}

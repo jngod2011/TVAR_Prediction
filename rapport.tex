@@ -4,20 +4,85 @@
 \usepackage[intoc,french]{nomencl}
 \makenomenclature
 \renewcommand{\nomname}{Notations}
+\usepackage{etoolbox}
+
 \input{defs.sty}
 \input{init.sty}
 \title{SIGMA205 : Prédiction d'une série temporelle localement
 stationnaire}
 \author{Thomas EBOLI et Amaury DURAND}
 \begin{document}
-\maketitle
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.15\textwidth]{TelecomParisTech_logo_100_01}\par\vspace{1cm}
+	{\scshape\LARGE Télécom ParisTech \par}
+	\vspace{1cm}
+	{\scshape\Large SIGMA205 \par}
+	\vspace{1.5cm}
+	{\huge\bfseries Prédiction d'une série temporelle localement
+stationnaire \par}
+	\vspace{2cm}
+	\vfill
+	% Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Thomas \textsc{Eboli}\\
+        Amaury \textsc{Durand}\\
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{tabular}{lr} \large
+        \emph{Encadrant :} & François \textsc{Roueff}\\
+        \large \emph{Jury :} & Yves \textsc{Grenier} \\ 
+         & 	François \textsc{Roueff} \\ 
+         &	Slim \textsc{Essid}
+      \end{tabular}
+    \end{minipage}
+
+    \vfill
+
+% Bottom of the page
+	{\large 30 juin 2016 \par}
+\end{titlepage}
+
 \begin{abstract}
 Ce compte rendu vise à présentes certains résultats théoriques concernant processus TVAR et leur prédiction. Les résultats énoncés sont en grande partie basés sur \cite{giraud-roueff-sanchez-aos2015} et \citep{moulines-priouret-roueff-2005}. Le chapitre \ref{chap:AR} fournit de brefs rappels sur les processus AR du cours SIGMA202a ainsi que certaines propriétés supplémentaires. Dans le chapitre \ref{chap:TVAR}, on présente comment construire des processus TVAR vérifiant une certaine condition de stabilité dans un cas simple puis dans le cas général. Ensuite on définit un estimateur des coefficients TVAR et un prédicteur associé, on présente les résultats sur les erreurs d'estimation. Enfin on applique la méthode d'agrégation à ces prédicteurs. Le chapitre \ref{chap:implemantations} présente les résultats expérimentaux obtenus le long de ce projet.
 \end{abstract}
 \tableofcontents
 %%%%%%%%%%%%%%%%%%%%% NOTATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nomenclature{$c$}{Speed of light in a vacuum inertial frame}
-\nomenclature{$h$}{Planck constant}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{E}{Ensembles}{%
+  \ifstrequal{#1}{P}{Notations probabilistes et de traitement du signal}{%
+  \ifstrequal{#1}{A}{Généralités}{}}}%
+]}
+\nomenclature[E,01]{$\rset$}{Nombres réels}
+\nomenclature[E,02]{$\cset$}{Nombres complexes}
+\nomenclature[E,03]{$\nset$}{Entiers positifs ou nuls}
+\nomenclature[E,04]{$\zset$}{Entiers relatifs}
+\nomenclature[E,05]{$\ell^1(J)$}{Ensemble des suites sommables indexées sur $J$}
+\nomenclature[E,06]{$\iseg{p,q}$}{ $\ens{p,p+1,\cdots, q}$ }
+\nomenclature[E,07]{$\overline{A}$}{Adhérence de $A$}
+\nomenclature[E,08]{$\Vect(A)$}{Espace vectoriel engendré par $A$}
+
+\nomenclature[P,01]{$\EE$}{Espérance}
+\nomenclature[P,02]{$\EE_\lambda$}{Espérance sous le paramètre $\lambda$}
+\nomenclature[P,03]{$\PP$}{Probabilité}
+\nomenclature[P,04]{$\delta$}{Opérateur de Kronecker (sauf mention du contraire)}
+\nomenclature[P,05]{$\star$}{Convolution}
+\nomenclature[P,06]{$BB(0,\sigma^2)$}{Bruit blanc de variance $\sigma^2$}
+\nomenclature[P,07]{$\proj(x|E)$}{Projection linéaire du vecteur $x$ sur l'espace vectoriel fermé, convexe $E$ i.e l'unique élément de $E$ qui atteint $\inf_{z\in E} \norm{x-z}$}
+\nomenclature[P,08]{i.i.d}{Indépendants et identiquement distribués}
+\nomenclature[P,09]{$\stackrel{\rm{iid}}{\sim}$}{Suit de manière i.i.d}
+\nomenclature[P,10]{$\norm{X}_p$}{Norme $p$ pour les variables aléatoires : $\EE[\norm{X}^p]^{1/p}$}
+
+\nomenclature[A]{$\mb{x}^T$}{Transposée du vecteur $\mb{x}$}
+\nomenclature[A]{$\overline{z}$}{Conjugué du complexe $z$}
+\nomenclature[A]{$\inner{.,.}$}{Produit scalaire}
+\nomenclature[A]{$\tnorm{A}$}{Norme subordonnée}
+\nomenclature[A]{$\rho(A)$}{Rayon spectral}
+
+
 \printnomenclature
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Rappels sur les processus AR}\label{chap:AR}
@@ -36,9 +101,9 @@ Alors il existe une solution stationnaire au second ordre de \eqref{eq:AR}
 \begin{proof}
 Pour prouver cela on a besoin du lemme suivant :
 \begin{Lem}
-Pour $\alpha \in \ell^1$ et $X$ un processus tel que $\sup_t \EE[|X_t|] < +\infty$ on appelle filtrage de $X$ le processus : 
+Pour $\alpha \in \ell^1(\zset)$ et $X$ un processus tel que $\sup_t \EE[|X_t|] < +\infty$ on appelle filtrage de $X$ le processus : 
 \[ F_\alpha(X) = \left( \sum_{k\in \zset} \alpha_k X_{t-k} \right)_{t\in \zset} \]
-Alors si $\alpha,\beta \in \ell^1$ on a $F_\alpha (F_\beta (X)) = X$ si $\alpha \star \beta = \delta$ \\
+Alors si $\alpha,\beta \in \ell^1(\zset)$ on a $F_\alpha (F_\beta (X)) = X$ si $\alpha \star \beta = \delta$ \\
 De plus $\alpha \star \beta = \delta \iff \forall |z|=1 \, \left( \sum_{z\in \zset} \alpha_k z^k \right) \left( \sum_{z\in \zset} \beta_k z^k \right) =1 $ \\
 Enfin si $X$ est stationnaire au second ordre $F(X)$ l'est aussi.
 \end{Lem}
@@ -78,13 +143,13 @@ X = F(\epsilon)
 \begin{Prop}
 On se donne $X$ stationnaire au second ordre vérifiant \eqref{eq:AR}. On suppose de plus que $X$ est causal i.e $\Theta(z) \neq 0$ pour tout $|z| \leq 1$
 On note $\mathcal{H}_t^X = \overline{\mathrm{Vect}\ens{X_s, s\leq t}}$. Alors
-\[ \hat{X}_{t+1} = proj(X_{t+1} | \mathcal{H}_t^X ) = \sum_{k=1}^p \theta_k X_{t+1-k} \]
+\[ \hat{X}_{t+1} = \proj(X_{t+1} | \mathcal{H}_t^X ) = \sum_{k=1}^p \theta_k X_{t+1-k} \]
 \end{Prop}
 \begin{proof}
 $X_{t+1} = \sum_{k=1}^p \theta_k X_{t+1-k} +\epsilon_{t+1}$ de plus $\forall k \in \llbracket 1,p \rrbracket \, X_{t+1-k} \in \mathcal{H}_t^X$ donc
-\[ \hat{X}_{t+1} = \sum_{k=1}^p \theta_k X_{t+1-k} + proj(\epsilon_{t+1} | \mathcal{H}_t^X ) \]
+\[ \hat{X}_{t+1} = \sum_{k=1}^p \theta_k X_{t+1-k} + \proj(\epsilon_{t+1} | \mathcal{H}_t^X ) \]
 Or $X$ est causal donc dans la construction de $X$ (cf preuve d'avant) on a $\Theta(z)= \prod_{l=1}^p (1-u_l z)$ où $\forall l |u_l|<1$ ainsi les $\beta^{(l)}$ correspondants sont tous à support dans $\nset$ ce qui entraine que $\psi = \beta^{(p)} \star \cdots \star \beta^{(1)}$ est aussi à support dans $\nset$ et donc 
-\[ X_t = \sum_{k=0}^{+\infty} \psi_k \epsilon_{t-k}\] On en déduit que $\mathcal{H}_t^X = \mathcal{H}_t^\epsilon$ et donc comme $\epsilon$ est un bruit blanc $proj(\epsilon_{t+1} | \mathcal{H}_t^X ) = proj(\epsilon_{t+1} | \mathcal{H}_t^\epsilon ) = 0$ d'où la solution
+\[ X_t = \sum_{k=0}^{+\infty} \psi_k \epsilon_{t-k}\] On en déduit que $\mathcal{H}_t^X = \mathcal{H}_t^\epsilon$ et donc comme $\epsilon$ est un bruit blanc $\proj(\epsilon_{t+1} | \mathcal{H}_t^X ) = \proj(\epsilon_{t+1} | \mathcal{H}_t^\epsilon ) = 0$ d'où la solution
 \end{proof}
 
 \section{Algorithme de Levinson-Durbin}
@@ -571,7 +636,6 @@ $$
 On a alors que le processus $Y_t = X_{2t+1}$ suit l'équation d'un AR(1) dont la condition de stabilité implique :
 \begin{equation} \label{eq:racines}
 |ab_1 + b_2| < 1
-\tag{*}
 \end{equation}
 
 D'autre part, le polynôme caractéristique associé est $P(z) = 1 - b_1 z - b_2 z^2$. Posons $P(z) = (1-bz)^2$. On a alors $b_1 = 2b$ et $b_2 = -b^2$.
@@ -776,7 +840,7 @@ En appliquant la proposition \ref{prop:racines_phase}, à chaque instant les mod
 \subsection{Algorithme et stratégies}
 On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne $T$ observations du processus $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
 \begin{Def}[Agrégation]
-Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $1\leq t \leq T$
+Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $t\in \iseg{1,T}$
 \begin{itemize}
 \item Choisir $\alpha_t=(\alpha_{1,t},\cdots,\alpha_{N,t})\in S_N = \ens{\alpha \in \rset_+^N, \sum_{i=1}^N \alpha_{i} = 1}$ 
 \item Calculer le nouvel estimateur $\hat{X}_{t,T} = \hat{X}_{t,T}^{[\alpha_t]} = \sum_{i=1}^N \alpha_{i,t} \hat{X}_{t,T}^{(i)}$
@@ -829,7 +893,7 @@ La construction du prédicteur à partir de ces stratégies est fournit par l'al
 \end{algorithm}
 
 Le choix de la stratégie pour mettre à jour les coefficients $\alpha^{i}$ a une importance sur le prédicteur que l'on souhaite atteindre. En effet la borne de l'erreur n'est pas la même dans les deux cas. Les preuves de ces bornes sont prouvées dans \citep{giraud-roueff-sanchez-aos2015} et résumées dans le théorème suivant \\
-\begin{Thm}[Performances du prédicteur pas agrégation]\label{thm:pred_majo} Soit $(X_{t,T})_{1\leq t \leq T}$ un processus TVAR vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}, soit $\ens{(\hat{X}_{t,T}^{(i)})_{1\leq t \leq T}, 1\leq i \leq N}$ une famille de prédicteurs de $X_{t,T}$ à partir de son passé vérifiant $\forall t\in \iseg{1,T}, \abs{\hat{X}_{t,T}^{(i)}} \leq \sum_{s\geq 1} L_s^{(i)} \abs{X_{t-s,T}}$ avec $L_s^{(i)} \geq 0$ et $\sum_{s\geq 1} L_s^{(i)} < +\infty$. \\
+\begin{Thm}[Performances du prédicteur pas agrégation]\label{thm:pred_majo} Soit $(X_{t,T})_{1\leq t \leq T}$ un processus TVAR vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}, soit $\ens{(\hat{X}_{t,T}^{(i)})_{1\leq t \leq T}, 1\leq i \leq N}$ une famille de prédicteurs de $X_{t,T}$ à partir de son passé vérifiant \\ $\forall t\in \iseg{1,T}, \abs{\hat{X}_{t,T}^{(i)}} \leq \sum_{s\geq 1} L_s^{(i)} \abs{X_{t-s,T}}$ avec $L_s^{(i)} \geq 0$ et $\sum_{s\geq 1} L_s^{(i)} < +\infty$. \\
 On note $(\hat{X}_{t,T})_{1\leq t \leq T}$ l'estimateur par agrégation obtenu selon le cas avec les poids de la stratégie 1 ou de la stratégie 2. Alors 
 \begin{description}
 \item{\underline{Stratégie 1 :}} Si $\epsilon$ vérifie $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^4] < +\infty$ on a 
@@ -849,20 +913,20 @@ Voir \citep{giraud-roueff-sanchez-aos2015}. Remarquons tout de même que nous av
 \end{proof}
 \begin{Cor} On se place sous les hypothèses du théorème \ref{thm:pred_majo}. 
 \begin{description}
-\item{\underline{Stratégie 1 :}} Si on prend $\eta = \left(\frac{\log N}{2TC_4} \right)^{1/2}$ alors quand $T\to +\infty$, la stratégie donne au mieux le meilleur estimateur par agrégation possible par combinaison convexe dans le simplexe $S_N$.
-\item{\underline{Stratégie 2 :}} Si on prend $\eta = \frac{1}{2}\left(\frac{\log N}{TC_p} \right)^{2/p}$ alors quand $T\to +\infty$, la stratégie permet d'obtenir elle aussi un prédicteur par agrégation mais cette fois on ne peut espérer faire mieux que le meilleur des estimateurs donnés en entrée de l'algorithme. 
+\item{\underline{Stratégie 1 :}} Si on prend $\eta = \left(\frac{\log N}{2TC_4} \right)^{1/2}$ alors quand $T\to +\infty$, la stratégie donne le meilleur estimateur par agrégation possible par combinaison convexe dans le simplexe $S_N$.
+\item{\underline{Stratégie 2 :}} Si on prend $\eta = \frac{1}{2}\left(\frac{\log N}{TC_p} \right)^{2/p}$ alors quand $T\to +\infty$, la stratégie donne le meilleur estimateur que l'on a donné en entrée
 \end{description}
 \end{Cor}
 \begin{proof}
-Il suffit de remplacer dans \eqref{eq:strat1} et \eqref{eq:strat1} on trouve
+Il suffit de remplacer dans \eqref{eq:strat1} et \eqref{eq:strat2} on trouve
 \begin{description}
 \item{\underline{Stratégie 1 :}}
 $$
-\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + (8C_4)^{1/2} \left( \frac{\log(N)}{T \eta} \right)^{1/2}
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + (8C_4)^{1/2} \left( \frac{\log(N)}{T} \right)^{1/2}
 $$
 \item{\underline{Stratégie 2 :}}
 $$
-\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + 3C_p^{2/p} \left( \frac{\log(N)}{T \eta} \right)^{1-2/p}
+\frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2] \leq \min_{1 \leq i \leq N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}^{(i)}-X_{t,T})^2] + 3C_p^{2/p} \left( \frac{\log(N)}{T} \right)^{1-2/p}
 $$
 \end{description}
 \end{proof}
@@ -900,6 +964,9 @@ Soit $t\in \iseg{1,T}$, alors d'après \eqref{eq:TVAR_compact} et \eqref{eq:pred
 \section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
 \subsection{Cas d'un TVAR(1)}
 
+\pagebreak
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliographie}
 \bibliographystyle{plain}
 \bibliography{biblio}
 \end{document} 

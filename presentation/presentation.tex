@@ -8,7 +8,7 @@
 \setbeamertemplate{navigation symbols}{} 
 \logo{\includegraphics[scale=0.5]{TelecomParisTech_logo}} 
 \institute{Télécom ParisTech} 
-%\date{} 
+\date{30 juin 2016} 
 %\subject{} 
 
 \AtBeginSubsection[]
@@ -179,6 +179,17 @@ A $t\in \iseg{0,T}$ fixé $(\theta_1(t/T), \cdots , \theta_p(t/T))$ sont les coe
 $\forall \kappa_1, \cdots, \kappa_p$ continues de $[0,1]\to \osego{-1,1}$, les fonctions $\theta_{1,p},\cdots, \theta_{p,p}$ obtenues par l'algorithme \ref{algo:construction} à chaque instant $u$ sont les coefficients d'un processus TVAR(p) stable
 \end{alertblock}
 \end{frame}
+
+\begin{frame}
+\textbf{Implémentation TVAR(2) à partir des racines} GRAPHIQUE A METTRE
+
+\end{frame}
+
+\begin{frame}
+\textbf{Implémentation TVAR(..) à partir des $\boldsymbol\kappa$} GRAPHIQUE A METTRE
+
+\end{frame}
+
 \subsection{Prédiction}
 \begin{frame}
 $\mb{X}_{t,T} = [X_{t,T}, X_{t-1,T}, \cdots , X_{t-p+1,T} ]^T$ \\
@@ -197,6 +208,57 @@ $
 $
 \hat{X}_{t,T}(\mu) = \hat{\bftheta}_{t-1,T}(\mu)^T \mb{X}_{t-1,T}
 $
-
 \end{frame}
+\begin{frame}
+\textbf{Influence de $\mu$ : } GRAPHIQUE A METTRE
+\end{frame}
+
+\subsection{Agrégation des prédicteurs}
+\begin{frame}
+\begin{Def}[Agrégation]
+$$
+\forall t \in \iseg{1,T}, \hat{X}_{t,T} = \sum_{i=1}^N \alpha_{i,t} \hat{X}_{t,T}^{(i)}
+$$
+où $\alpha_t=(\alpha_{1,t},\cdots,\alpha_{N,t})\in S_N = \ens{\alpha \in \rset_+^N, \sum_{i=1}^N \alpha_{i} = 1}$ 
+\end{Def}
+\end{frame}
+
+\begin{frame}
+\textbf{Stratégie 1 : à partir du gradient de l'erreur quadratique}
+$\forall i \in \iseg{1,N}, \forall t\in \iseg{1,T}$
+$$
+\hat{\alpha}_{i,t} = \frac{\exp\left( -2\eta \sum_{s=1}^{t-1} \left( \sum_{j=1}^N \hat{\alpha}_{j,s} \hat{X}_{s,T}^{(j)}-X_{s,T} \right)\hat{X}_{s,T}^{(i)}\right)}{\sum_{k=1}^N \exp\left( -2\eta \sum_{s=1}^{t-1} \left( \sum_{j=1}^N \hat{\alpha}_{j,s} \hat{X}_{s,T}^{(j)}-X_{s,T} \right)\hat{X}_{s,T}^{(k)}\right)}
+$$
+\textbf{Stratégie 2 : à partir de l'erreur quadratique}
+$\forall i \in \iseg{1,N}, \forall t\in \iseg{1,T}$
+$$
+\hat{\alpha}_{i,t} = \frac{\exp\left( -\eta \sum_{s=1}^{t-1} \left( \hat{X}_{s,T}^{(i)} - X_{s,T}\right)^2\right)}{\sum_{k=1}^N \exp\left( -\eta \sum_{s=1}^{t-1} \left( \hat{X}_{s,T}^{(k)} - X_{s,T}\right)^2\right)}
+$$
+\end{frame}
+
+\begin{frame}
+\begin{alertblock}{Théorème (Performances)} $(X_{t,T})_{1\leq t \leq T}$ TVAR stable + régularité des prédicteurs : $\mathcal{E}(T) = \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}-X_{t,T})^2]$
+\begin{description}
+\item{\underline{Stratégie 1 :}} Si $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^4] < +\infty$ 
+$ \displaystyle
+\mathcal{E}(T) \leq \inf_{\alpha \in S_N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,1}^{[\alpha]}-X_{t,T})^2] + \frac{\log(N)}{T \eta} + 2\eta C_4
+$
+\item{\underline{Stratégie 2 :}} Si il existe $p\geq 2$ tel que $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^p] < +\infty$ 
+$ \displaystyle
+\mathcal{E}(T) \leq \min_{1 \leq i \leq N} \frac{1}{T} \sum_{t=1}^T \mathbb{E}[(\hat X_{t,T}^{(i)}-X_{t,T})^2] + \frac{\log(N)}{T \eta} + (2\eta)^{p/2-1}C_p
+$
+\end{description}
+\end{alertblock}
+\end{frame}
+
+\section{Implémentations}
+\subsection{Prédiction par agrégation}
+\begin{frame}
+A REMPLIR
+\end{frame}
+\subsection{Estimation DSP parole}
+\begin{frame}
+A REMPLIR
+\end{frame}
+
 \end{document}

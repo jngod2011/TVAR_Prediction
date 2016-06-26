@@ -1,0 +1,17 @@
+This is makeindex, version 2.15 [TeX Live 2015/W32TeX] (kpathsea + Thai support).
+Scanning style file c:/texlive/2015/texmf-dist/makeindex/nomencl/nomencl.ist.......
+** Input style error (file = c:/texlive/2015/texmf-dist/makeindex/nomencl/nomencl.ist, line = 70):
+   -- Unknown specifier lethead_prefix.
+** Input style error (file = c:/texlive/2015/texmf-dist/makeindex/nomencl/nomencl.ist, line = 71):
+   -- Unknown specifier lethead_suffix.
+** Input style error (file = c:/texlive/2015/texmf-dist/makeindex/nomencl/nomencl.ist, line = 72):
+   -- Unknown specifier lethead_flag.
+...done (10 attributes redefined, 3 ignored).
+Scanning input file rapport.nlo....
+!! Input index error (file = rapport.nlo, line = 15):
+   -- Extra `@' at position 17 of first argument.
+done (22 entries accepted, 1 rejected).
+Sorting entries....done (98 comparisons).
+Generating output file rapport.nls....done (53 lines written, 0 warnings).
+Output written in rapport.nls.
+Transcript written in rapport.nlg.

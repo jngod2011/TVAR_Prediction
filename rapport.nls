@@ -1,0 +1,53 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{$\inner{.,.}$}]\begingroup Produit scalaire\nomeqref {0}
+		\nompageref{1}
+  \item [{$\mb{x}^T$}]\begingroup Transposée du vecteur $\mb{x}$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\overline{z}$}]\begingroup Conjugué du complexe $z$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\rho(A)$}]\begingroup Rayon spectral\nomeqref {0}
+		\nompageref{1}
+  \item [{$\tnorm{A}$}]\begingroup Norme subordonnée\nomeqref {0}
+		\nompageref{1}
+
+ \nomgroup{E}
+
+  \item [{$\rset$}]\begingroup Nombres réels\nomeqref {0}
+		\nompageref{1}
+  \item [{$\cset$}]\begingroup Nombres complexes\nomeqref {0}
+		\nompageref{1}
+  \item [{$\nset$}]\begingroup Entiers positifs ou nuls\nomeqref {0}
+		\nompageref{1}
+  \item [{$\zset$}]\begingroup Entiers relatifs\nomeqref {0}
+		\nompageref{1}
+  \item [{$\ell^1(J)$}]\begingroup Ensemble des suites sommables indexées sur $J$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\iseg{p,q}$}]\begingroup  $\ens{p,p+1,\cdots, q}$ \nomeqref {0}
+		\nompageref{1}
+  \item [{$\overline{A}$}]\begingroup Adhérence de $A$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\Vect(A)$}]\begingroup Espace vectoriel engendré par $A$\nomeqref {0}
+		\nompageref{1}
+
+ \nomgroup{P}
+
+  \item [{$\EE$}]\begingroup Espérance\nomeqref {0}\nompageref{1}
+  \item [{$\EE_\lambda$}]\begingroup Espérance sous le paramètre $\lambda$\nomeqref {0}
+		\nompageref{1}
+  \item [{$\PP$}]\begingroup Probabilité\nomeqref {0}\nompageref{1}
+  \item [{$\delta$}]\begingroup Opérateur de Kronecker (sauf mention du contraire)\nomeqref {0}
+		\nompageref{1}
+  \item [{$\star$}]\begingroup Convolution\nomeqref {0}\nompageref{1}
+  \item [{$BB(0,\sigma^2)$}]\begingroup Bruit blanc de variance $\sigma^2$\nomeqref {0}
+		\nompageref{1}
+  \item [{i.i.d}]\begingroup Indépendants et identiquement distribués\nomeqref {0}
+		\nompageref{1}
+  \item [{$\stackrel{\rm{iid}}{\sim}$}]\begingroup Suit de manière i.i.d\nomeqref {0}
+		\nompageref{1}
+  \item [{$\norm{X}_p$}]\begingroup Norme $p$ pour les variables aléatoires : $\EE[\norm{X}^p]^{1/p}$\nomeqref {0}
+		\nompageref{1}
+
+\end{thenomenclature}
