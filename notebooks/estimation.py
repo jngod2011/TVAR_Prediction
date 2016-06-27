@@ -78,7 +78,7 @@ def do_aggregation(X,d,T,eta,mu,strategy=1):
     for k in np.arange(N):
         X_pred[k,:],theta_estim[k,:,:] = generation_est2(X, d, T, mu[k])
 
-    pred_agreg, estim_agreg, alpha = aggregation(X, X_pred, theta_estim, d,T, 0.1, 1)
+    pred_agr, estim_agr, alpha = aggregation(X, X_pred, theta_estim, d,T, 0.1, 1)
         
                   
     return pred_agr, estim_agr, alpha
