@@ -16,8 +16,9 @@
 \BOOKMARK [2][-]{subsection.2.2.3}{Analyse en densit\351 spectrale de puissance}{section.2.2}% 16
 \BOOKMARK [1][-]{section.2.3}{Agr\351gation des pr\351dicteurs}{chapter.2}% 17
 \BOOKMARK [2][-]{subsection.2.3.1}{Algorithme et strat\351gies}{section.2.3}% 18
-\BOOKMARK [2][-]{subsection.2.3.2}{Comparaison des risques d'estimation et d'agr\351gation}{section.2.3}% 19
+\BOOKMARK [2][-]{subsection.2.3.2}{Comparaison des risques d'estimation et de pr\351diction}{section.2.3}% 19
 \BOOKMARK [0][-]{chapter.3}{Impl\351mentations}{}% 20
-\BOOKMARK [1][-]{section.3.1}{Etude spectrale sur un TVAR\(1\) et un TVAR\(2\) \340 partir des racines}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.1}{G\351n\351ration de TVAR\(1\) et TVAR\(2\) \340 partir des racines du polyn\364me associ\351}{chapter.3}% 21
 \BOOKMARK [2][-]{subsection.3.1.1}{Cas d'un TVAR\(1\)}{section.3.1}% 22
-\BOOKMARK [0][-]{section*.20}{Bibliographie}{}% 23
+\BOOKMARK [2][-]{subsection.3.1.2}{Cas d'un TVAR\(2\)}{section.3.1}% 23
+\BOOKMARK [0][-]{section*.20}{Bibliographie}{}% 24

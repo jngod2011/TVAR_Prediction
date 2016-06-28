@@ -7,8 +7,8 @@
 \beamer@sectionintoc {2}{Processus TVAR}{10}{0}{2}
 \beamer@subsectionintoc {2}{1}{Construction d'une solution stable}{10}{0}{2}
 \beamer@subsectionintoc {2}{2}{G\IeC {\'e}n\IeC {\'e}ration}{17}{0}{2}
-\beamer@subsectionintoc {2}{3}{Pr\IeC {\'e}diction}{21}{0}{2}
-\beamer@subsectionintoc {2}{4}{Agr\IeC {\'e}gation des pr\IeC {\'e}dicteurs}{24}{0}{2}
-\beamer@sectionintoc {3}{Impl\IeC {\'e}mentations}{28}{0}{3}
-\beamer@subsectionintoc {3}{1}{Pr\IeC {\'e}diction par agr\IeC {\'e}gation}{28}{0}{3}
-\beamer@subsectionintoc {3}{2}{Estimation DSP parole}{30}{0}{3}
+\beamer@subsectionintoc {2}{3}{Pr\IeC {\'e}diction}{24}{0}{2}
+\beamer@subsectionintoc {2}{4}{Agr\IeC {\'e}gation des pr\IeC {\'e}dicteurs}{27}{0}{2}
+\beamer@sectionintoc {3}{Impl\IeC {\'e}mentations}{31}{0}{3}
+\beamer@subsectionintoc {3}{1}{Pr\IeC {\'e}diction par agr\IeC {\'e}gation}{31}{0}{3}
+\beamer@subsectionintoc {3}{2}{Estimation DSP parole}{33}{0}{3}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2016.5.10)  26 JUN 2016 04:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2016.5.10)  27 JUN 2016 13:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1361,27 +1361,30 @@ Package frenchb.ldf Warning: OT1 encoding should not be used for French.
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 (Font)              size <5> substituted on input line 28.
 
-<TelecomParisTech_logo.png, id=65, 64.24pt x 64.24pt>
-File: TelecomParisTech_logo.png Graphic file (type png)
+<images/TelecomParisTech_logo.png, id=45, 64.24pt x 64.24pt>
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 28.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 28
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [1{c:/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
- <./TelecomParisTech_logo.png>] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
-
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 33.
+ <./images/TelecomParisTech_logo.png>]
+(./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+ <use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 33
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [2
 
-] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
-
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 36.
+]
+(./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+ <use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 36
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [3
 
@@ -1406,221 +1409,328 @@ line 50.
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 50.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 50
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [4
 
 ] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 52.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 52
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [5
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 70.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 70
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [6
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 80.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 80
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [7
 
 ] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 81.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 81
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [8
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 96.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 96
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [9
 
-]
-(./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 99.
+] (./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 99
+.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [10
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 114.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 11
+4.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [11
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 127.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 12
+7.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [12
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 142.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 14
+2.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [13
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 146.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 14
+6.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [14
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 160.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 16
+0.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [15
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 171.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 17
+1.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [16
 
-]
-(./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 173.
+] (./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 17
+3.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [17
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 181.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 18
+1.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [18
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 186.
+<images/TVAR1_module.png, id=401, 1742.51pt x 627.34375pt>
+File: images/TVAR1_module.png Graphic file (type png)
+
+<use images/TVAR1_module.png>
+Package pdftex.def Info: images/TVAR1_module.png used on input line 186.
+(pdftex.def)             Requested size: 331.08034pt x 119.19655pt.
+
+Overfull \hbox (23.79047pt too wide) in paragraph at lines 186--186
+[]  
+ []
+
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 18
+6.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [19
 
-]
+ <./images/TVAR1_module.png>]
+<images/TVAR1_phase.png, id=418, 1742.51pt x 627.34375pt>
+File: images/TVAR1_phase.png Graphic file (type png)
 
-LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 191.
+<use images/TVAR1_phase.png>
+Package pdftex.def Info: images/TVAR1_phase.png used on input line 191.
+(pdftex.def)             Requested size: 331.08034pt x 119.19655pt.
 
-File: TelecomParisTech_logo.png Graphic file (type png)
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 191.
+Overfull \hbox (23.79047pt too wide) in paragraph at lines 191--191
+[]  
+ []
+
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 19
+1.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [20
 
-] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
+ <./images/TVAR1_phase.png>]
+<images/TVAR2_racines_reelles.png, id=433, 1749.53625pt x 347.2975pt>
+File: images/TVAR2_racines_reelles.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 193.
+<use images/TVAR2_racines_reelles.png>
+Package pdftex.def Info: images/TVAR2_racines_reelles.png used on input line 19
+6.
+(pdftex.def)             Requested size: 332.41534pt x 65.9872pt.
+
+Overfull \hbox (25.12547pt too wide) in paragraph at lines 196--196
+[]  
+ []
+
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 19
+6.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [21
 
-]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 211.
+ <./images/TVAR2_racines_reelles.png>] <images/TVAR2_racines_conjuguees.png, id
+=448, 1673.25125pt x 627.34375pt>
+File: images/TVAR2_racines_conjuguees.png Graphic file (type png)
+
+<use images/TVAR2_racines_conjuguees.png>
+Package pdftex.def Info: images/TVAR2_racines_conjuguees.png used on input line
+ 201.
+(pdftex.def)             Requested size: 317.92104pt x 119.19655pt.
+
+Overfull \hbox (10.63116pt too wide) in paragraph at lines 201--201
+[]  
+ []
+
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 20
+1.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [22
 
-]
-File: TelecomParisTech_logo.png Graphic file (type png)
+ <./images/TVAR2_racines_conjuguees.png>]
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 214.
+LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
+(Font)              using `U/stmry/m/n' instead on input line 206.
+
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 20
+6.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [23
 
 ] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 216.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 20
+8.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [24
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 224.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 22
+6.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [25
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 237.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 22
+9.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [26
 
-]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 252.
+] (./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 23
+1.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [27
 
 ]
-(./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 255.
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 23
+9.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [28
 
 ]
-File: TelecomParisTech_logo.png Graphic file (type png)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 258.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 25
+2.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [29
 
-] (./presentation.toc)
-File: TelecomParisTech_logo.png Graphic file (type png)
+]
+File: images/TelecomParisTech_logo.png Graphic file (type png)
 
-<use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 259.
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 26
+7.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [30
 
-]
-File: TelecomParisTech_logo.png Graphic file (type png)
- <use TelecomParisTech_logo.png>
-Package pdftex.def Info: TelecomParisTech_logo.png used on input line 262.
+] (./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 27
+0.
 (pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
  [31
+
+]
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 27
+3.
+(pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
+ [32
+
+] (./presentation.toc)
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 27
+4.
+(pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
+ [33
+
+]
+File: images/TelecomParisTech_logo.png Graphic file (type png)
+
+<use images/TelecomParisTech_logo.png>
+Package pdftex.def Info: images/TelecomParisTech_logo.png used on input line 27
+7.
+(pdftex.def)             Requested size: 32.11992pt x 32.11992pt.
+ [34
 
 ]
 \tf@nav=\write6
@@ -1632,15 +1742,20 @@ Package pdftex.def Info: TelecomParisTech_logo.png used on input line 262.
 \tf@snm=\write8
 \openout8 = `presentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 264.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 264.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 279.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 279.
+ (./presentation.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 279.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 279.
 
-(./presentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 264.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 264.
-Package rerunfilecheck Info: File `presentation.out' has not changed.
-(rerunfilecheck)             Checksum: DB2CD82A50ADD6E1838EB61F9361E460;898.
 
+Package rerunfilecheck Warning: File `presentation.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `presentation.out':
+(rerunfilecheck)             Before: E82F341D2A06A4528286E47D5D2A4F74;545
+(rerunfilecheck)             After:  79C1923F792DD70878333CE5F2B6B54D;898.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
@@ -1648,20 +1763,20 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 264.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 279.
  )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 20321 strings out of 493027
- 373384 string characters out of 6137684
- 479022 words of memory out of 5000000
- 23267 multiletter control sequences out of 15000+600000
+ 20349 strings out of 493027
+ 374053 string characters out of 6137684
+ 479027 words of memory out of 5000000
+ 23284 multiletter control sequences out of 15000+600000
  16844 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,20n,65p,415b,3745s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,20n,65p,415b,3775s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{eq\\penalty\040\\@M\040\040:S'} has
  been referenced but does not exist, replaced by a fixed one
 
@@ -1695,10 +1810,10 @@ ts/cm/cmsy6.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pf
 b><c:/texlive/2015/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb><c:/texl
 ive/2015/texmf-dist/fonts/type1/public/stmaryrd/stmary8.pfb>
-Output written on presentation.pdf (31 pages, 233739 bytes).
+Output written on presentation.pdf (34 pages, 1159080 bytes).
 PDF statistics:
- 719 PDF objects out of 1000 (max. 8388607)
- 641 compressed objects within 7 object streams
- 89 named destinations out of 1000 (max. 500000)
- 180 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 753 PDF objects out of 1000 (max. 8388607)
+ 664 compressed objects within 7 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 160 words of extra memory for PDF output out of 10000 (max. 10000000)
 

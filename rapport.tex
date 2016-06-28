@@ -6,6 +6,8 @@
 \renewcommand{\nomname}{Notations}
 \usepackage{etoolbox}
 
+\usepackage{chngcntr}\AtBeginDocument{\counterwithin{figure}{section}}
+
 \input{defs.sty}
 \input{init.sty}
 \title{SIGMA205 : Prédiction d'une série temporelle localement
@@ -379,10 +381,10 @@ est minimal pour $\lambda = \phi_n \mod 2\pi$ \\
 Ceci ne veut pas  dire que le produit est minimal ssi $\exists n\in \iseg{1,p}, \lambda = \phi_n(u) \mod 2\pi$. Mais si $\forall n\in \iseg{1,p}, \rho_n$ est assez proche de $1$, pour chaque racine, les contributions des autres racines sont négligeables.
 \end{proof}
 
-\begin{Ex}[Cas où p=1 :]
+\begin{Ex}[Cas où p=1]
 Dans le cas $p=1$ quelle que soit la valeur de $\rho$, $\abs{1-\rho e^{i(\phi-\lambda)}}^2$ est minimal ssi $\lambda = \rho$
 \end{Ex}
-\begin{Ex}[Cas où p=2 à racines complexes conjuguées]
+\begin{Ex}[Cas où p=2 à racines complexes conjuguées]\label{ex:TVAR2}
 On écrit les deux inverses des racines : $z_1=\overline{z}_2 = \rho e^{i\phi}$, avec $0<\rho<1, \phi \in \sego{-\pi,\pi}$ alors en développant le produit, $\forall \lambda \in \sego{-\pi,\pi}$
 $$
 f(\lambda) \deq \abs{\Theta\left( e^{-i\lambda}\right)}^2 = 1 + \rho^4 + 4\rho^2 \cos^2{\phi} - 4\rho(1+\rho^2)\cos{\phi} \cos{\lambda} + 2\rho^2\cos{2\lambda}
@@ -446,6 +448,7 @@ $f$ & & $\nearrow$ & & $\searrow$ & \\
 Voyons ce qu'il se passe quand $\rho \to 1$ : \\
 $\frac{1+\rho^2}{2\rho} \cos{\phi}  \xrightarrow[\rho \to 1]{} \cos{\phi}$ donc on se retrouve dans le cas 1 et $\arccos\left(\frac{1+\rho^2}{2\rho} \cos{\phi}\right) \xrightarrow[\rho \to 1]{} \phi$. On aura donc bien nos pics à $\lambda = \phi$ et $\lambda = -\phi$
 \end{Ex}
+Ces deux exemples sont implémentés en section \ref{sec:implementationTVAR12}
 \chapter{Processus TVAR}\label{chap:TVAR}
 \section{Construction d'une solution stable}
 \paragraph{Equation TVAR :}
@@ -761,7 +764,7 @@ On se donne un pas $\mu$, l'estimateur est le suivant :
 \begin{equation}\label{eq:NLSM}
 \begin{array}{l}
 \hat{\bftheta}_{0,T}(\mu) = 0 \\
-\forall t \in \iseg{0,T-1}, \, \hat{\bftheta}_{t+1,T}(\mu) = \hat{\bftheta}_{t,T}(\mu) + \mu ( X_{t+1,T} - \hat{\bftheta}_{t+1,T}(\mu)^T \mb{X}_{t,T} ) \frac{\mb{X}_{t,T}}{1+\mu \norm{\mb{X}_{t,T}}^2}
+\forall t \in \iseg{0,T-1}, \, \hat{\bftheta}_{t+1,T}(\mu) = \hat{\bftheta}_{t,T}(\mu) + \mu ( X_{t+1,T} - \hat{\bftheta}_{t,T}(\mu)^T \mb{X}_{t,T} ) \frac{\mb{X}_{t,T}}{1+\mu \norm{\mb{X}_{t,T}}^2}
 \end{array}
 \tag{NLMS}
 \end{equation}
@@ -773,7 +776,7 @@ A un instant $u$, l'estimateur est une fonction de $\mb{X}_{0,T}, X_{1,T}, \cdot
 \end{Def}
 \begin{Def}[Prédicteur associé]
 On définit à partir de $(\bftheta_{t,T}(\mu))_{1\leq t \leq T}$ le prédicteur suivant :
-$\forall 1 \leq t \leq T$
+$t\in \iseg{1,T}$
 \begin{equation}\label{eq:predictor}
 \hat{X}_{t,T}(\mu) = \hat{\bftheta}_{t-1,T}(\mu)^T \mb{X}_{t-1,T}
 \end{equation}
@@ -838,7 +841,7 @@ où $\hat{\Theta}(z;u) = 1 - \sum_{k=1}^p \hat{\theta}_k(u) z^k$
 En appliquant la proposition \ref{prop:racines_phase}, à chaque instant les modules des inverses racines sont assez proches de $1$, les pics seront proches des phases des inverses des racines.
 \section{Agrégation des prédicteurs}
 \subsection{Algorithme et stratégies}
-On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne $T$ observations du processus $(X_{t,T})_{1 \leq t \leq T}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall 1\leq t \leq T, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
+On applique dans cette section les méthodes d'agrégation en ligne fournies dans \citep{giraud-roueff-sanchez-aos2015} au cadre des processus TVAR. On se donne $T$ observations du processus $(X_{t,T})_{t \in \iseg{1,T}}$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. On considère $N$ prédicteurs définis par \eqref{eq:predictor} associés à $N$ pas $\mu_1, \cdots, \mu_N$ : on notera $\forall i \in \iseg{1,N}, \forall t \in \iseg{1,T}, \hat{X}_{t,T}^{(i)} = \hat{X}_{t,T}(\mu_i)$
 \begin{Def}[Agrégation]
 Agréger les prédicteurs $\ens{\left(\hat{X}_{t,T}^{(i)}\right)_{1\leq t\leq T}, i\in \iseg{1,N}}$ signifie pour tout $t\in \iseg{1,T}$
 \begin{itemize}
@@ -883,8 +886,8 @@ La construction du prédicteur à partir de ces stratégies est fournit par l'al
 				$v_{i,t} = \hat{\alpha}_{i,t-1} \exp\left( -\eta (\hat{X}_{t-1,T}^{(i)} - X_{t-1,T})^2 \right)	$		
  			}
  		}
- 		$\hat{\alpha}_t = \left( \frac{v_{i,t}}{\sum_{k=1}^N v_{k,t}} \right)_{i=1,\cdots,N}$
  	}
+ 	$\hat{\alpha}_t = \left( \frac{v_{i,t}}{\sum_{k=1}^N v_{k,t}} \right)_{i=1,\cdots,N}$  \\
  	$\hat{X}_{t,T} = \sum_{i=1}^N \hat{\alpha}_{i,t} \hat{X}_{t,T}^{(i)}$
  
  }
@@ -893,7 +896,7 @@ La construction du prédicteur à partir de ces stratégies est fournit par l'al
 \end{algorithm}
 
 Le choix de la stratégie pour mettre à jour les coefficients $\alpha^{i}$ a une importance sur le prédicteur que l'on souhaite atteindre. En effet la borne de l'erreur n'est pas la même dans les deux cas. Les preuves de ces bornes sont prouvées dans \citep{giraud-roueff-sanchez-aos2015} et résumées dans le théorème suivant \\
-\begin{Thm}[Performances du prédicteur pas agrégation]\label{thm:pred_majo} Soit $(X_{t,T})_{1\leq t \leq T}$ un processus TVAR vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}, soit $\ens{(\hat{X}_{t,T}^{(i)})_{1\leq t \leq T}, 1\leq i \leq N}$ une famille de prédicteurs de $X_{t,T}$ à partir de son passé vérifiant \\ $\forall t\in \iseg{1,T}, \abs{\hat{X}_{t,T}^{(i)}} \leq \sum_{s\geq 1} L_s^{(i)} \abs{X_{t-s,T}}$ avec $L_s^{(i)} \geq 0$ et $\sum_{s\geq 1} L_s^{(i)} < +\infty$. \\
+\begin{Thm}[Performances du prédicteur pas agrégation]\label{thm:pred_majo} Soit $(X_{t,T})_{t \in \iseg{1,T}}$ un processus TVAR vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}, soit $\ens{(\hat{X}_{t,T}^{(i)})_{t \in \iseg{1,T}}, i \in \iseg{1,N}}$ une famille de prédicteurs de $X_{t,T}$ à partir de son passé vérifiant \\ $\forall t\in \iseg{1,T}, \abs{\hat{X}_{t,T}^{(i)}} \leq \sum_{s\geq 1} L_s^{(i)} \abs{X_{t-s,T}}$ avec $L_s^{(i)} \geq 0$ et $\sum_{s\geq 1} L_s^{(i)} < +\infty$. \\
 On note $(\hat{X}_{t,T})_{1\leq t \leq T}$ l'estimateur par agrégation obtenu selon le cas avec les poids de la stratégie 1 ou de la stratégie 2. Alors 
 \begin{description}
 \item{\underline{Stratégie 1 :}} Si $\epsilon$ vérifie $\sup_{t\in \zset} \EE[\abs{\epsilon_t}^4] < +\infty$ on a 
@@ -940,12 +943,22 @@ La stratégie 1 donne un meilleur résultat théorique que la stratégie 2 mais 
 L'hypothèse demandée sur les prédicteurs est automatiquement vérifiée dans le cas où ce sont des prédicteurs linéaires obtenus à partir d'un nombre fini d'observations (ce qui sera la cas dans les implémentations). En effet, chaque prédicteur s'écrit de la forme $\hat{X}_{t,T}^{(i)} = \sum_{s=1}^d \phi_s^{(i)} X_{t-s,T}$ donc $\abs{\hat{X}_{t,T}^{(i)}} \leq  \sum_{s=1}^d L_s^{(i)} \abs{X_{t-s,T}}$ avec $ L_s^{(i)} = \abs{ \phi_s^{(i)}}$ donc la somme est finie car on a un nombre fini de termes. 
 \end{enumerate}
 \end{Rque}
+\begin{Rque}
+On peut aussi agréger les estimateurs $\hat{\bftheta}$. En effet, en considérant $\hat{\bftheta}$ l'estimateur associé au prédicteur $\hat{X}$ et pour tout $i\in \iseg{1,N}$ $\hat{\bftheta}^{(i)}$ celui associé à $\hat{X}^{(i)}$, on peut écrire 
+$$
+\hat{\bftheta}_{t-1,T}^T \mb{X}_{t-1,T} = \hat{X}_{t,T} = \sum_{i=1}^N \alpha_{i,t} \hat{X}_{t,T}^{(i)} = \sum_{i=1}^N \alpha_{i,t} \left( \hat{\bftheta}_{t-1,T}^{(i)} \right)^T \mb{X}_{t-1,T}
+$$
+donc 
+$$
+\hat{\bftheta}_{t-1,T}^T = \sum_{i=1}^N \alpha_{i,t} \hat{\bftheta}_{t-1,T}^{(i)}
+$$
+\end{Rque}
 
-\subsection{Comparaison des risques d'estimation et d'agrégation}
-On se propose de montrer dans cette sous-section que le lien qui existe entre l'erreur de prédiction et l'erreur d'estimation.
+\subsection{Comparaison des risques d'estimation et de prédiction}
+On se propose de montrer le lien qui existe entre l'erreur de prédiction et l'erreur d'estimation.
 \begin{Prop}
-Soit $(X_{t,T})_{1 \leq t \leq T}$ un processus TVAR(p) avec p dans $\mathbb{N}^*$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. Alors on pose $(\hat\bftheta_{t,T})_{1\leq t \leq T}$ l'estimateur NLMS défini en \eqref{eq:NLSM} et $(\hat{X}_{t,T})_{1\leq t \leq T}$ le prédicteur associé défini en \eqref{eq:predictor}. \\
-Alors $\forall 1\leq t \leq T$
+Soit $(X_{t,T})_{t \in \iseg{1,T}}$ un processus TVAR(p) avec p dans $\mathbb{N}^*$ vérifiant \eqref{eq:TVAR'} et \eqref{eq:S'}. Alors on pose $(\hat\bftheta_{t,T})_{t \in \iseg{1,T}}$ l'estimateur NLMS défini en \eqref{eq:NLSM} et $(\hat{X}_{t,T})_{t \in \iseg{1,T}}$ le prédicteur associé défini en \eqref{eq:predictor}. \\
+Alors $\forall t \in \iseg{1,T}$
 \begin{equation}
 \EE[(\hat X_{t,T} - X_{t,T})^2] \leq \EE[\norm{\hat\bftheta_{t-1,T} - \bftheta_{t-1,T}}^4]^{1/2} \EE[\norm{\mb{X}_{t-1,T}}^4 ]^{1/2} + \sigma^2_{t,T}
 \end{equation}
@@ -961,8 +974,44 @@ Soit $t\in \iseg{1,T}$, alors d'après \eqref{eq:TVAR_compact} et \eqref{eq:pred
 \end{align*}
 \end{proof}
 \chapter{Implémentations}\label{chap:implemantations}
-\section{Etude spectrale sur un TVAR(1) et un TVAR(2) à partir des racines}
+\section{Génération de TVAR(1) et TVAR(2) à partir des racines du polynôme associé}\label{sec:implementationTVAR12}
 \subsection{Cas d'un TVAR(1)}
+
+Le polynôme TVAR(1) s'écrit : $\Theta(z;u) = 1-a(u)z$. On prend $a(u)=\rho(u)e^{i\phi(u)}$. Alors le maximum de la DSP se situe exactement en $\lambda(u) = \phi(u)$ (car on est dans le cas d'un TVAR(1)). De plus la valeur du maximum est $\frac{\sigma^2(u)}{2\pi(1-\rho(u))^2}$. \\
+La figure \ref{fig:TVAR1_module} montre les résultats obtenus pour $\rho(u)=1-\exp(u)$ et $\phi(u)=0.5$. On observe bien l'évolution exponentielle de l'amplitude. \\
+La figure \ref{fig:TVAR1_phase} montre les résultats obtenus pour $\rho(u)=0.9$ et $\phi(u)=u$. On observe bien l'évolution linéaire de la phase. \\
+\begin{figure}[h]
+\includegraphics[scale=0.3]{presentation/images/TVAR1_module.png}
+\caption{TVAR(1) avec $\phi$ fixe et $\rho$ variable. A gauche : $\rho(u)$ théorique et implémenté. Au milieu : évolution de la DSP. A droite : quelques DSP locales}
+\label{fig:TVAR1_module}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.3]{presentation/images/TVAR1_phase.png}
+\caption{TVAR(1) avec $\rho$ fixe et $\phi$ variable. A gauche : $\phi(u)$ théorique et implémenté. Au milieu : évolution de la DSP. A droite : quelques DSP locales}
+\label{fig:TVAR1_phase}
+\end{figure}
+
+\subsection{Cas d'un TVAR(2)}
+Le polynôme TVAR(2) s'écrit : $\forall u$ dans $[0,1], \Theta(z;u) = 1 - \theta_1(u) z - \theta_2(u) z^2$.
+Si on note $z_1(u)$ et $z_2(u)$ les inverse des racines du polynôme, on a 
+$\theta_1(u) = z_1(u) + z_2(u)$ et $\theta_2(u) = -z_1(u) z_2(u)$. La figure
+\ref{fig:TVAR2_reelle} montre la trajectoire du processus pour différentes valeurs de $T$ et pour $z_1(u) = \frac{1}{2 + u}$ et $z_2(u) = \frac{1}{5 + \sin(2 \pi u)}$. Le processus généré est bien stable. 
+
+La figure \ref{fig:TVAR2_conjuguees} montre les résultats obtenues pour $z_1(u) = \overline{z_2(u)}=\rho(u)e^{i\phi(u)}$ avec $\rho(u)=0.5$ et $\phi(u)=u/2$. Comme montré dans l'exemple \ref{ex:TVAR2}, on voit que le maximum de la DSP n'est pas vraiment au niveau de la phase. 
+
+\begin{figure}[h]
+\includegraphics[scale=0.3]{presentation/images/TVAR2_racines_reelles.png}
+\caption{TVAR(2) avec racines réelles}
+\label{fig:TVAR2_reelle}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.3]{presentation/images/TVAR2_racines_conjuguees.png}
+\caption{TVAR(2) avec racines conjuguées. A gauche : $\phi(u)$ et max de la DSP. Au droite : évolution de la DSP.}
+\label{fig:TVAR2_conjuguees}
+\end{figure}
+
 
 \pagebreak
 \phantomsection

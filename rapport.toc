@@ -28,8 +28,9 @@
 \contentsline {subsection}{\numberline {2.3.1}Algorithme et strat\IeC {\'e}gies}{17}{subsection.2.3.1}
 \contentsline {paragraph}{Strat\IeC {\'e}gie 1 : \IeC {\`a} partir du gradient de l'erreur quadratique}{17}{section*.18}
 \contentsline {paragraph}{Strat\IeC {\'e}gie 2 : \IeC {\`a} partir de l'erreur quadratique}{17}{section*.19}
-\contentsline {subsection}{\numberline {2.3.2}Comparaison des risques d'estimation et d'agr\IeC {\'e}gation}{19}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.2}Comparaison des risques d'estimation et de pr\IeC {\'e}diction}{19}{subsection.2.3.2}
 \contentsline {chapter}{\numberline {3}Impl\IeC {\'e}mentations}{20}{chapter.3}
-\contentsline {section}{\numberline {3.1}Etude spectrale sur un TVAR(1) et un TVAR(2) \IeC {\`a} partir des racines}{20}{section.3.1}
+\contentsline {section}{\numberline {3.1}G\IeC {\'e}n\IeC {\'e}ration de TVAR(1) et TVAR(2) \IeC {\`a} partir des racines du polyn\IeC {\^o}me associ\IeC {\'e}}{20}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}Cas d'un TVAR(1)}{20}{subsection.3.1.1}
-\contentsline {chapter}{Bibliographie}{21}{section*.20}
+\contentsline {subsection}{\numberline {3.1.2}Cas d'un TVAR(2)}{20}{subsection.3.1.2}
+\contentsline {chapter}{Bibliographie}{22}{section*.20}
