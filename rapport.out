@@ -21,4 +21,8 @@
 \BOOKMARK [1][-]{section.3.1}{G\351n\351ration de TVAR\(1\) et TVAR\(2\) \340 partir des racines du polyn\364me associ\351}{chapter.3}% 21
 \BOOKMARK [2][-]{subsection.3.1.1}{Cas d'un TVAR\(1\)}{section.3.1}% 22
 \BOOKMARK [2][-]{subsection.3.1.2}{Cas d'un TVAR\(2\)}{section.3.1}% 23
-\BOOKMARK [0][-]{section*.20}{Bibliographie}{}% 24
+\BOOKMARK [1][-]{section.3.2}{G\351n\351ration et pr\351diction d'un TVAR\(p\)}{chapter.3}% 24
+\BOOKMARK [2][-]{subsection.3.2.1}{G\351n\351ration \340 partir des autocorr\351lations partielles}{section.3.2}% 25
+\BOOKMARK [2][-]{subsection.3.2.2}{Estimation par NLSM}{section.3.2}% 26
+\BOOKMARK [1][-]{section.3.3}{Application \340 l'estimation d'un spectrogramme}{chapter.3}% 27
+\BOOKMARK [0][-]{section*.27}{Bibliographie}{}% 28

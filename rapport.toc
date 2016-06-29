@@ -33,4 +33,8 @@
 \contentsline {section}{\numberline {3.1}G\IeC {\'e}n\IeC {\'e}ration de TVAR(1) et TVAR(2) \IeC {\`a} partir des racines du polyn\IeC {\^o}me associ\IeC {\'e}}{20}{section.3.1}
 \contentsline {subsection}{\numberline {3.1.1}Cas d'un TVAR(1)}{20}{subsection.3.1.1}
 \contentsline {subsection}{\numberline {3.1.2}Cas d'un TVAR(2)}{20}{subsection.3.1.2}
-\contentsline {chapter}{Bibliographie}{22}{section*.20}
+\contentsline {section}{\numberline {3.2}G\IeC {\'e}n\IeC {\'e}ration et pr\IeC {\'e}diction d'un TVAR(p)}{21}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}G\IeC {\'e}n\IeC {\'e}ration \IeC {\`a} partir des autocorr\IeC {\'e}lations partielles}{21}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Estimation par NLSM}{22}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Application \IeC {\`a} l'estimation d'un spectrogramme}{22}{section.3.3}
+\contentsline {chapter}{Bibliographie}{25}{section*.27}

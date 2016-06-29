@@ -5,6 +5,7 @@
 \makenomenclature
 \renewcommand{\nomname}{Notations}
 \usepackage{etoolbox}
+\usepackage{subcaption}
 
 \usepackage{chngcntr}\AtBeginDocument{\counterwithin{figure}{section}}
 
@@ -1006,12 +1007,52 @@ La figure \ref{fig:TVAR2_conjuguees} montre les résultats obtenues pour $z_1(u)
 \label{fig:TVAR2_reelle}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \includegraphics[scale=0.3]{presentation/images/TVAR2_racines_conjuguees.png}
 \caption{TVAR(2) avec racines conjuguées. A gauche : $\phi(u)$ et max de la DSP. Au droite : évolution de la DSP.}
 \label{fig:TVAR2_conjuguees}
 \end{figure}
+\pagebreak
+\section{Génération et prédiction d'un TVAR(p)}
+\subsection{Génération à partir des autocorrélations partielles}
+On applique l'algorithme \ref{algo:construction} pour tout $t \in \iseg{1,T}$, les résultats sont présentés en figure \ref{fig:TVARd}. On remarque que le processus est bien stable.
 
+\begin{figure}[h!]
+\includegraphics[scale=0.8]{presentation/images/TVARd.png}
+\caption{TVAR(3) et les coefficients du polynôme. De haut en bas : $\theta_1, \theta_2, \theta_3$ et le processus.}
+\label{fig:TVARd}
+\end{figure}
+
+\subsection{Estimation par NLSM}
+On applique l'algorithme NLSM pour plusieurs valeurs de $\mu$. La figure \ref{fig:TVARd_estim} présente les trois coefficients d'un TVAR(3) ainsi que leurs estimations et le processus ainsi que sa prédiction. La valeur de $\mu$ est importante : on remarque que si il est trop petit, on a du mal à estimer les coefficients car on ne varie pas assez et si il est trop grand, on varie trop pour estimer les coefficients.
+\begin{figure}[h]
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=0.6]{presentation/images/TVARd_estim_mu001.png}
+\caption{$mu = 0.01$}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=0.6]{presentation/images/TVARd_estim_mu01.png}
+\caption{$mu = 0.1$}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+\centering
+\includegraphics[scale=0.6]{presentation/images/TVARd_estim_mu1.png}
+\caption{$mu = 1$}
+\end{subfigure}
+\caption{TVAR(3) et les coefficients du polynôme ainsi que les estimations et la prédiction. De haut en bas : $\theta_1, \theta_2, \theta_3$ et le processus.}
+\label{fig:TVARd_estim}
+\end{figure}
+
+\section{Application à l'estimation d'un spectrogramme}
+Dans cette section, on se propose d'estimer le spectrogramme d'un signal de parole. Le signal en entrée est la succession des voyelles "a-e-i-o-u". Il est connu que l'on peut modéliser les sons voisées grâce à des processus AR en supposant que le signal est localement stationnaire. Les processus TVAR tenant en compte l'évolution possible dans le temps des coefficients TVAR, nous avons pensé qu'il serait intéressant d'observer les résultats de l'estimateur TVAR sur un signal de parole. La figure \ref{fig:parole} montre que le résultat est assez convenable. Pour estimer le spectrogramme, on estime les coefficients TVAR puis on calcule les DSP locales à chaque instant.
+
+\begin{figure}[h!]
+\includegraphics[scale=0.45]{presentation/images/parole.png}
+\caption{Estimation du spectrogramme du signal "a-e-i-o-u". A gauche : sprectrogramme estimé. A droite : spectrogramme}
+\label{fig:parole}
+\end{figure}
 
 \pagebreak
 \phantomsection
